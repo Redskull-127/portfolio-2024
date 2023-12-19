@@ -1,0 +1,54 @@
+[
+    {
+        "id": 1,
+        "skill": "HTML"
+    },
+    {
+        "id": 2,
+        "skill": "CSS"
+    },
+    {
+        "id": 3,
+        "skill": "TypeScript"
+    },
+    {
+        "id": 4,
+        "skill": "JavaScript"
+    },
+    {
+        "id": 5,
+        "skill": "React.js"
+    },
+    {
+        "id": 6,
+        "skill": "Next.js"
+    },
+    {
+        "id": 7,
+        "skill": "DevOps"
+    },
+    {
+        "id": 8,
+        "skill": "Node.js"
+    },
+    {
+        "id": 9,
+        "skill": "Express.js"
+    },
+    {
+        "id": 10,
+        "skill": "MongoDB"
+    },
+    {
+        "id": 11,
+        "skill": "SQL"
+    },
+    {
+        "id": 12,
+        "skill": "C"
+    },
+    {
+        "id": 13,
+        "skill": "C++"
+    }
+]
