@@ -11,10 +11,10 @@
   "dependencies": {
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-slot": "^1.0.2",
+    "@radix-ui/react-toast": "^1.1.5",
     "@radix-ui/react-tooltip": "^1.0.7",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
-    "kbar": "0.1.0-beta.44",
     "lottie-react": "^2.4.0",
     "lucide-react": "^0.298.0",
     "next": "14.0.4",

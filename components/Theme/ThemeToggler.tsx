@@ -11,10 +11,11 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { useToast } from "@/components/ui/use-toast";
 
 export function ThemeToggle() {
   const { setTheme, theme } = useTheme();
-
+  const { toast } = useToast();
   return (
     <TooltipProvider>
       <Tooltip>
@@ -23,7 +24,23 @@ export function ThemeToggle() {
             aria-label="Toggle Theme"
             variant="default"
             size="icon"
-            onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+            onClick={() => {
+              setTheme(theme === "dark" ? "light" : "dark");
+              // toast({
+              //   title: "Theme Toggled!",
+              //   description: `Theme set to ${
+              //     theme === "dark" ? "light" : "dark"
+              //   }`,
+              //   status: "success",
+              // });
+              theme === "light" &&
+              toast({
+                title: "⚠️ Warning!",
+                description: "This feature hasn't been implemented yet!",
+                status: "warning",
+                
+              })
+            }}
           >
             <Sun className="h-[1.5rem] w-[1.3rem] dark:hidden" />
             <Moon className="hidden h-5 w-5 dark:block" />

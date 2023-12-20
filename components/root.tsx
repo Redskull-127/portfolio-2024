@@ -25,7 +25,7 @@ export default function RootComponent() {
       </div>
       <Projects />
       <AllPages />
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }

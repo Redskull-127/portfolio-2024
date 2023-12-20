@@ -5,7 +5,8 @@ import { cn } from "@/lib/utils";
 import "./globals.css";
 import { ThemeProvider } from "@/components/Theme/ThemeProvider";
 import RootComponent from "@/components/root";
-import KBarProviderLayout from "@/lib/kbar/KBarProvider";
+import CommandProvider from "@/lib/commandbar/provider";
+import { Toaster } from "@/components/ui/toaster";
 
 const santoshiSans = localFont({
   src: "./Satoshi-Variable.woff2",
@@ -25,12 +26,12 @@ export const metadata: Metadata = {
   },
 };
 
-export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "white" },
-    { media: "(prefers-color-scheme: dark)", color: "black" },
-  ],
-};
+// export const viewport: Viewport = {
+//   themeColor: [
+//     { media: "(prefers-color-scheme: light)", color: "white" },
+//     { media: "(prefers-color-scheme: dark)", color: "black" },
+//   ],
+// };
 
 export default function RootLayout({
   children,
@@ -46,12 +47,13 @@ export default function RootLayout({
         )}
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <KBarProviderLayout>
+          <CommandProvider>
             <main className="flex gap-8 h-screen w-full p-10 font-sans flex-wrap max-md:gap-5">
               <RootComponent />
               {children}
             </main>
-          </KBarProviderLayout>
+            <Toaster />
+          </CommandProvider>
         </ThemeProvider>
       </body>
     </html>
