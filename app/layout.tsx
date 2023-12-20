@@ -48,7 +48,7 @@ export default function RootLayout({
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <CommandProvider>
-            <main className="flex gap-8 h-screen w-full p-10 font-sans flex-wrap max-md:gap-5">
+            <main className="flex gap-8 h-screen w-full p-10 font-sans flex-wrap max-md:gap-5 max-md:px-6">
               <RootComponent />
               {children}
             </main>

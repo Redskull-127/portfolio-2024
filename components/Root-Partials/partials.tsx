@@ -100,8 +100,7 @@ export async function SpotifyCard() {
           height={96}
           alt="Spotify"
         />
-        <h1 className="text-lg font-semibold text-center">
-          {data.name} - <span className="text-opacity-50">{data?.artist}</span>
+        <h1 className="text-lg font-semibold text-center overflow-hidden w-full h-14 truncate">{data.name} - <span className="text-opacity-50">{data?.artist}</span>
         </h1>
       </div>
       <div className="w-full flex justify-center">
