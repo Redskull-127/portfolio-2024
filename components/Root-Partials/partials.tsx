@@ -71,7 +71,6 @@ export function QuickLinks() {
 
 export async function SpotifyCard() {
   const data: SpotifyType | Error = await Spotify();
-
   if (data instanceof Error) {
     console.error(data);
     return null;
@@ -100,7 +99,7 @@ export async function SpotifyCard() {
         </h1>
       </div>
       <div className="w-full flex justify-center">
-        <AudioButton AudioSRC={data.preview_url} name={data.name} />
+        <AudioButton uri={data.uri} AudioSRC={data.preview_url} name={data.name} />
       </div>
     </div>
   );

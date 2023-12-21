@@ -6,6 +6,7 @@ export type SpotifyType = {
     artist: string,
     preview_url: string
     error: string
+    uri: string
 }
 
 export async function Spotify() {
@@ -21,6 +22,7 @@ export async function Spotify() {
                 name: data.items[random].track.name,
                 artist: data.items[random].track.artists[0].name,
                 preview_url: data.items[random].track.preview_url,
+                uri: data.items[random].track.uri
             } as SpotifyType
         }
         return {
@@ -28,6 +30,7 @@ export async function Spotify() {
             name: data.item.name,
             artist: data.item.artists[0].name,
             preview_url: data.item.preview_url,
+            uri: data.item.uri
         } as SpotifyType
     } catch (err) {
         console.log(err)
