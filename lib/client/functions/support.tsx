@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 import { ThemeToggle } from "@/components/Theme/ThemeToggler";
 import { Button } from "@/components/ui/button";
 import {
@@ -29,7 +31,7 @@ export function Support() {
                 className="gap-2"
               >
                 <Home className="h-5 w-5" />
-                <pre className="max-md:hidden">
+                <pre className="sr-only:hidden">
                   <code>Ctrl + K</code>
                 </pre>
               </Button>
@@ -43,6 +45,7 @@ export function Support() {
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
+              <Link href="https://www.buymeacoffee.com/meertarbani" target="_blank">
               <Button
                 aria-label="buy me a coffee"
                 variant="default"
@@ -50,6 +53,7 @@ export function Support() {
               >
                 <Coffee className="h-5 w-5" />
               </Button>
+              </Link>
             </TooltipTrigger>
             <TooltipContent>
               <p>Buy me a coffee!</p>
@@ -59,13 +63,15 @@ export function Support() {
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
+              <Link href={"https://github.com/sponsors/Redskull-127?o=esc"} target="_blank">
               <Button
-                aria-label="buy me a coffee"
+                aria-label="Support me on stripe"
                 variant="default"
                 size={"icon"}
               >
                 <CircleDollarSign className="h-5 w-5" />
               </Button>
+              </Link>
             </TooltipTrigger>
             <TooltipContent>
               <p>Support Me!</p>

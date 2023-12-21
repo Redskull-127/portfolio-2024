@@ -26,20 +26,12 @@ export function ThemeToggle() {
             size="icon"
             onClick={() => {
               setTheme(theme === "dark" ? "light" : "dark");
-              // toast({
-              //   title: "Theme Toggled!",
-              //   description: `Theme set to ${
-              //     theme === "dark" ? "light" : "dark"
-              //   }`,
-              //   status: "success",
-              // });
-              theme === "light" &&
               toast({
-                title: "⚠️ Warning!",
-                description: "This feature hasn't been implemented yet!",
-                status: "warning",
-                
-              })
+                title: "Theme Toggled!",
+                description: `Theme set to ${
+                  theme === "dark" ? "light" : "dark"
+                }`,
+              });
             }}
           >
             <Sun className="h-[1.5rem] w-[1.3rem] dark:hidden" />

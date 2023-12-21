@@ -56,10 +56,13 @@
  
     --muted: 0 0% 14.9%;
     --muted-foreground: 0 0% 63.9%;
- 
-    --accent: 0 0% 14.9%;
-    --accent-foreground: 0 0% 98%;
- 
+    
+    --accent: 0 0% 96.1%;
+    --accent-foreground: 0 0% 15%;
+    
+    --ternary: 159 8% 59%;
+    --ternary-foreground: 0 0% 15%;
+
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
  
@@ -85,4 +88,21 @@
 *{
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
+}
+
+.SpotifyImage{
+  box-shadow: 0px 0px 10px #248f68;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  animation: ImageAnimation 2s infinite alternate;
+}
+
+
+@keyframes ImageAnimation {
+  0%{
+      box-shadow: 0px 0px 10px #248f68;
+  }
+  100%{
+      box-shadow: 0px 0px 75px #248f68;
+  }
 }

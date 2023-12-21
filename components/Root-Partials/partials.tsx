@@ -14,10 +14,11 @@ import { Support } from "@/lib/client/functions/support";
 import { GitHubAPI, GitHubType } from "@/lib/server/functions/github";
 import { ProjectLists } from "./ProjectLists";
 import { ProjectDialog } from "../Dialogs/ProjectDialog";
+import SpotifyImage from "./Spotify-image";
 
 export function HeroCard() {
   return (
-    <div className="max-md:w-full flex flex-col justify-center items-center h-80 shadow-lg shadow-primary rounded-2xl min-w-[25%] gap-5 bg-primary text-primary-foreground">
+    <div className="max-md:w-full flex flex-col justify-center items-center h-80 shadow-lg shadow-[#248F68] rounded-2xl min-w-[25%] gap-5 bg-[#248F68] text-white">
       <Image
         src="/static/svg/hero.svg"
         width={128}
@@ -93,18 +94,13 @@ export async function SpotifyCard() {
         Spotify <Icons.ArrowUpRight />
       </Link>
       <div className="w-full flex flex-col justify-center items-center gap-3">
-        <Image
-          className="rounded-full"
-          src={data.images[1].url}
-          width={96}
-          height={96}
-          alt="Spotify"
-        />
-        <h1 className="text-lg font-semibold text-center overflow-hidden w-full h-14 truncate">{data.name} - <span className="text-opacity-50">{data?.artist}</span>
+        <SpotifyImage url={String(data.images[1].url)} />
+        <h1 className="text-lg font-semibold text-center overflow-hidden w-full h-14 truncate">
+          {data.name} - <span className="text-opacity-50">{data?.artist}</span>
         </h1>
       </div>
       <div className="w-full flex justify-center">
-        <AudioButton AudioSRC={data.preview_url} />
+        <AudioButton AudioSRC={data.preview_url} name={data.name} />
       </div>
     </div>
   );
@@ -136,8 +132,7 @@ export async function Projects() {
   return (
     <div className="max-md:w-full flex flex-col bg-ternary-foreground w-1/3 h-[21.2rem] rounded-2xl pt-6 px-6 gap-5">
       <h1 className="flex text-3xl font-semibold text-ternary items-center gap-1">
-        Projects{" "}
-        <ProjectDialog projects={data} />
+        Projects <ProjectDialog projects={data} />
       </h1>
       <div className="flex flex-col gap-3 overflow-hidden overflow-y-scroll">
         {data.map((project, index) => {
@@ -193,7 +188,13 @@ export function AllPages() {
 export function Footer() {
   return (
     <footer className="w-full h-fit text-center">
-      <p className="font-medium">Developed by <Link href={'/'}>Meer Tarbani</Link> and Designed by <Link href={'https://vikasassudani.in'} target="_blank">Vikas Assudani</Link> 💚</p>
+      <p className="font-medium">
+        Developed by <Link href={"/"}>Meer Tarbani</Link> and Designed by{" "}
+        <Link href={"https://vikasassudani.in"} target="_blank">
+          Vikas Assudani
+        </Link>{" "}
+        💚
+      </p>
     </footer>
-  )
+  );
 }

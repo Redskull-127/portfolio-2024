@@ -1,59 +1,11 @@
 "use client";
 
-import { FolderGit2, Home, SunMoon } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { AnimatedList } from "react-animated-list";
 import styles from "@/lib/static/command.module.css";
 import { cn } from "../utils";
+import { ActionType } from "./commandbar";
 
-export type ActionType = {
-  id: string;
-  name: string;
-  shortcut: string[];
-  keywords: string;
-  section: string;
-  perform: () => void;
-  icon: JSX.Element;
-  subtitle: string;
-};
 
-export default function Actions() {
-  const router = useRouter();
-  const action: ActionType[] = [
-    {
-      id: "homeAction",
-      name: "Home",
-      shortcut: ["h"],
-      keywords: "back",
-      section: "Navigation",
-      perform: () => router.push("/"),
-      icon: <Home className="w-6 h-6 mx-3" />,
-      subtitle: "Go to home.",
-    },
-    {
-      id: "projectsAction",
-      name: "Projects",
-      shortcut: ["p"],
-      keywords: "projects",
-      section: "Navigation",
-      perform: () => router.push("/projects"),
-      icon: <FolderGit2 className="w-6 h-6 mx-3" />,
-      subtitle: "Go to project section.",
-    },
-  ];
-  return (
-    <>
-      <AnimatedList animation={"fade"}>
-        {action &&
-          action.map((project, index) => (
-            <ListGenerator {...project} key={index} />
-          ))}
-      </AnimatedList>
-    </>
-  );
-}
-
-function ListGenerator(project: ActionType) {
+export function ListGenerator(project: ActionType) {
   return (
     <div
       className={cn(
@@ -70,8 +22,19 @@ function ListGenerator(project: ActionType) {
         </span>
         <span className="text-sm">{project.subtitle}</span>
       </div>
-      <pre className="flex justify-center items-center p-2 bg-slate-400">
-        <code>{project.shortcut}</code>
+      <pre className="flex justify-center items-center p-2 gap-3">
+        {project.shortcut.map((key, index) => (
+          <span
+            key={index}
+            style={{
+              backgroundColor: "#1F2937",
+              borderRadius: "5px",
+            }}
+            className="text-sm font-bold p-2"
+          >
+            {key}
+          </span>
+        ))}
       </pre>
     </div>
   );
