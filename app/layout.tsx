@@ -7,6 +7,7 @@ import { ThemeProvider } from "@/components/Theme/ThemeProvider";
 import RootComponent from "@/components/root";
 import CommandProvider from "@/lib/commandbar/provider";
 import { Toaster } from "@/components/ui/toaster";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const santoshiSans = localFont({
   src: "./Satoshi-Variable.woff2",
@@ -51,6 +52,7 @@ export default function RootLayout({
           <CommandProvider>
             <main className="flex gap-8 h-screen w-full p-10 font-sans flex-wrap max-md:gap-5 max-md:px-6">
               <RootComponent />
+              <SpeedInsights />
               {children}
             </main>
             <Toaster />
