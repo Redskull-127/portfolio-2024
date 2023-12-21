@@ -40,8 +40,8 @@ export function Introduction() {
     <div className="flex flex-col h-fit w-full bg-muted text-muted-foreground rounded-2xl p-6 gap-2">
       <h1 className="text-2xl font-semibold">Introduction</h1>
       <p className="text-foreground font-medium">
-        Hey, I&apos;m Meer. GDSC Lead at Silver Oak University Organizer of GDSC
-        WoW Gujarat, Ex Flipkart SCOA Intern & Gao Tech Support Intern!
+        Hey, I&apos;m Meer. GDSC Lead &apos;22, Organizer of Hack For India & GDSC
+        WoW &apos;22, Ex Flipkart SCOA Intern & Gao Tech Support Intern!
       </p>
       <div className="w-full flex flex-row-reverse max-md:justify-center">
         <button
@@ -86,7 +86,7 @@ export async function SpotifyCard() {
     <div className="max-md:w-full max-md:h-fit flex flex-col justify-between h-80 rounded-2xl w-[25%] gap-5 bg-ternary-foreground p-6">
       <Link
         href={
-          "https://open.spotify.com/user/to6rms2g0fzerpkwox1k4v33w?si=073ce2543fff42db"
+          "https://open.spotify.com/playlist/42h3IewUsTfRNHE5Puw9EK?si=dc5d84399b814878"
         }
         target="_blank"
         className="flex text-2xl font-semibold text-ternary select-none cursor-pointer transition-all duration-200 hover:text-foreground"
@@ -148,29 +148,38 @@ export function AllPages() {
     {
       name: "About",
       href: "/about",
+      implemented: false,
     },
     {
       name: "Blogs",
       href: "/blogs",
+      implemented: false,
+    },
+    {
+      name: "Chat",
+      href: "/chat",
+      implemented: false,
     },
     {
       name: "Events",
       href: "/events",
+      implemented: false,
     },
     {
       name: "Projects",
       href: "/projects",
+      implemented: true,
     },
   ];
   return (
     <div className="max-md:w-full flex flex-col bg-ternary-foreground w-[16.7%] h-[21.2rem] rounded-2xl pt-6 px-6 gap-5">
       <h1 className="text-3xl font-semibold text-ternary">Pages</h1>
-      <div className="flex flex-col gap-3 overflow-hidden overflow-y-scroll">
+      <div className="flex flex-col gap-1 overflow-hidden overflow-y-scroll">
         {Pages.map((page, index) => {
           return (
             <div key={index} className="w-full border-b-2 flex p-2">
               <Link
-                href={page.href}
+                href={page.implemented === true ? page.href : '/'}
                 passHref={true}
                 className="flex text-foreground font-medium hover:text-black transition-all duration-300"
               >

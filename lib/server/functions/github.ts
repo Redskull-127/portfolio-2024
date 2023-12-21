@@ -1,4 +1,3 @@
-import { cache } from "react";
 import TestData from "@/lib/static/testprojects.json";
 
 export type GitHubType = {
