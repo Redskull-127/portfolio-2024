@@ -7,7 +7,8 @@ import { ThemeProvider } from "@/components/Theme/ThemeProvider";
 import RootComponent from "@/components/root";
 import CommandProvider from "@/lib/commandbar/provider";
 import { Toaster } from "@/components/ui/toaster";
-import { SpeedInsights } from "@vercel/speed-insights/next"
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { SpotifyTip } from "@/lib/client/functions/initialfunctions";
 
 const santoshiSans = localFont({
   src: "./Satoshi-Variable.woff2",
@@ -56,6 +57,7 @@ export default function RootLayout({
               {children}
             </main>
             <Toaster />
+            <SpotifyTip />
           </CommandProvider>
         </ThemeProvider>
       </body>

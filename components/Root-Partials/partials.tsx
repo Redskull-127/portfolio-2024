@@ -15,6 +15,8 @@ import { GitHubAPI, GitHubType } from "@/lib/server/functions/github";
 import { ProjectLists } from "./ProjectLists";
 import { ProjectDialog } from "../Dialogs/ProjectDialog";
 import SpotifyImage from "./Spotify-image";
+import { HydrationBoundary, QueryClient, dehydrate, useQuery } from "@tanstack/react-query";
+import SpotifyComponent from "./SpotifyComponent";
 
 export function HeroCard() {
   return (
@@ -70,39 +72,10 @@ export function QuickLinks() {
 }
 
 export async function SpotifyCard() {
-  const data: SpotifyType | Error = await Spotify();
-  if (data instanceof Error) {
-    console.error(data);
-    return null;
-  }
-  if (!data)
-    return (
-      <div className="flex w-full justify-center">
-        <h1 className="text-2xl font-semibold text-ternary">Loading...</h1>
-      </div>
-    );
-  return (
-    <div className="max-md:w-full max-md:h-fit flex flex-col justify-between h-80 rounded-2xl w-[25%] gap-5 bg-ternary-foreground p-6">
-      <Link
-        href={
-          "https://open.spotify.com/playlist/42h3IewUsTfRNHE5Puw9EK?si=dc5d84399b814878"
-        }
-        target="_blank"
-        className="flex text-2xl font-semibold text-ternary select-none cursor-pointer transition-all duration-200 hover:text-foreground"
-      >
-        Spotify <Icons.ArrowUpRight />
-      </Link>
-      <div className="w-full flex flex-col justify-center items-center gap-3">
-        <SpotifyImage url={String(data.images[1].url)} />
-        <h1 className="text-lg font-semibold text-center overflow-hidden w-full h-14 truncate">
-          {data.name} - <span className="text-opacity-50">{data?.artist}</span>
-        </h1>
-      </div>
-      <div className="w-full flex justify-center">
-        <AudioButton uri={data.uri} AudioSRC={data.preview_url} name={data.name} />
-      </div>
-    </div>
-  );
+    const data : SpotifyType | undefined = await Spotify();
+    if (data) {
+      return <SpotifyComponent {...data} />
+    }
 }
 
 export function Skills() {

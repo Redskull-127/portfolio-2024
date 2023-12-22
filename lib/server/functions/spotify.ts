@@ -5,7 +5,6 @@ export type SpotifyType = {
     name: string,
     artist: string,
     preview_url: string
-    error: string
     uri: string
 }
 
@@ -13,6 +12,7 @@ export async function Spotify() {
     try{
         const res = await fetch('https://spotify-api-flask.vercel.app/', {
             cache: 'no-cache',
+            mode: 'no-cors',
         })
         const data = await res.json()
         if(data.items) {
@@ -34,6 +34,6 @@ export async function Spotify() {
         } as SpotifyType
     } catch (err) {
         console.log(err)
-        return new Error('Something went wrong')
+        
     }
 }
