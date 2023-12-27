@@ -12,22 +12,13 @@ let db: PostgresJsDatabase<typeof schema>;
 
 try {
   if (process.env.NODE_ENV === "production") {
-    db = drizzle(
-      postgres(`${process.env.DATABASE_URL}?sslmode=require`, {
-        ssl: {
-          ca: [readFileSync("../db/ca.pem").toString()],
-        },
-      }),
-      { schema }
-    );
+    db = drizzle(postgres(`${process.env.DATABASE_URL}?sslmode=require`, {}), {
+      schema,
+    });
   } else {
     if (!global.db) {
       global.db = drizzle(
-        postgres(`${process.env.DATABASE_URL}?sslmode=require`, {
-          ssl: {
-            ca: [readFileSync("../db/ca.pem").toString()],
-          },
-        }),
+        postgres(`${process.env.DATABASE_URL}?sslmode=require`, {}),
         { schema }
       );
     }
