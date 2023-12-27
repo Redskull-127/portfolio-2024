@@ -15,7 +15,7 @@ try {
     db = drizzle(
       postgres(`${process.env.DATABASE_URL}?sslmode=require`, {
         ssl: {
-          ca: [readFileSync("./db/ca.pem").toString()],
+          ca: [readFileSync("../db/ca.pem").toString()],
         },
       }),
       { schema }
@@ -25,7 +25,7 @@ try {
       global.db = drizzle(
         postgres(`${process.env.DATABASE_URL}?sslmode=require`, {
           ssl: {
-            ca: [readFileSync("./db/ca.pem").toString()],
+            ca: [readFileSync("../db/ca.pem").toString()],
           },
         }),
         { schema }
