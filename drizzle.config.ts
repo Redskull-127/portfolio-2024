@@ -7,9 +7,9 @@ export const pgConfig = postgres({
   database: process.env.DRIZZLE_DB!,
   password: process.env.DRIZZLE_PASSWORD!,
   port: Number(process.env.DRIZZLE_PORT!),
-  ssl: {
-    ca: [readFileSync("./db/ca.pem").toString()]
-  }
+  // ssl: {
+  //   ca: [readFileSync("./db/ca.pem").toString()]
+  // }
 })
 
 export default {
