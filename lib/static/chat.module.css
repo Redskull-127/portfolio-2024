@@ -1,0 +1,25 @@
+.messages_container {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    width: fit-content;
+}
+
+.messages_container_user {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    flex-direction: row-reverse;
+}
+
+.messages{
+    border-radius: 14px;
+    padding: 1rem;
+    background-color: rgba(240, 255, 244, 0.148);
+    max-width: 65%;
+    overflow-wrap: break-word;
+}

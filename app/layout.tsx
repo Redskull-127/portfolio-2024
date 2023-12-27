@@ -9,6 +9,7 @@ import CommandProvider from "@/lib/commandbar/provider";
 import { Toaster } from "@/components/ui/toaster";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { SpotifyTip } from "@/lib/client/functions/initialfunctions";
+import NextAuthProvider from "@/lib/client/providers/NextAuthSessionProvider";
 
 const santoshiSans = localFont({
   src: "./Satoshi-Variable.woff2",
@@ -50,15 +51,17 @@ export default function RootLayout({
         )}
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <CommandProvider>
-            <main className="flex gap-8 h-screen w-full p-10 font-sans flex-wrap max-md:gap-5 max-md:px-6">
-              <RootComponent />
-              <SpeedInsights />
-              {children}
-            </main>
-            <Toaster />
-            <SpotifyTip />
-          </CommandProvider>
+          <SpeedInsights />
+          <NextAuthProvider>
+            <CommandProvider>
+              <main className="flex gap-8 h-screen w-full p-10 font-sans flex-wrap max-md:gap-5 max-md:px-6">
+                <RootComponent />
+                {children}
+              </main>
+              <Toaster />
+              <SpotifyTip />
+            </CommandProvider>
+          </NextAuthProvider>
         </ThemeProvider>
       </body>
     </html>

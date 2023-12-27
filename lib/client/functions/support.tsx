@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 
 import { ThemeToggle } from "@/components/Theme/ThemeToggler";
 import { Button } from "@/components/ui/button";
@@ -10,11 +11,29 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Coffee, CircleDollarSign, Home } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
+import {
+  Coffee,
+  CircleDollarSign,
+  Home,
+  CircleUser,
+  LogOut,
+  LogIn,
+} from "lucide-react";
 import { useCommandBarContext } from "@/lib/commandbar/commandbar";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 export function Support() {
   const { shouldShow, setShouldShow } = useCommandBarContext();
+  const { status, data: session } = useSession();
   return (
     <div className=" flex flex-col h-fit rounded-2xl  bg-ternary-foreground p-6">
       <h1 className="text-3xl font-semibold text-ternary">Other</h1>
@@ -41,18 +60,69 @@ export function Support() {
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
+
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              aria-label="user action center"
+              variant={status === "authenticated" ? "ghost" : "default"}
+              size={"icon"}
+            >
+              {status === "authenticated" ? (
+                <Image
+                  src={session.user?.image!}
+                  width={40}
+                  height={40}
+                  className="rounded-sm"
+                  alt="user"
+                />
+              ) : (
+                <CircleUser className="h-5 w-5" />
+              )}
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuLabel>
+              {status === "authenticated"
+                ? session.user?.name
+                : "Action Required"}
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            {status === "authenticated" ? (
+              <DropdownMenuItem
+                onClick={() => {
+                  signOut();
+                }}
+              >
+                <LogOut className="h-5 w-5 mr-2" /> Sign Out
+              </DropdownMenuItem>
+            ) : (
+              <DropdownMenuItem
+                onClick={() => {
+                  signIn("google");
+                }}
+              >
+                <LogIn className="h-5 w-5 mr-2" /> Log in
+              </DropdownMenuItem>
+            )}
+          </DropdownMenuContent>
+        </DropdownMenu>
+
         <ThemeToggle />
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
-              <Link href="https://www.buymeacoffee.com/meertarbani" target="_blank">
-              <Button
-                aria-label="buy me a coffee"
-                variant="default"
-                size={"icon"}
+              <Link
+                href="https://www.buymeacoffee.com/meertarbani"
+                target="_blank"
               >
-                <Coffee className="h-5 w-5" />
-              </Button>
+                <Button
+                  aria-label="buy me a coffee"
+                  variant="default"
+                  size={"icon"}
+                >
+                  <Coffee className="h-5 w-5" />
+                </Button>
               </Link>
             </TooltipTrigger>
             <TooltipContent>
@@ -63,14 +133,17 @@ export function Support() {
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
-              <Link href={"https://github.com/sponsors/Redskull-127?o=esc"} target="_blank">
-              <Button
-                aria-label="Support me on stripe"
-                variant="default"
-                size={"icon"}
+              <Link
+                href={"https://github.com/sponsors/Redskull-127?o=esc"}
+                target="_blank"
               >
-                <CircleDollarSign className="h-5 w-5" />
-              </Button>
+                <Button
+                  aria-label="Support me on stripe"
+                  variant="default"
+                  size={"icon"}
+                >
+                  <CircleDollarSign className="h-5 w-5" />
+                </Button>
               </Link>
             </TooltipTrigger>
             <TooltipContent>

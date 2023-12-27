@@ -12,24 +12,24 @@ import {
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { ThemeToggle } from "@/components/Theme/ThemeToggler";
 import { AnimatedList } from "react-animated-list";
 import {
   FolderGit2,
   Github,
   Home,
   Linkedin,
+  LogIn,
+  LogOut,
   Mail,
   Twitter,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { ListGenerator } from "./actions";
-
+import { signIn, signOut, useSession } from "next-auth/react";
 interface CommandBarState {
   shouldShow: boolean;
   setShouldShow: Dispatch<SetStateAction<boolean>>;
@@ -48,8 +48,21 @@ export type ActionType = {
 
 export default function CommandBar() {
   const { shouldShow, setShouldShow } = useCommandBarContext();
-
+  const { data: session, status } = useSession();
   const router = useRouter();
+  const [getStatus, setGetStatus] = useState<string>();
+  
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if(status === "authenticated") {
+        setGetStatus("Logout")
+      } else if(status === "unauthenticated") {
+        setGetStatus("Login")
+      } 
+    }, 2000)
+    return () => clearTimeout(timer)
+  }, [status]);
+
   const action: ActionType[] = [
     {
       id: "homeAction",
@@ -112,6 +125,16 @@ export default function CommandBar() {
       icon: <Twitter className="w-6 h-6 mx-3" />,
       subtitle: "Go to my twitter.",
     },
+    // {
+    //   id: "loginAction",
+    //   name: getStatus as string,
+    //   shortcut: ["L", "S"],
+    //   keywords: "logout signout login signin",
+    //   section: "User Actions",
+    //   perform: () => status === "authenticated" || "loading" ? signOut() : signIn("google"),
+    //   icon: status === "authenticated" || "loading" ? <LogOut className="w-6 h-6 mx-3" /> : <LogIn className="w-6 h-6 mx-3" />,
+    //   subtitle: "Login to the website.",
+    // },
     {
       id: "exitAction",
       name: "Exit",
@@ -124,7 +147,7 @@ export default function CommandBar() {
     },
   ];
 
-  const [actionList, setActionList] = useState<ActionType[]>(action);
+  const [actionList] = useState<ActionType[]>(action);
   const [filteredList, setFilteredList] = useState<ActionType[]>(action);
 
   useEffect(() => {

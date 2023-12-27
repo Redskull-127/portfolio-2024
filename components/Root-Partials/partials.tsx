@@ -5,7 +5,6 @@ import { Spotify, SpotifyType } from "@/lib/server/functions/spotify";
 
 import { Icons } from "../icons";
 import { GitHub, Gmail, LinkedIn, X } from "./AnimatedIcons";
-import AudioButton from "./Audio";
 
 import SkillsJson from "@/lib/static/skills.json";
 import SkillModel from "./SkillModel";
@@ -14,8 +13,6 @@ import { Support } from "@/lib/client/functions/support";
 import { GitHubAPI, GitHubType } from "@/lib/server/functions/github";
 import { ProjectLists } from "./ProjectLists";
 import { ProjectDialog } from "../Dialogs/ProjectDialog";
-import SpotifyImage from "./Spotify-image";
-import { HydrationBoundary, QueryClient, dehydrate, useQuery } from "@tanstack/react-query";
 import SpotifyComponent from "./SpotifyComponent";
 
 export function HeroCard() {
@@ -31,7 +28,7 @@ export function HeroCard() {
         <h1 className="max-md:text-3xl text-4xl font-semibold font-sans">
           Meer Tarbani
         </h1>
-        <span className="text-sm">Multi-Disciplinary Developer</span>
+        <span className="text-sm">Full Stack Web Developer</span>
       </div>
     </div>
   );
@@ -130,7 +127,7 @@ export function AllPages() {
     {
       name: "Chat",
       href: "/chat",
-      implemented: false,
+      implemented: true,
     },
     {
       name: "Events",
