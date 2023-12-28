@@ -1,6 +1,5 @@
 import * as schema from "./schema";
 import { PostgresJsDatabase, drizzle } from "drizzle-orm/postgres-js";
-import { readFileSync } from "fs";
 import postgres from "postgres";
 
 declare global {
@@ -12,13 +11,26 @@ let db: PostgresJsDatabase<typeof schema>;
 
 try {
   if (process.env.NODE_ENV === "production") {
-    db = drizzle(postgres(`${process.env.DATABASE_URL}?sslmode=require`, {}), {
-      schema,
-    });
+    db = drizzle(
+      postgres(`${process.env.DATABASE_URL}?sslmode=require`, {
+        ssl: {
+          rejectUnauthorized: false,
+          ca: process.env.DRIZZLE_CA_CERT!,
+        },
+      }),
+      {
+        schema,
+      }
+    );
   } else {
     if (!global.db) {
       global.db = drizzle(
-        postgres(`${process.env.DATABASE_URL}?sslmode=require`, {}),
+        postgres(`${process.env.DATABASE_URL}?sslmode=require`, {
+          ssl: {
+            rejectUnauthorized: false,
+            ca: process.env.DRIZZLE_CA_CERT!,
+          },
+        }),
         { schema }
       );
     }
