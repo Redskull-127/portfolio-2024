@@ -14,6 +14,12 @@ import {
   DrawerFooter,
 } from "@/components/ui/drawer";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 import { cn } from "@/lib/utils";
 import styles from "@/lib/static/chat.module.css";
@@ -22,7 +28,7 @@ import { Button } from "../ui/button";
 import { ChatForm } from "@/lib/server/functions/chatform";
 import { useFormStatus } from "react-dom";
 import { Icons } from "../icons";
-import { RefreshCcw } from "lucide-react";
+import { convertDateFormat } from "@/lib/date-convertor";
 
 export type MessageType = {
   id?: number;
@@ -30,22 +36,22 @@ export type MessageType = {
   sender: string;
   senderMail: string;
   senderImage: string;
+  createdAt?: string;
 };
 
 export function ChatDialog(props: { messages: MessageType[] }) {
   const { data: session, status } = useSession();
+  const { pending } = useFormStatus();
   const ws = useRef<WebSocket>();
+  const submitRef = useRef<HTMLButtonElement>(null);
+  const notifyRef = useRef<HTMLAudioElement>(null);
+  const chatBoxRef = useRef<HTMLDivElement>(null);
   const [data, setData] = useState(props.messages);
-  const router = useRouter();
   const [shouldOpen] = useState<boolean>(true);
   const [isMounted, setIsMounted] = useState<boolean>();
-  const chatBoxRef = useRef<HTMLDivElement>(null);
-  const { pending } = useFormStatus();
+  const router = useRouter();
+  const [shouldScroll, setShouldScroll] = useState<boolean>(false);
 
-  const handleScrollToBottom = () => {
-    chatBoxRef.current?.scrollIntoView({ behavior: "smooth" });
-    chatBoxRef.current?.scrollTo(0, chatBoxRef.current?.scrollHeight);
-  };
 
   const sendMessageSocket = async (message: MessageType) => {
     const stringify = JSON.stringify(message);
@@ -56,6 +62,9 @@ export function ChatDialog(props: { messages: MessageType[] }) {
     const text = await new Response(event.data).text();
     const message = JSON.parse(text);
     setData((prev) => [...prev, message]);
+    if (message.senderMail !== session?.user?.email) {
+      notifyRef.current?.play();
+    }
   };
 
   useEffect(() => {
@@ -74,7 +83,23 @@ export function ChatDialog(props: { messages: MessageType[] }) {
     const wsCurrent = ws.current;
 
     return () => wsCurrent.close();
+  });
+
+  useEffect(() => {
+    const handleEnter = (e: KeyboardEvent) => {
+      if (e.key === "Enter") {
+        submitRef.current?.click();
+      }
+    };
+    window.addEventListener("keydown", handleEnter);
+    return () => window.removeEventListener("keydown", handleEnter);
   }, []);
+
+  useEffect(() => {
+    if (shouldScroll && chatBoxRef.current) {
+      chatBoxRef.current.scrollIntoView();
+    }
+  }, [shouldScroll, data])
 
   if (!isMounted) return null;
   if (status === "loading") return null;
@@ -118,21 +143,16 @@ export function ChatDialog(props: { messages: MessageType[] }) {
       >
         <DrawerContent>
           <DrawerHeader>
-            <DrawerTitle>
-              Chat
-              <Button
-                className="ml-2 gap-2 absolute right-0 mr-2"
-                size={"icon"}
-              >
-                <RefreshCcw className="h-5 w-5" />
-              </Button>
-            </DrawerTitle>
-            <DrawerDescription>Chat with everyone!</DrawerDescription>
+            <DrawerTitle className="text-center text-2xl">Chat</DrawerTitle>
+            <DrawerDescription className="text-center">
+              Chat with everyone!
+            </DrawerDescription>
           </DrawerHeader>
           <div
-            onLoad={() => handleScrollToBottom()}
-            ref={chatBoxRef}
-            className="flex flex-col p-2 max-h-96 gap-3 overflow-hidden max-w-full overflow-y-scroll "
+            onLoad={() => {
+              setShouldScroll(true);
+            }}
+            className="w-full flex flex-col  p-2 max-h-96 gap-3 overflow-hidden max-w-full overflow-y-scroll "
           >
             {data.map((chat, key) => (
               <div
@@ -150,9 +170,35 @@ export function ChatDialog(props: { messages: MessageType[] }) {
                   width={36}
                   height={36}
                 />
-                <div className={cn(styles.messages)}>{chat.message}</div>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <div className={cn(styles.messages)}>{chat.message}</div>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <div className="gap-2 flex flex-row justify-center items-center">
+                        <Image
+                          src={chat.senderImage}
+                          className="rounded-full"
+                          alt=""
+                          width={36}
+                          height={36}
+                        />
+                        <p>
+                          <span className="font-semibold">{chat.sender}</span>
+                          <br />
+                          <span className="font-light">
+                            {convertDateFormat(chat.createdAt!)}
+                          </span>
+                        </p>
+                      </div>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
               </div>
             ))}
+            <div ref={chatBoxRef}>
+            </div>
           </div>
           <DrawerFooter>
             <form
@@ -163,11 +209,17 @@ export function ChatDialog(props: { messages: MessageType[] }) {
               className="w-full flex gap-3 justify-center items-center"
             >
               <Textarea
+                rows={1}
+                cols={1}
                 placeholder="Type your message here."
                 name="message-input"
                 required
               />
-              <Button disabled={pending} className="disabled:opacity-60">
+              <Button
+                ref={submitRef}
+                disabled={pending}
+                className="disabled:opacity-60"
+              >
                 {pending ? (
                   <div className="animate-spin w-5 h-5 border-2 border-white rounded-full"></div>
                 ) : (
@@ -176,6 +228,11 @@ export function ChatDialog(props: { messages: MessageType[] }) {
               </Button>
             </form>
           </DrawerFooter>
+          <audio
+            className="hidden"
+            src="/static/audio/notify.mp3"
+            ref={notifyRef}
+          ></audio>
         </DrawerContent>
       </Drawer>
     </Suspense>

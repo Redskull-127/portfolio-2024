@@ -19,6 +19,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 
 import {
   Coffee,
@@ -35,9 +36,9 @@ export function Support() {
   const { shouldShow, setShouldShow } = useCommandBarContext();
   const { status, data: session } = useSession();
   return (
-    <div className=" flex flex-col h-fit rounded-2xl  bg-ternary-foreground p-6">
+    <div className=" flex flex-col h-fit rounded-2xl bg-ternary-foreground p-6 w-full">
       <h1 className="text-3xl font-semibold text-ternary">Other</h1>
-      <div className="flex py-2 gap-3">
+      <div className="grid grid-flow-col justify-start gap-3 py-2 max-md:py-4 overflow-hidden w-full place-items-start max-md:overflow-x-scroll ">
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
@@ -47,10 +48,10 @@ export function Support() {
                 }}
                 aria-label="Home Launcher"
                 variant="default"
-                className="gap-2"
+                className="gap-2 max-md:gap-0"
               >
                 <Home className="h-5 w-5" />
-                <pre className="sr-only:hidden">
+                <pre className="max-md:hidden">
                   <code>Ctrl + K</code>
                 </pre>
               </Button>
