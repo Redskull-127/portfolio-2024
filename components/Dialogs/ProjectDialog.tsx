@@ -76,7 +76,7 @@ export function ProjectDialog(props: PropsType) {
                 }
               }}
             />
-            <div className="flex flex-col gap-3 ">
+            <div className="flex flex-col gap-3 overflow-hidden max-w-full">
               {filteredList &&
                 filteredList.map((project, index) => (
                   <ProjectLists key={index} {...project} />
