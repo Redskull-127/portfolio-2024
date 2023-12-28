@@ -1,8 +1,6 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
 
-import { AnimatedList } from "react-animated-list";
-
 import { GitHubType } from "@/lib/server/functions/github";
 import {
   Dialog,
@@ -28,12 +26,14 @@ export function ProjectDialog(props: PropsType) {
   const [filteredList, setFilteredList] = useState(props.projects);
   const dialogeRef = useRef<HTMLButtonElement>(null);
   const router = useRouter();
-  
+
   useEffect(() => {
-    if(document.getElementById("project-btn") !== null){
-      ProjectSignal.value = document.getElementById("project-btn") as HTMLButtonElement;
+    if (document.getElementById("project-btn") !== null) {
+      ProjectSignal.value = document.getElementById(
+        "project-btn"
+      ) as HTMLButtonElement;
     }
-  }, [])
+  }, []);
 
   return (
     <Dialog
@@ -44,7 +44,12 @@ export function ProjectDialog(props: PropsType) {
       }}
     >
       <DialogTrigger asChild>
-        <Button id="project-btn" ref={dialogeRef} variant={"ghost"} size={"icon"}>
+        <Button
+          id="project-btn"
+          ref={dialogeRef}
+          variant={"ghost"}
+          size={"icon"}
+        >
           <Icons.Search />
         </Button>
       </DialogTrigger>
@@ -72,12 +77,10 @@ export function ProjectDialog(props: PropsType) {
               }}
             />
             <div className="flex flex-col gap-3 ">
-              <AnimatedList animation={"fade"}>
-                {filteredList &&
-                  filteredList.map((project, index) => (
-                    <ProjectLists key={index} {...project} />
-                  ))}
-              </AnimatedList>
+              {filteredList &&
+                filteredList.map((project, index) => (
+                  <ProjectLists key={index} {...project} />
+                ))}
             </div>
           </DialogDescription>
         </DialogHeader>

@@ -16,7 +16,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { AnimatedList } from "react-animated-list";
 import {
   FolderGit2,
   Github,
@@ -51,16 +50,16 @@ export default function CommandBar() {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [getStatus, setGetStatus] = useState<string>();
-  
+
   useEffect(() => {
     const timer = setTimeout(() => {
-      if(status === "authenticated") {
-        setGetStatus("Logout")
-      } else if(status === "unauthenticated") {
-        setGetStatus("Login")
-      } 
-    }, 2000)
-    return () => clearTimeout(timer)
+      if (status === "authenticated") {
+        setGetStatus("Logout");
+      } else if (status === "unauthenticated") {
+        setGetStatus("Login");
+      }
+    }, 2000);
+    return () => clearTimeout(timer);
   }, [status]);
 
   const action: ActionType[] = [
@@ -217,12 +216,10 @@ export default function CommandBar() {
             }}
           />
           <div className="w-full h-fit flex flex-col gap-5">
-            <AnimatedList animation={"fade"}>
-              {filteredList &&
-                filteredList.map((project, index) => (
-                  <ListGenerator {...project} key={index} />
-                ))}
-            </AnimatedList>
+            {filteredList &&
+              filteredList.map((project, index) => (
+                <ListGenerator {...project} key={index} />
+              ))}
           </div>
         </div>
       </DialogContent>
