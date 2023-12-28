@@ -88,7 +88,8 @@ export function ChatDialog(props: { messages: MessageType[] }) {
   useEffect(() => {
     const handleEnter = (e: KeyboardEvent) => {
       if (e.key === "Enter") {
-        submitRef.current?.click();
+        e.preventDefault();
+        return submitRef.current?.click();
       }
     };
     window.addEventListener("keydown", handleEnter);
@@ -156,7 +157,7 @@ export function ChatDialog(props: { messages: MessageType[] }) {
           >
             {data.map((chat, key) => (
               <div
-                key={key}
+                key={chat.id}
                 className={cn(
                   chat.senderMail === session?.user?.email
                     ? styles.messages_container_user

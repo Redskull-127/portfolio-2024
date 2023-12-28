@@ -1,7 +1,8 @@
 "use server";
 import { db } from "@/db";
 import { messagesSchema } from "@/db/schema";
-import { revalidatePath } from "next/cache";
+import { desc, asc } from 'drizzle-orm';
+
 
 export type userDataType = {
   name: string;
@@ -22,6 +23,8 @@ export async function ChatForm(formData: FormData, userData: userDataType) {
 }
 
 export async function getMessages() {
-  const messages = await db.query.messagesSchema.findMany();
+  const messages = (await db.query.messagesSchema.findMany({
+    orderBy: [asc(messagesSchema.id)],
+  }));
   return messages;
 }

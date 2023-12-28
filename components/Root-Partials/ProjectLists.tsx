@@ -8,8 +8,8 @@ import { Button } from "../ui/button";
 export function ProjectLists(props: GitHubType) {
     return <div className="flex justify-between border-b-2 py-2">
         <div className="flex flex-col justify-center items-start gap-2 w-1/2">
-            <h1 className="inline-flex max-w-[30%] text-md font-semibold">{props.name}</h1>
-            <p className="text-sm text-foreground max-w-[30%] whitespace-nowrap text-ellipsis overflow-hidden">{props.description}</p>
+            <h1 className="inline-flex max-w-[75%] text-md font-semibold">{props.name}</h1>
+            <p className="text-sm text-foreground max-w-[75%] whitespace-nowrap text-ellipsis overflow-hidden">{props.description}</p>
         </div>
         <div className="flex flex-row-reverse gap-2 max-md:items-end">
             {props.homepage != null ? <Link href={props.homepage} aria-label={props.name} target="_blank">

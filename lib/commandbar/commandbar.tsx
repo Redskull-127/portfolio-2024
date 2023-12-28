@@ -152,7 +152,6 @@ export default function CommandBar() {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.ctrlKey && e.key === "k") {
-        console.log(shouldShow);
         e.preventDefault();
         e.stopPropagation();
         setShouldShow(!shouldShow);
