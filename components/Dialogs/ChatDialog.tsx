@@ -52,7 +52,6 @@ export function ChatDialog(props: { messages: MessageType[] }) {
   const router = useRouter();
   const [shouldScroll, setShouldScroll] = useState<boolean>(false);
 
-
   const sendMessageSocket = async (message: MessageType) => {
     const stringify = JSON.stringify(message);
     ws.current?.send(stringify);
@@ -100,7 +99,7 @@ export function ChatDialog(props: { messages: MessageType[] }) {
     if (shouldScroll && chatBoxRef.current) {
       chatBoxRef.current.scrollIntoView();
     }
-  }, [shouldScroll, data])
+  }, [shouldScroll, data]);
 
   if (!isMounted) return null;
   if (status === "loading") return null;
@@ -198,8 +197,7 @@ export function ChatDialog(props: { messages: MessageType[] }) {
                 </TooltipProvider>
               </div>
             ))}
-            <div ref={chatBoxRef}>
-            </div>
+            <div ref={chatBoxRef}></div>
           </div>
           <DrawerFooter>
             <form
@@ -245,18 +243,26 @@ export async function sendMessage(
   session: any,
   sendMessageSocket: (message: MessageType) => void
 ) {
-  const form = e.target as HTMLFormElement;
-  const formData = new FormData(form);
-  await ChatForm(formData, {
-    name: session?.user?.name!,
-    email: session?.user?.email!,
-    image: session?.user?.image!,
-  });
-  await sendMessageSocket({
-    message: formData.get("message-input") as string,
-    sender: session?.user?.name!,
-    senderMail: session?.user?.email!,
-    senderImage: session?.user?.image!,
-  });
-  form.reset();
+  try {
+    const form = e.target as HTMLFormElement;
+    const formData = new FormData(form);
+    await ChatForm(formData, {
+      name: session?.user?.name!,
+      email: session?.user?.email!,
+      image: session?.user?.image!,
+    })
+      .then(() => {
+        sendMessageSocket({
+          message: formData.get("message-input") as string,
+          sender: session?.user?.name!,
+          senderMail: session?.user?.email!,
+          senderImage: session?.user?.image!,
+        });
+      })
+      .finally(() => {
+        form.reset();
+      });
+  } catch (error) {
+    console.error(error);
+  }
 }

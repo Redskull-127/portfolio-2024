@@ -1,14 +1,12 @@
 import CommandBar, { GlobalCommandBarProvider } from "./commandbar";
-
-export default function CommandProvider({
-    children,
-  }: {
-    children: React.ReactNode;
-  }) {
-    return <>
-    <GlobalCommandBarProvider>
+import { Children } from "../types/children";
+export default function CommandProvider({ children }: Children) {
+  return (
+    <>
+      <GlobalCommandBarProvider>
         <CommandBar />
         {children}
-    </GlobalCommandBarProvider>
+      </GlobalCommandBarProvider>
     </>
+  );
 }
