@@ -5,7 +5,15 @@ import { Icons } from "../icons";
 import { useToast } from "@/components/ui/use-toast";
 import Link from "next/link";
 import { ToastAction } from "../ui/toast";
-import { SkipForward } from "lucide-react";
+import { SkipForward, Volume } from "lucide-react";
+import { Slider } from "@/components/ui/slider";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 type AudioButtonType = {
   AudioSRC: string;
@@ -20,6 +28,7 @@ export default function AudioButton(props: AudioButtonType) {
   const { toast } = useToast();
   const [playing, setPlaying] = useState<AudioButtonProps>("stopped");
   const audioRef = useRef<HTMLAudioElement>(null);
+  const [audioVolume, setAudioVolume] = useState<number>(100);
 
   const handleStop = useCallback(() => {
     setPlaying("stopped");
@@ -115,8 +124,39 @@ export default function AudioButton(props: AudioButtonType) {
     };
   }, [playing]);
 
+
+  useEffect(() => {
+    const ref = audioRef.current;
+    const volume = window.localStorage.getItem("audioVolume");
+    if (ref) {
+      (ref.volume = Number(volume) / 100)
+      setAudioVolume(Number(volume));
+    }
+  }, []);
+
+  useEffect(() => {
+    const ref = audioRef.current;
+    if (ref) {
+      ref.volume = audioVolume / 100;
+    }
+  }, [audioVolume]);
+
   return (
-    <>
+    <div className="w-full gap-7 flex justify-center items-center">
+      <DropdownMenu>
+        <DropdownMenuTrigger>
+          <Volume className="cursor-pointer h-5 w-5 " />
+        </DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuLabel>Audio controls</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <Slider className="p-2" onValueChange={(e) => {
+            window.localStorage.setItem("audioVolume", e[0].toString());
+            setAudioVolume(e[0]);
+          }} defaultValue={[audioVolume!]} max={100} step={1} />
+        </DropdownMenuContent>
+      </DropdownMenu>
+
       <button
         onClick={() => {
           if (props.AudioSRC === null) {
@@ -157,9 +197,9 @@ export default function AudioButton(props: AudioButtonType) {
           setPlaying("paused");
           return router.refresh();
         }}
-        className="absolute translate-x-12 cursor-pointer h-5 w-5 "
+        className="cursor-pointer h-5 w-5 "
       />
       <audio id="spotifyAudio" ref={audioRef} className="hidden"></audio>
-    </>
+    </div>
   );
 }

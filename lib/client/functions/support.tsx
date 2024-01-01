@@ -19,7 +19,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 
 import {
   Coffee,
@@ -28,13 +27,16 @@ import {
   CircleUser,
   LogOut,
   LogIn,
+  Bell,
 } from "lucide-react";
 import { useCommandBarContext } from "@/lib/commandbar/commandbar";
 import { signIn, signOut, useSession } from "next-auth/react";
+import { useRef } from "react";
 
 export function Support() {
   const { shouldShow, setShouldShow } = useCommandBarContext();
   const { status, data: session } = useSession();
+  const notificationRef = useRef<HTMLButtonElement>(null);
   return (
     <div className=" flex flex-col h-fit rounded-2xl bg-ternary-foreground p-6 w-full">
       <h1 className="text-3xl font-semibold text-ternary">Other</h1>
@@ -110,6 +112,7 @@ export function Support() {
         </DropdownMenu>
 
         <ThemeToggle />
+
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
@@ -131,6 +134,7 @@ export function Support() {
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
+
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
@@ -152,6 +156,29 @@ export function Support() {
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
+
+        <Button
+          aria-label="notification center"
+          variant={"default"}
+          size={"icon"}
+          ref={notificationRef}
+          onClick={(e) => {
+            const ref = notificationRef.current;
+            const bell = ref?.firstChild as HTMLElement;
+            bell.classList.toggle("scale-125");
+            if (!window.localStorage.getItem("notificationSound")) {
+              return window.localStorage.setItem("notificationSound", "low");
+            }
+            if (window.localStorage.getItem("notificationSound") === "low") {
+              return window.localStorage.setItem("notificationSound", "high");
+            }
+            if (window.localStorage.getItem("notificationSound") === "high") {
+              return window.localStorage.setItem("notificationSound", "low");
+            }
+          }}
+        >
+          <Bell className="h-5 w-5" />
+        </Button>
       </div>
     </div>
   );

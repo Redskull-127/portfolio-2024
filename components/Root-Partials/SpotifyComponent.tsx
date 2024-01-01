@@ -2,9 +2,7 @@ import { SpotifyType } from "@/lib/server/functions/spotify";
 import AudioButton from "./Audio";
 import SpotifyImage from "./Spotify-image";
 import { Icons } from "../icons";
-import { SkipForward } from "lucide-react";
 import Link from "next/link";
-import { Slider } from "../ui/slider";
 
 export default function SpotifyComponent(props: SpotifyType) {
   return (
@@ -23,8 +21,7 @@ export default function SpotifyComponent(props: SpotifyType) {
         <h1 className="text-lg font-semibold text-center overflow-hidden w-full  truncate">
           {props.name} - <span className="text-opacity-50">{props.artist}</span>
         </h1>
-        {/* <input type="range" id="song-range" className="w-full hidden accent-primary" /> */}
-        {/* <Slider id="song-range" defaultValue={[1]} step={1} className=" hidden " /> */}
+        
       </div>
       <div className="w-full flex justify-center items-center">
         <AudioButton

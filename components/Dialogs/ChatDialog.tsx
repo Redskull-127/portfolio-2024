@@ -101,6 +101,22 @@ export function ChatDialog(props: { messages: MessageType[] }) {
     }
   }, [shouldScroll, data]);
 
+  useEffect(() => {
+    if (window.localStorage.getItem("notificationSound")) {
+      if (notifyRef.current) {
+        const notificationSound =
+          window.localStorage.getItem("notificationSound");
+        if (notificationSound === "low") {
+          notifyRef.current.volume = 0.2;
+        } else {
+          notifyRef.current.volume = 1;
+        }
+      }
+    } else {
+      window.localStorage.setItem("notificationSound", "low");
+    }
+  }, []);
+
   if (!isMounted) return null;
   if (status === "loading") return null;
   if (status === "unauthenticated")
