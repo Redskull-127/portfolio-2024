@@ -1,10 +1,10 @@
 "use client";
 import { useRef, useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { Icons } from "../icons";
+import { Icons } from "../../icons/icons";
 import { useToast } from "@/components/ui/use-toast";
 import Link from "next/link";
-import { ToastAction } from "../ui/toast";
+import { ToastAction } from "../../ui/toast";
 import { SkipForward, Volume } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 import {
@@ -124,22 +124,19 @@ export default function AudioButton(props: AudioButtonType) {
     };
   }, [playing]);
 
-
-  useEffect(() => {
-    const ref = audioRef.current;
-    const volume = window.localStorage.getItem("audioVolume");
-    if (ref) {
-      (ref.volume = Number(volume) / 100)
-      setAudioVolume(Number(volume));
-    }
-  }, []);
-
   useEffect(() => {
     const ref = audioRef.current;
     if (ref) {
       ref.volume = audioVolume / 100;
     }
   }, [audioVolume]);
+
+  useEffect(() => {
+    if (!window.localStorage.getItem("audioVolume")) {
+      window.localStorage.setItem("audioVolume", "100");
+      setAudioVolume(100);
+    }
+  }, []);
 
   return (
     <div className="w-full gap-7 flex justify-center items-center">
@@ -150,10 +147,16 @@ export default function AudioButton(props: AudioButtonType) {
         <DropdownMenuContent>
           <DropdownMenuLabel>Audio controls</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <Slider className="p-2" onValueChange={(e) => {
-            window.localStorage.setItem("audioVolume", e[0].toString());
-            setAudioVolume(e[0]);
-          }} defaultValue={[audioVolume!]} max={100} step={1} />
+          <Slider
+            className="p-2"
+            onValueChange={(e) => {
+              window.localStorage.setItem("audioVolume", e[0].toString());
+              setAudioVolume(e[0]);
+            }}
+            defaultValue={[audioVolume!]}
+            max={100}
+            step={1}
+          />
         </DropdownMenuContent>
       </DropdownMenu>
 

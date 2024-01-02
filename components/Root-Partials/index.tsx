@@ -3,17 +3,17 @@ import Link from "next/link";
 
 import { Spotify, SpotifyType } from "@/lib/server/functions/spotify";
 
-import { Icons } from "../icons";
-import { GitHub, Gmail, LinkedIn, X } from "./AnimatedIcons";
+import { Icons } from "../icons/icons";
+import { GitHub, Gmail, LinkedIn, X } from "../icons/AnimatedIcons";
 
 import SkillsJson from "@/lib/static/skills.json";
-import SkillModel from "./SkillModel";
+import SkillModel from "./skill/SkillModel";
 
-import { Support } from "@/lib/client/functions/support";
+import { Settings as Controls } from "@/lib/client/functions/settings";
 import { GitHubAPI, GitHubType } from "@/lib/server/functions/github";
-import { ProjectLists } from "./ProjectLists";
+import { ProjectLists } from "./project/ProjectLists";
 import { ProjectDialog } from "../Dialogs/ProjectDialog";
-import SpotifyComponent from "./SpotifyComponent";
+import SpotifyComponent from "./spotify/SpotifyComponent";
 
 export function HeroCard() {
   return (
@@ -89,7 +89,7 @@ export function Skills() {
 }
 
 export function Settings() {
-  return <Support />;
+  return <Controls />;
 }
 
 export async function Projects() {

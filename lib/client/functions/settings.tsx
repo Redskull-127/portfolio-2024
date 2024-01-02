@@ -31,12 +31,20 @@ import {
 } from "lucide-react";
 import { useCommandBarContext } from "@/lib/commandbar/commandbar";
 import { signIn, signOut, useSession } from "next-auth/react";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
+import { toast } from "@/components/ui/use-toast";
 
-export function Support() {
+export function Settings() {
   const { shouldShow, setShouldShow } = useCommandBarContext();
   const { status, data: session } = useSession();
   const notificationRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (!window.localStorage.getItem("notificationSound")) {
+      window.localStorage.setItem("notificationSound", "low");
+    }
+  }, []);
+
   return (
     <div className=" flex flex-col h-fit rounded-2xl bg-ternary-foreground p-6 w-full">
       <h1 className="text-3xl font-semibold text-ternary">Other</h1>
@@ -166,15 +174,17 @@ export function Support() {
             const ref = notificationRef.current;
             const bell = ref?.firstChild as HTMLElement;
             bell.classList.toggle("scale-125");
-            if (!window.localStorage.getItem("notificationSound")) {
-              return window.localStorage.setItem("notificationSound", "low");
+            if (bell.classList.contains("scale-125")) {
+              window.localStorage.setItem("notificationSound", "high");
+            } else {
+              window.localStorage.setItem("notificationSound", "low");
             }
-            if (window.localStorage.getItem("notificationSound") === "low") {
-              return window.localStorage.setItem("notificationSound", "high");
-            }
-            if (window.localStorage.getItem("notificationSound") === "high") {
-              return window.localStorage.setItem("notificationSound", "low");
-            }
+            toast({
+              title: "Notification Sound Changed:",
+              description: bell.classList.contains("scale-125")
+                ? "High"
+                : "Low",
+            });
           }}
         >
           <Bell className="h-5 w-5" />

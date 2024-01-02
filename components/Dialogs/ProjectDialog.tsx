@@ -12,8 +12,8 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Button } from "../ui/button";
-import { Icons } from "../icons";
-import { ProjectLists } from "../Root-Partials/ProjectLists";
+import { Icons } from "../icons/icons";
+import { ProjectLists } from "../Root-Partials/project/ProjectLists";
 import { useRouter } from "next/navigation";
 import { ProjectSignal } from "@/lib/signals/signal";
 

@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import { GitHubType } from "@/lib/server/functions/github";
 import { Github, Link as LinkIcon } from "lucide-react";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 
 export function ProjectLists(props: GitHubType) {
     return <div className="flex justify-between border-b-2 py-2">

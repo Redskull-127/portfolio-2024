@@ -1,7 +1,7 @@
 import { SpotifyType } from "@/lib/server/functions/spotify";
 import AudioButton from "./Audio";
 import SpotifyImage from "./Spotify-image";
-import { Icons } from "../icons";
+import { Icons } from "../../icons/icons";
 import Link from "next/link";
 
 export default function SpotifyComponent(props: SpotifyType) {

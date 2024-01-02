@@ -27,7 +27,7 @@ import Image from "next/image";
 import { Button } from "../ui/button";
 import { ChatForm } from "@/lib/server/functions/chatform";
 import { useFormStatus } from "react-dom";
-import { Icons } from "../icons";
+import { Icons } from "../icons/icons";
 import { convertDateFormat } from "@/lib/date-convertor";
 
 export type MessageType = {
@@ -107,7 +107,7 @@ export function ChatDialog(props: { messages: MessageType[] }) {
         const notificationSound =
           window.localStorage.getItem("notificationSound");
         if (notificationSound === "low") {
-          notifyRef.current.volume = 0.2;
+          notifyRef.current.volume = 0.1;
         } else {
           notifyRef.current.volume = 1;
         }
