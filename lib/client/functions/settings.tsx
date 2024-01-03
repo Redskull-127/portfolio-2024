@@ -32,7 +32,7 @@ import {
 import { useCommandBarContext } from "@/lib/commandbar/commandbar";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useEffect, useRef } from "react";
-import { toast } from "@/components/ui/use-toast";
+import {toast} from "sonner"
 
 export function Settings() {
   const { shouldShow, setShouldShow } = useCommandBarContext();
@@ -179,8 +179,7 @@ export function Settings() {
             } else {
               window.localStorage.setItem("notificationSound", "low");
             }
-            toast({
-              title: "Notification Sound Changed:",
+            toast("Notification Sound Changed:",{
               description: bell.classList.contains("scale-125")
                 ? "High"
                 : "Low",
