@@ -11,11 +11,10 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { useToast } from "@/components/ui/use-toast";
-
+// @ts-ignore
+import { toast } from "sonner";
 export function ThemeToggle() {
   const { setTheme, theme } = useTheme();
-  const { toast } = useToast();
   return (
     <TooltipProvider>
       <Tooltip>
@@ -26,8 +25,7 @@ export function ThemeToggle() {
             size="icon"
             onClick={() => {
               setTheme(theme === "dark" ? "light" : "dark");
-              toast({
-                title: "Theme Toggled!",
+              toast("Theme Changed!", {
                 description: `Theme set to ${
                   theme === "dark" ? "light" : "dark"
                 }`,

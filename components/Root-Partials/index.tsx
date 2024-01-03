@@ -14,16 +14,22 @@ import { GitHubAPI, GitHubType } from "@/lib/server/functions/github";
 import { ProjectLists } from "./project/ProjectLists";
 import { ProjectDialog } from "../Dialogs/ProjectDialog";
 import SpotifyComponent from "./spotify/SpotifyComponent";
+import { Suspense } from "react";
+import { Skeleton } from "../ui/skeleton";
 
 export function HeroCard() {
   return (
     <div className="max-md:w-full flex flex-col justify-center items-center h-80 shadow-lg shadow-[#248F68] rounded-2xl min-w-[25%] gap-5 bg-[#248F68] text-white">
-      <Image
-        src="/static/svg/hero.svg"
-        width={128}
-        height={128}
-        alt="Meer Tarbani"
-      />
+      <Suspense
+        fallback={<Skeleton className="w-[128px] h-[128px] rounded-full" />}
+      >
+        <Image
+          src="/static/svg/hero.svg"
+          width={128}
+          height={128}
+          alt="Meer Tarbani"
+        />
+      </Suspense>
       <div className="flex flex-col gap-2 justify-center items-center">
         <h1 className="max-md:text-3xl text-4xl font-semibold font-sans">
           Meer Tarbani
@@ -39,8 +45,8 @@ export function Introduction() {
     <div className="flex flex-col h-fit w-full bg-muted text-muted-foreground rounded-2xl p-6 gap-2">
       <h1 className="text-2xl font-semibold">Introduction</h1>
       <p className="text-foreground font-medium">
-        Hey, I&apos;m Meer. GDSC Lead &apos;22, Organizer of Hack For India & GDSC
-        WoW &apos;22, Ex Flipkart SCOA Intern & Gao Tech Support Intern!
+        Hey, I&apos;m Meer. GDSC Lead &apos;22, Organizer of Hack For India &
+        GDSC WoW &apos;22, Ex Flipkart SCOA Intern & Gao Tech Support Intern!
       </p>
       <div className="w-full flex flex-row-reverse max-md:justify-center">
         <button
@@ -69,10 +75,10 @@ export function QuickLinks() {
 }
 
 export async function SpotifyCard() {
-    const data : SpotifyType | undefined = await Spotify();
-    if (data) {
-      return <SpotifyComponent {...data} />
-    }
+  const data: SpotifyType | undefined = await Spotify();
+  if (data) {
+    return <SpotifyComponent {...data} />;
+  }
 }
 
 export function Skills() {
@@ -148,7 +154,7 @@ export function AllPages() {
           return (
             <div key={index} className="w-full border-b-2 flex p-2">
               <Link
-                href={page.implemented === true ? page.href : '/'}
+                href={page.implemented === true ? page.href : "/"}
                 passHref={true}
                 className="flex text-foreground font-medium hover:text-black transition-all duration-300"
               >

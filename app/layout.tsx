@@ -10,6 +10,8 @@ import { Toaster } from "@/components/ui/toaster";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { SpotifyTip } from "@/lib/client/functions/initialfunctions";
 import NextAuthProvider from "@/lib/client/providers/NextAuthSessionProvider";
+import { Toaster as Sonner } from "@/components/ui/sonner";
+import { Children } from "@/lib/types/children";
 
 const santoshiSans = localFont({
   src: "./Satoshi-Variable.woff2",
@@ -37,11 +39,7 @@ export const viewport: Viewport = {
   ],
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: Children) {
   return (
     <html lang="en">
       <body
@@ -59,6 +57,7 @@ export default function RootLayout({
                 {children}
               </main>
               <Toaster />
+              <Sonner />
               <SpotifyTip />
             </CommandProvider>
           </NextAuthProvider>
