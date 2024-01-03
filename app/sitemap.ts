@@ -9,13 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
     },
     {
-      url: "https://www.meertarbani.in/about",
-      lastModified: new Date(),
-      changeFrequency: "always",
-      priority: 0.8,
-    },
-    {
-      url: "https://www.meertarbani.in/blog",
+      url: "https://www.meertarbani.in/blogs",
       lastModified: new Date(),
       changeFrequency: "always",
       priority: 0.5,

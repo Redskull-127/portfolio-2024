@@ -49,12 +49,14 @@ export function Introduction() {
         GDSC WoW &apos;22, Ex Flipkart SCOA Intern & Gao Tech Support Intern!
       </p>
       <div className="w-full flex flex-row-reverse max-md:justify-center">
-        <button
+        <a
+          href="https://www.google.com/search?q=who+is+meer+tarbani"
+          target="_blank"
           aria-label="Click here to Know More"
-          className="hover:text-white transition-all duration-300 flex justify-center items-center gap-1 bg-muted-foreground text-foreground py-1 px-4 rounded-lg font-medium active:scale-95"
+          className="flex items-center gap-1 text-foreground font-medium hover:text-ternary transition-all duration-300"
         >
           Know more <Icons.ChevronRight />
-        </button>
+        </a>
       </div>
     </div>
   );
@@ -121,14 +123,9 @@ export async function Projects() {
 export function AllPages() {
   const Pages = [
     {
-      name: "About",
-      href: "/about",
-      implemented: false,
-    },
-    {
       name: "Blogs",
       href: "/blogs",
-      implemented: false,
+      implemented: true,
     },
     {
       name: "Chat",
@@ -138,7 +135,7 @@ export function AllPages() {
     {
       name: "Events",
       href: "/events",
-      implemented: false,
+      implemented: true,
     },
     {
       name: "Projects",
