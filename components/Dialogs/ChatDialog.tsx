@@ -1,26 +1,11 @@
-"use client";
-
+"use client"
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { Suspense } from "react";
 import { useSession, signIn } from "next-auth/react";
-
-import {
-  Drawer,
-  DrawerContent,
-  DrawerDescription,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerFooter,
-} from "@/components/ui/drawer";
+import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerFooter } from "@/components/ui/drawer";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import styles from "@/lib/static/chat.module.css";
 import Image from "next/image";
@@ -29,7 +14,6 @@ import { ChatForm } from "@/lib/server/functions/chatform";
 import { useFormStatus } from "react-dom";
 import { Icons } from "../icons/icons";
 import { convertDateFormat } from "@/lib/date-convertor";
-
 import { useSocket } from "@/lib/client/providers/Socket";
 
 export type MessageType = {
@@ -41,23 +25,20 @@ export type MessageType = {
   createdAt?: string;
 };
 
-export function ChatDialog(props: { messages: MessageType[] }) {
+export function ChatDialog({ messages }: { messages: MessageType[] }) {
   const socket = useSocket();
   const { data: session, status } = useSession();
   const { pending } = useFormStatus();
   const submitRef = useRef<HTMLButtonElement>(null);
   const notifyRef = useRef<HTMLAudioElement>(null);
   const chatBoxRef = useRef<HTMLDivElement>(null);
-  const [data, setData] = useState(props.messages);
+  const [data, setData] = useState(messages);
   const [shouldOpen] = useState<boolean>(true);
   const [isMounted, setIsMounted] = useState<boolean>();
   const router = useRouter();
   const [shouldScroll, setShouldScroll] = useState<boolean>(false);
 
-  const sendMessageSocket = async (
-    message: MessageType,
-    e: HTMLFormElement
-  ) => {
+  const sendMessageSocket = async (message: MessageType, e: HTMLFormElement) => {
     const stringify = message;
     socket.emit("send:message", stringify);
     const formData = new FormData(e);
@@ -68,16 +49,13 @@ export function ChatDialog(props: { messages: MessageType[] }) {
     });
   };
 
-  const handleNewMessage = useCallback(
-    async (event: any) => {
-      const message = event;
-      setData((prev) => [...prev, message]);
-      if (message.senderMail !== session?.user?.email) {
-        notifyRef.current?.play();
-      }
-    },
-    [session?.user?.email]
-  );
+  const handleNewMessage = useCallback(async (event: any) => {
+    const message = event;
+    setData((prev) => [...prev, message]);
+    if (message.senderMail !== session?.user?.email) {
+      notifyRef.current?.play();
+    }
+  }, [session?.user?.email]);
 
   useEffect(() => {
     setIsMounted(true);
@@ -111,8 +89,7 @@ export function ChatDialog(props: { messages: MessageType[] }) {
   useEffect(() => {
     if (window.localStorage.getItem("notificationSound")) {
       if (notifyRef.current) {
-        const notificationSound =
-          window.localStorage.getItem("notificationSound");
+        const notificationSound = window.localStorage.getItem("notificationSound");
         if (notificationSound === "low") {
           notifyRef.current.volume = 0.1;
         } else {
@@ -124,9 +101,9 @@ export function ChatDialog(props: { messages: MessageType[] }) {
     }
   }, []);
 
-  if (!isMounted) return null;
-  if (status === "loading") return null;
-  if (status === "unauthenticated")
+  if (!isMounted || status === "loading") return null;
+
+  if (status === "unauthenticated") {
     return (
       <Drawer
         shouldScaleBackground={true}
@@ -153,6 +130,8 @@ export function ChatDialog(props: { messages: MessageType[] }) {
         </DrawerContent>
       </Drawer>
     );
+  }
+
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <Drawer
@@ -175,7 +154,7 @@ export function ChatDialog(props: { messages: MessageType[] }) {
             onLoad={() => {
               setShouldScroll(true);
             }}
-            className="w-full flex flex-col  p-2 max-h-96 gap-3 overflow-hidden max-w-full overflow-y-scroll "
+            className="w-full flex flex-col p-2 max-h-96 gap-3 overflow-hidden max-w-full overflow-y-scroll "
           >
             {data.map((chat, key) => (
               <div
@@ -250,11 +229,7 @@ export function ChatDialog(props: { messages: MessageType[] }) {
               </Button>
             </form>
           </DrawerFooter>
-          <audio
-            className="hidden"
-            src="/static/audio/notify.mp3"
-            ref={notifyRef}
-          ></audio>
+          <audio className="hidden" src="/static/audio/notify.mp3" ref={notifyRef}></audio>
         </DrawerContent>
       </Drawer>
     </Suspense>
