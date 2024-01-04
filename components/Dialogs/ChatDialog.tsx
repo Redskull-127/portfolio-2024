@@ -54,10 +54,18 @@ export function ChatDialog(props: { messages: MessageType[] }) {
   const router = useRouter();
   const [shouldScroll, setShouldScroll] = useState<boolean>(false);
 
-  const sendMessageSocket = async (message: MessageType) => {
+  const sendMessageSocket = async (
+    message: MessageType,
+    e: HTMLFormElement
+  ) => {
     const stringify = message;
-    // ws.current?.send(stringify);
     socket.emit("send:message", stringify);
+    const formData = new FormData(e);
+    await ChatForm(formData, {
+      name: session?.user?.name!,
+      email: session?.user?.email!,
+      image: session?.user?.image!,
+    });
   };
 
   const handleNewMessage = useCallback(
@@ -256,26 +264,23 @@ export function ChatDialog(props: { messages: MessageType[] }) {
 export async function sendMessage(
   e: React.FormEvent<HTMLFormElement>,
   session: any,
-  sendMessageSocket: (message: MessageType) => void
+  sendMessageSocket: (message: MessageType, e: HTMLFormElement) => void
 ) {
   const form = e.target as HTMLFormElement;
   const formData = new FormData(form);
   try {
-    sendMessageSocket({
-      message: formData.get("message-input") as string,
-      sender: session?.user?.name!,
-      senderMail: session?.user?.email!,
-      senderImage: session?.user?.image!,
-    });
+    sendMessageSocket(
+      {
+        message: formData.get("message-input") as string,
+        sender: session?.user?.name!,
+        senderMail: session?.user?.email!,
+        senderImage: session?.user?.image!,
+      },
+      form
+    );
   } catch (error) {
     console.error(error);
   } finally {
-    await ChatForm(formData, {
-      name: session?.user?.name!,
-      email: session?.user?.email!,
-      image: session?.user?.image!,
-    }).finally(() => {
-      form.reset();
-    });
+    form.reset();
   }
 }
