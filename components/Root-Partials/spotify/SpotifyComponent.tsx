@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export default function SpotifyComponent(props: SpotifyType) {
   return (
-    <div className="max-md:w-full max-md:h-fit flex flex-col justify-between h-80 rounded-2xl w-[25%] gap-5 bg-ternary-foreground p-6">
+    <div className="max-xl:w-full max-xl:h-fit flex flex-col justify-between h-80 rounded-2xl w-[25%] gap-5 bg-ternary-foreground p-6">
       <Link
         href={
           "https://open.spotify.com/playlist/42h3IewUsTfRNHE5Puw9EK?si=dc5d84399b814878"
@@ -25,7 +25,7 @@ export default function SpotifyComponent(props: SpotifyType) {
       </div>
       <div className="w-full flex justify-center items-center">
         <AudioButton
-          uri={props.uri}
+          uri={props.uri!}
           AudioSRC={props.preview_url}
           name={props.name}
         />

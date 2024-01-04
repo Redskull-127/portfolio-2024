@@ -11,7 +11,7 @@ export function ProjectLists(props: GitHubType) {
             <h1 className="inline-flex max-w-[75%] text-md font-semibold">{props.name}</h1>
             <p className="text-sm text-foreground max-w-[200px] whitespace-nowrap text-ellipsis overflow-hidden">{props.description}</p>
         </div>
-        <div className="flex flex-row-reverse gap-2 max-md:items-end">
+        <div className="flex flex-row-reverse gap-2 max-xl:items-end">
             {props.homepage != null ? <Link href={props.homepage} aria-label={props.name} target="_blank">
                 <Button variant={"default"} size={'icon'}>
                     <LinkIcon size={24} />

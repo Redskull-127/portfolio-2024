@@ -5,7 +5,7 @@ export type SpotifyType = {
     name: string,
     artist: string,
     preview_url: string
-    uri: string
+    uri?: string
 }
 
 export async function Spotify() {

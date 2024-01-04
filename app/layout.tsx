@@ -52,7 +52,7 @@ export default function RootLayout({ children }: Children) {
           <SpeedInsights />
           <NextAuthProvider>
             <CommandProvider>
-              <main className="flex gap-8 h-screen w-full p-10 font-sans flex-wrap max-md:gap-5 max-md:px-6">
+              <main className="flex gap-8 h-screen w-full p-10 font-sans flex-wrap max-xl:gap-5 max-xl:px-6">
                 <RootComponent />
                 {children}
               </main>

@@ -48,7 +48,7 @@ export function Settings() {
   return (
     <div className=" flex flex-col h-fit rounded-2xl bg-ternary-foreground p-6 w-full">
       <h1 className="text-3xl font-semibold text-ternary">Other</h1>
-      <div className="grid grid-flow-col justify-start gap-3 py-2 max-md:py-4 overflow-hidden w-full place-items-start max-md:overflow-x-scroll ">
+      <div className="grid grid-flow-col justify-start gap-3 py-2 max-xl:py-4 overflow-hidden w-full place-items-start max-xl:overflow-x-scroll ">
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
@@ -58,10 +58,10 @@ export function Settings() {
                 }}
                 aria-label="Home Launcher"
                 variant="default"
-                className="gap-2 max-md:gap-0"
+                className="gap-2 max-xl:gap-0"
               >
                 <Home className="h-5 w-5" />
-                <pre className="max-md:hidden">
+                <pre className="max-xl:hidden">
                   <code>Ctrl + K</code>
                 </pre>
               </Button>

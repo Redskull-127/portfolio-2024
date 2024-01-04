@@ -19,7 +19,7 @@ import { Skeleton } from "../ui/skeleton";
 
 export function HeroCard() {
   return (
-    <div className="max-md:w-full flex flex-col justify-center items-center h-80 shadow-lg shadow-[#248F68] rounded-2xl min-w-[25%] gap-5 bg-[#248F68] text-white">
+    <div className="max-xl:w-full flex flex-col justify-center items-center h-80 shadow-lg shadow-[#248F68] rounded-2xl min-w-[25%] gap-5 bg-[#248F68] text-white">
       <Suspense
         fallback={<Skeleton className="w-[128px] h-[128px] rounded-full" />}
       >
@@ -31,7 +31,7 @@ export function HeroCard() {
         />
       </Suspense>
       <div className="flex flex-col gap-2 justify-center items-center">
-        <h1 className="max-md:text-3xl text-4xl font-semibold font-sans">
+        <h1 className="max-xl:text-3xl text-4xl font-semibold font-sans">
           Meer Tarbani
         </h1>
         <span className="text-sm">Full Stack Web Developer</span>
@@ -48,7 +48,7 @@ export function Introduction() {
         Hey, I&apos;m Meer. GDSC Lead &apos;22, Organizer of Hack For India &
         GDSC WoW &apos;22, Ex Flipkart SCOA Intern & Gao Tech Support Intern!
       </p>
-      <div className="w-full flex flex-row-reverse max-md:justify-center">
+      <div className="w-full flex flex-row-reverse max-xl:justify-center">
         <a
           href="https://www.google.com/search?q=who+is+meer+tarbani"
           target="_blank"
@@ -107,7 +107,7 @@ export async function Projects() {
     return null;
   }
   return (
-    <div className="max-md:w-full flex flex-col bg-ternary-foreground w-1/3 h-[21.2rem] rounded-2xl pt-6 px-6 gap-5">
+    <div className="max-xl:w-full flex flex-col bg-ternary-foreground w-1/3 h-[21.2rem] rounded-2xl pt-6 px-6 gap-5">
       <h1 className="flex text-3xl font-semibold text-ternary items-center gap-1">
         Projects <ProjectDialog projects={data} />
       </h1>
@@ -144,7 +144,7 @@ export function AllPages() {
     },
   ];
   return (
-    <div className="max-md:w-full flex flex-col bg-ternary-foreground w-[16.7%] h-[21.2rem] rounded-2xl pt-6 px-6 gap-5">
+    <div className="max-xl:w-full flex flex-col bg-ternary-foreground w-[16.7%] h-[21.2rem] rounded-2xl pt-6 px-6 gap-5">
       <h1 className="text-3xl font-semibold text-ternary">Pages</h1>
       <div className="flex flex-col gap-1 overflow-hidden overflow-y-scroll">
         {Pages.map((page, index) => {
