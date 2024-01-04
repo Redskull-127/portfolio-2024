@@ -1,3 +1,4 @@
+import { SocketProvider } from "@/lib/client/providers/Socket";
 import { Children } from "@/lib/types/children";
 import { Metadata } from "next/types";
 
@@ -9,5 +10,5 @@ export const metadata: Metadata = {
 };
 
 export default function ChatLayout({ children }: Children) {
-  return children;
+  return <SocketProvider>{children}</SocketProvider>;
 }

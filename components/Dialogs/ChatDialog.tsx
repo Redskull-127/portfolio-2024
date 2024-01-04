@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { Suspense } from "react";
 import { useSession, signIn } from "next-auth/react";
@@ -30,6 +30,8 @@ import { useFormStatus } from "react-dom";
 import { Icons } from "../icons/icons";
 import { convertDateFormat } from "@/lib/date-convertor";
 
+import { useSocket } from "@/lib/client/providers/Socket";
+
 export type MessageType = {
   id?: number;
   message: string;
@@ -40,9 +42,9 @@ export type MessageType = {
 };
 
 export function ChatDialog(props: { messages: MessageType[] }) {
+  const socket = useSocket();
   const { data: session, status } = useSession();
   const { pending } = useFormStatus();
-  const ws = useRef<WebSocket>();
   const submitRef = useRef<HTMLButtonElement>(null);
   const notifyRef = useRef<HTMLAudioElement>(null);
   const chatBoxRef = useRef<HTMLDivElement>(null);
@@ -53,36 +55,34 @@ export function ChatDialog(props: { messages: MessageType[] }) {
   const [shouldScroll, setShouldScroll] = useState<boolean>(false);
 
   const sendMessageSocket = async (message: MessageType) => {
-    const stringify = JSON.stringify(message);
-    ws.current?.send(stringify);
+    const stringify = message;
+    // ws.current?.send(stringify);
+    socket.emit("send:message", stringify);
   };
 
-  const handleNewMessage = async (event: any) => {
-    const text = await new Response(event.data).text();
-    const message = JSON.parse(text);
-    setData((prev) => [...prev, message]);
-    if (message.senderMail !== session?.user?.email) {
-      notifyRef.current?.play();
-    }
-  };
+  const handleNewMessage = useCallback(
+    async (event: any) => {
+      const message = event
+      setData((prev) => [...prev, message]);
+      if (message.senderMail !== session?.user?.email) {
+        notifyRef.current?.play();
+      }
+    },
+    [session?.user?.email]
+  );
 
   useEffect(() => {
     setIsMounted(true);
     return () => setIsMounted(false);
   }, []);
 
+
   useEffect(() => {
-    ws.current = new WebSocket(process.env.NEXT_PUBLIC_SOCKET_URL!);
-    ws.current.onerror = (error) => console.error(error);
-
-    ws.current.onmessage = (event) => {
-      handleNewMessage(event);
+    socket.on("receive:message", handleNewMessage);
+    return () => {
+      socket.off("receive:message", handleNewMessage);
     };
-
-    const wsCurrent = ws.current;
-
-    return () => wsCurrent.close();
-  });
+  }, [socket, handleNewMessage]);
 
   useEffect(() => {
     const handleEnter = (e: KeyboardEvent) => {
