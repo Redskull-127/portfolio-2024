@@ -62,7 +62,7 @@ export function ChatDialog(props: { messages: MessageType[] }) {
 
   const handleNewMessage = useCallback(
     async (event: any) => {
-      const message = event
+      const message = event;
       setData((prev) => [...prev, message]);
       if (message.senderMail !== session?.user?.email) {
         notifyRef.current?.play();
@@ -75,7 +75,6 @@ export function ChatDialog(props: { messages: MessageType[] }) {
     setIsMounted(true);
     return () => setIsMounted(false);
   }, []);
-
 
   useEffect(() => {
     socket.on("receive:message", handleNewMessage);
@@ -259,26 +258,24 @@ export async function sendMessage(
   session: any,
   sendMessageSocket: (message: MessageType) => void
 ) {
+  const form = e.target as HTMLFormElement;
+  const formData = new FormData(form);
   try {
-    const form = e.target as HTMLFormElement;
-    const formData = new FormData(form);
+    sendMessageSocket({
+      message: formData.get("message-input") as string,
+      sender: session?.user?.name!,
+      senderMail: session?.user?.email!,
+      senderImage: session?.user?.image!,
+    });
+  } catch (error) {
+    console.error(error);
+  } finally {
     await ChatForm(formData, {
       name: session?.user?.name!,
       email: session?.user?.email!,
       image: session?.user?.image!,
-    })
-      .then(() => {
-        sendMessageSocket({
-          message: formData.get("message-input") as string,
-          sender: session?.user?.name!,
-          senderMail: session?.user?.email!,
-          senderImage: session?.user?.image!,
-        });
-      })
-      .finally(() => {
-        form.reset();
-      });
-  } catch (error) {
-    console.error(error);
+    }).finally(() => {
+      form.reset();
+    });
   }
 }
