@@ -13,6 +13,7 @@ import NextAuthProvider from "@/lib/client/providers/NextAuthSessionProvider";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Children } from "@/lib/types/children";
 
+
 const santoshiSans = localFont({
   src: "./Satoshi-Variable.woff2",
   display: "swap",
@@ -30,6 +31,22 @@ export const metadata: Metadata = {
     apple: "/favicon.ico",
   },
   manifest: "/manifest.json",
+  // openGraph: {
+  //   images: [
+  //     {
+  //       url: OG_White.src,
+  //       alt: "Meer Tarbani",
+  //       width: 1200,
+  //       height: 630,
+  //     },
+  //     {
+  //       url: OG_Black.src,
+  //       alt: "Meer Tarbani",
+  //       width: 1200,
+  //       height: 630,
+  //     }
+  //   ]
+  // }
 };
 
 export const viewport: Viewport = {
