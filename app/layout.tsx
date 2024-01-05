@@ -12,7 +12,7 @@ import { SpotifyTip } from "@/lib/client/functions/initialfunctions";
 import NextAuthProvider from "@/lib/client/providers/NextAuthSessionProvider";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Children } from "@/lib/types/children";
-
+import OG_IMG from "@/public/static/opengraph/image.png";
 
 const santoshiSans = localFont({
   src: "./Satoshi-Variable.woff2",
@@ -31,22 +31,21 @@ export const metadata: Metadata = {
     apple: "/favicon.ico",
   },
   manifest: "/manifest.json",
-  // openGraph: {
-  //   images: [
-  //     {
-  //       url: OG_White.src,
-  //       alt: "Meer Tarbani",
-  //       width: 1200,
-  //       height: 630,
-  //     },
-  //     {
-  //       url: OG_Black.src,
-  //       alt: "Meer Tarbani",
-  //       width: 1200,
-  //       height: 630,
-  //     }
-  //   ]
-  // }
+  openGraph: {
+    title: "Meer Tarbani",
+    description: `Meer Tarbani's Portfolio Website`,
+    url: "https://www.meertarbani.in",
+    siteName: "Meer Tarbani",
+    images: [
+      {
+        url: OG_IMG.src, // Must be an absolute URL
+        width: 1200,
+        height: 630,
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
 };
 
 export const viewport: Viewport = {
