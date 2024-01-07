@@ -2,7 +2,6 @@
 import { useRef, useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { Icons } from "../../icons/icons";
-// @ts-ignore
 import { toast } from "sonner";
 import Link from "next/link";
 import { SkipForward, Volume } from "lucide-react";
@@ -27,7 +26,7 @@ export default function AudioButton(props: AudioButtonType) {
   const router = useRouter();
   const [playing, setPlaying] = useState<AudioButtonProps>("stopped");
   const audioRef = useRef<HTMLAudioElement>(null);
-  const [audioVolume, setAudioVolume] = useState<number>(100);
+  const [audioVolume, setAudioVolume] = useState<number>();
 
   const handleStop = useCallback(() => {
     setPlaying("stopped");
@@ -45,7 +44,6 @@ export default function AudioButton(props: AudioButtonType) {
 
   const handlePlay = useCallback(() => {
     const ref = audioRef.current;
-
     if (ref?.src !== props.AudioSRC) {
       ref!.src = props.AudioSRC;
     }
@@ -116,18 +114,20 @@ export default function AudioButton(props: AudioButtonType) {
   }, [playing]);
 
   useEffect(() => {
-    const ref = audioRef.current;
-    if (ref) {
-      ref.volume = audioVolume / 100;
-    }
-  }, [audioVolume]);
-
-  useEffect(() => {
     if (!window.localStorage.getItem("audioVolume")) {
       window.localStorage.setItem("audioVolume", "100");
       setAudioVolume(100);
     }
+    setAudioVolume(Number(window.localStorage.getItem("audioVolume")));
   }, []);
+  
+  useEffect(() => {
+    const ref = audioRef.current;
+    if (ref && audioVolume) {
+      ref.volume = audioVolume / 100;
+    }
+  }, [audioVolume]);
+
 
   return (
     <div className="w-full gap-7 flex justify-center items-center">

@@ -1,6 +1,5 @@
 import {
   AllPages,
-  Footer,
   HeroCard,
   Introduction,
   Projects,
@@ -25,7 +24,6 @@ export default function RootComponent() {
       </div>
       <Projects />
       <AllPages />
-      <Footer />
     </>
   );
 }

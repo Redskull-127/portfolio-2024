@@ -142,6 +142,11 @@ export function AllPages() {
       href: "/projects",
       implemented: true,
     },
+    {
+      name: "Credits",
+      href: "/credits",
+      implemented: true,
+    }
   ];
   return (
     <div className="max-xl:w-full flex flex-col bg-ternary-foreground w-[16.7%] h-[21.2rem] rounded-2xl pt-6 px-6 gap-5">
@@ -163,19 +168,5 @@ export function AllPages() {
         })}
       </div>
     </div>
-  );
-}
-
-export function Footer() {
-  return (
-    <footer className="w-full h-fit text-center">
-      <p className="font-medium">
-        Developed by <Link href={"/"}>Meer Tarbani</Link> and Designed by{" "}
-        <Link href={"https://vikasassudani.in"} target="_blank">
-          Vikas Assudani
-        </Link>{" "}
-        💚
-      </p>
-    </footer>
   );
 }
