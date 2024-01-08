@@ -32,7 +32,8 @@ import {
 import { useCommandBarContext } from "@/lib/commandbar/commandbar";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useEffect, useRef } from "react";
-import {toast} from "sonner"
+import { toast } from "sonner";
+import { CommandDialogBox } from "@/lib/commandbar/commandnew";
 
 export function Settings() {
   const { shouldShow, setShouldShow } = useCommandBarContext();
@@ -49,28 +50,7 @@ export function Settings() {
     <div className=" flex flex-col h-fit rounded-2xl bg-ternary-foreground p-6 w-full">
       <h1 className="text-3xl font-semibold text-ternary">Other</h1>
       <div className="grid grid-flow-col justify-start gap-3 py-2 max-xl:py-4 overflow-hidden w-full place-items-start max-xl:overflow-x-scroll ">
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                onClick={() => {
-                  setShouldShow(!shouldShow);
-                }}
-                aria-label="Home Launcher"
-                variant="default"
-                className="gap-2 max-xl:gap-0"
-              >
-                <Home className="h-5 w-5" />
-                <pre className="max-xl:hidden">
-                  <code>Ctrl + K</code>
-                </pre>
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Home Launcher</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+        <CommandDialogBox />
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -179,7 +159,7 @@ export function Settings() {
             } else {
               window.localStorage.setItem("notificationSound", "low");
             }
-            toast("Notification Sound Changed:",{
+            toast("Notification Sound Changed:", {
               description: bell.classList.contains("scale-125")
                 ? "High"
                 : "Low",
