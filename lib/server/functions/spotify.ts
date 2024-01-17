@@ -24,6 +24,7 @@ export const Spotify = unstable_cache( async () => {
         })
         const data = await res.json()
         if(data.items) {
+            if(process.env.NODE_ENV === 'development') console.log(data.items[0]);
             const random = Math.floor(Math.random() * data.items.length)
             return {
                 images: data.items[random].track.album.images,
@@ -41,8 +42,7 @@ export const Spotify = unstable_cache( async () => {
             uri: data.item.uri
         } as SpotifyType
     } catch (err) {
-        console.log(err)
-        
+        console.log("fix this: ", err)
     }
 }, ['spotifyAPI'], {
     tags: ['spotifyAPI'],

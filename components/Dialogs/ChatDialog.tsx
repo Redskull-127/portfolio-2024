@@ -1,11 +1,23 @@
-"use client"
+"use client";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { Suspense } from "react";
 import { useSession, signIn } from "next-auth/react";
-import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerFooter } from "@/components/ui/drawer";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerDescription,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerFooter,
+} from "@/components/ui/drawer";
 import { Textarea } from "@/components/ui/textarea";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import styles from "@/lib/static/chat.module.css";
 import Image from "next/image";
@@ -38,7 +50,10 @@ export function ChatDialog({ messages }: { messages: MessageType[] }) {
   const router = useRouter();
   const [shouldScroll, setShouldScroll] = useState<boolean>(false);
 
-  const sendMessageSocket = async (message: MessageType, e: HTMLFormElement) => {
+  const sendMessageSocket = async (
+    message: MessageType,
+    e: HTMLFormElement
+  ) => {
     const stringify = message;
     socket.emit("send:message", stringify);
     const formData = new FormData(e);
@@ -49,13 +64,16 @@ export function ChatDialog({ messages }: { messages: MessageType[] }) {
     });
   };
 
-  const handleNewMessage = useCallback(async (event: any) => {
-    const message = event;
-    setData((prev) => [...prev, message]);
-    if (message.senderMail !== session?.user?.email) {
-      notifyRef.current?.play();
-    }
-  }, [session?.user?.email]);
+  const handleNewMessage = useCallback(
+    async (event: any) => {
+      const message = event;
+      setData((prev) => [...prev, message]);
+      if (message.senderMail !== session?.user?.email) {
+        notifyRef.current?.play();
+      }
+    },
+    [session?.user?.email]
+  );
 
   useEffect(() => {
     setIsMounted(true);
@@ -81,15 +99,20 @@ export function ChatDialog({ messages }: { messages: MessageType[] }) {
   }, []);
 
   useEffect(() => {
+    const timer = setTimeout(() => {
+      chatBoxRef.current?.scrollIntoView();
+    }, 1000);
     if (shouldScroll && chatBoxRef.current) {
-      chatBoxRef.current.scrollIntoView();
+      timer;
     }
+    return () => clearTimeout(timer);
   }, [shouldScroll, data]);
 
   useEffect(() => {
     if (window.localStorage.getItem("notificationSound")) {
       if (notifyRef.current) {
-        const notificationSound = window.localStorage.getItem("notificationSound");
+        const notificationSound =
+          window.localStorage.getItem("notificationSound");
         if (notificationSound === "low") {
           notifyRef.current.volume = 0.1;
         } else {
@@ -154,51 +177,47 @@ export function ChatDialog({ messages }: { messages: MessageType[] }) {
             onLoad={() => {
               setShouldScroll(true);
             }}
-            className="w-full flex flex-col p-2 max-h-96 gap-3 overflow-hidden max-w-full overflow-y-scroll "
+            className="w-full flex flex-col py-2 px-5 max-h-[70vh] gap-3 overflow-hidden max-w-full overflow-y-scroll "
           >
-            {data.map((chat, key) => (
-              <div
-                key={chat.id}
-                className={cn(
-                  chat.senderMail === session?.user?.email
-                    ? styles.messages_container_user
-                    : styles.messages_container
-                )}
-              >
-                <Image
-                  src={chat.senderImage}
-                  className="rounded-full"
-                  alt=""
-                  width={36}
-                  height={36}
-                />
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <div className={cn(styles.messages)}>{chat.message}</div>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <div className="gap-2 flex flex-row justify-center items-center">
-                        <Image
-                          src={chat.senderImage}
-                          className="rounded-full"
-                          alt=""
-                          width={36}
-                          height={36}
-                        />
-                        <p>
-                          <span className="font-semibold">{chat.sender}</span>
-                          <br />
-                          <span className="font-light">
-                            {convertDateFormat(chat.createdAt!)}
+
+            {data.map((chat) => {
+              return (
+                <div key={chat.id}>
+                  <div className="flex">
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <div className="gap-2">
+                          <span className="text-[#a3a3a3] mr-2">
+                            {chat.sender}:
                           </span>
-                        </p>
-                      </div>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-              </div>
-            ))}
+                          {chat.message}
+                        </div>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <div className="gap-2 flex flex-row justify-center items-center">
+                          <Image
+                            src={chat.senderImage}
+                            className="rounded-full"
+                            alt=""
+                            width={36}
+                            height={36}
+                          />
+                          <p>
+                            <span className="font-semibold">{chat.sender}</span>
+                            <br />
+                            <span className="font-light">
+                              {convertDateFormat(chat.createdAt!)}
+                            </span>
+                          </p>
+                        </div>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                  </div>
+                </div>
+              );
+            })}
             <div ref={chatBoxRef}></div>
           </div>
           <DrawerFooter>
@@ -229,7 +248,11 @@ export function ChatDialog({ messages }: { messages: MessageType[] }) {
               </Button>
             </form>
           </DrawerFooter>
-          <audio className="hidden" src="/static/audio/notify.mp3" ref={notifyRef}></audio>
+          <audio
+            className="hidden"
+            src="/static/audio/notify.mp3"
+            ref={notifyRef}
+          ></audio>
         </DrawerContent>
       </Drawer>
     </Suspense>
