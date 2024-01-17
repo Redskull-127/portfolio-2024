@@ -1,3 +1,8 @@
+"use server";
+
+import { revalidateTag } from "next/cache"
+import { unstable_cache } from "next/cache"
+
 export type SpotifyType = {
     images: {
         url: string
@@ -8,11 +13,14 @@ export type SpotifyType = {
     uri?: string
 }
 
-export async function Spotify() {
+export const Spotify = unstable_cache( async () => {
     try{
         const res = await fetch('https://spotify-api-flask.vercel.app/', {
             cache: 'no-cache',
             mode: 'no-cors',
+            next: {
+                tags: ['spotifyAPI']
+            }
         })
         const data = await res.json()
         if(data.items) {
@@ -36,4 +44,11 @@ export async function Spotify() {
         console.log(err)
         
     }
+}, ['spotifyAPI'], {
+    tags: ['spotifyAPI'],
+    revalidate: 1
+})
+
+export async function getNewSong() {
+    return revalidateTag('spotifyAPI')
 }

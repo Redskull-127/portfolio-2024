@@ -13,6 +13,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { getNewSong } from "@/lib/server/functions/spotify";
 
 type AudioButtonType = {
   AudioSRC: string;
@@ -35,12 +36,12 @@ export default function AudioButton(props: AudioButtonType) {
       description: props.name,
       action: {
         label: "Play Next",
-        onClick: () => {
-          router.refresh();
+        onClick: async () => {
+          await getNewSong()
         },
       },
     });
-  }, [props.name, router]);
+  }, [props.name]);
 
   const handlePlay = useCallback(() => {
     const ref = audioRef.current;
@@ -163,8 +164,8 @@ export default function AudioButton(props: AudioButtonType) {
               ),
               action: {
                 label: "Play Next!",
-                onClick: () => {
-                  router.refresh();
+                onClick: async () => {
+                  return await getNewSong();
                 },
               },
             });
@@ -182,9 +183,9 @@ export default function AudioButton(props: AudioButtonType) {
       </button>
 
       <SkipForward
-        onClick={() => {
+        onClick={ async () => {
           setPlaying("paused");
-          return router.refresh();
+           return await getNewSong()
         }}
         className="cursor-pointer h-5 w-5 "
       />
