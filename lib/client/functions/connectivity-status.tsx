@@ -4,9 +4,9 @@ import { useState, useEffect, useRef } from "react";
 import { toast } from "sonner";
 
 function useNetwork() {
-  const [isOnline, setNetwork] = useState(window.navigator.onLine);
+  const [isOnline, setNetwork] = useState<boolean>();
   useEffect(() => {
-    if(!window) return;
+    if (!window) return;
     window.addEventListener("offline", () =>
       setNetwork(window.navigator.onLine)
     );
@@ -27,13 +27,13 @@ function useNetwork() {
 
 export default function ConnectivityStatus({ children }: Children) {
   const isOnline = useNetwork();
-  const connectivityStatus = useRef<boolean | null>(null);
+  const connectivityStatusRef = useRef<boolean | null >(null);
   useEffect(() => {
-    if (connectivityStatus.current === null) {
-      connectivityStatus.current = isOnline;
+    if (connectivityStatusRef.current === null) {
+    connectivityStatusRef.current = isOnline ?? null;
     }
-    if (connectivityStatus.current !== isOnline) {
-      connectivityStatus.current = isOnline;
+    if (connectivityStatusRef.current !== isOnline) {
+      connectivityStatusRef.current = isOnline ?? null;
       if (isOnline) {
         toast("You are now online!", {
           description: `Welcome back`,
