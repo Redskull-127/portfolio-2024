@@ -4,7 +4,8 @@ import { useState, useEffect, useRef } from "react";
 import { toast } from "sonner";
 
 function useNetwork() {
-  const [isOnline, setNetwork] = useState<boolean>();
+  const superWindow = typeof window !== "undefined" && window.navigator.onLine;
+  const [isOnline, setNetwork] = useState<boolean>(superWindow);
   useEffect(() => {
     if (!window) return;
     window.addEventListener("offline", () =>
@@ -27,22 +28,15 @@ function useNetwork() {
 
 export default function ConnectivityStatus({ children }: Children) {
   const isOnline = useNetwork();
-  const connectivityStatusRef = useRef<boolean | null >(null);
+  const connectivityStatusRef = useRef<boolean | null>(null);
   useEffect(() => {
-    if (connectivityStatusRef.current === null) {
-    connectivityStatusRef.current = isOnline ?? null;
+    if (!isOnline) {
+      connectivityStatusRef.current = isOnline;
+      toast.warning("You are offline!");
     }
-    if (connectivityStatusRef.current !== isOnline) {
-      connectivityStatusRef.current = isOnline ?? null;
-      if (isOnline) {
-        toast.success("You are now online!", {
-          description: `Welcome back`,
-        });
-      } else {
-        toast.warning("You are now offline!", {
-          description: `Please check your internet connection`,
-        });
-      }
+    if (isOnline && connectivityStatusRef.current === false) {
+      connectivityStatusRef.current = isOnline;
+      toast.success("You are online!");
     }
   }, [isOnline]);
   return children;
