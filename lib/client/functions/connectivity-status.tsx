@@ -35,11 +35,11 @@ export default function ConnectivityStatus({ children }: Children) {
     if (connectivityStatusRef.current !== isOnline) {
       connectivityStatusRef.current = isOnline ?? null;
       if (isOnline) {
-        toast("You are now online!", {
+        toast.success("You are now online!", {
           description: `Welcome back`,
         });
       } else {
-        toast("You are now offline!", {
+        toast.warning("You are now offline!", {
           description: `Please check your internet connection`,
         });
       }
