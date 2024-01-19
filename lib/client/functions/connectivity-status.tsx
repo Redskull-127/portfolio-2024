@@ -1,24 +1,40 @@
 "use client";
-import { useEffect, useCallback, useRef } from "react";
+import { Children } from "@/lib/types/children";
+import { useState, useEffect, useRef } from "react";
 import { toast } from "sonner";
 
-export default function ConnectivityStatus() {
-  const isOnline = useRef<boolean | null>(null);
-  const checkConnectivity = useCallback(() => {
-    if (!navigator.onLine) {
-      isOnline.current = false;
-      toast.warning("You are offline!");
-    }
-    if (navigator.onLine && isOnline.current === false) {
-      isOnline.current = true;
-      toast.success("You are online now!");
-    }
-  }, []);
+function useNetwork() {
+  const [isOnline, setNetwork] = useState(window.navigator.onLine);
   useEffect(() => {
-    checkConnectivity();
-    return () => {
-      checkConnectivity();
-    };
-  }, [checkConnectivity]);
-  return null;
+    window.addEventListener("offline", () =>
+      setNetwork(window.navigator.onLine)
+    );
+    window.addEventListener("online", () =>
+      setNetwork(window.navigator.onLine)
+    );
+  });
+  return isOnline;
+}
+
+export default function ConnectivityStatus({ children }: Children) {
+  const isOnline = useNetwork();
+  const connectivityStatus = useRef<boolean | null>(null);
+  useEffect(() => {
+    if (connectivityStatus.current === null) {
+      connectivityStatus.current = isOnline;
+    }
+    if (connectivityStatus.current !== isOnline) {
+      connectivityStatus.current = isOnline;
+      if (isOnline) {
+        toast("You are now online!", {
+          description: `Welcome back`,
+        });
+      } else {
+        toast("You are now offline!", {
+          description: `Please check your internet connection`,
+        });
+      }
+    }
+  }, [isOnline]);
+  return children;
 }

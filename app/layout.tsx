@@ -71,7 +71,8 @@ export default function RootLayout({ children }: Children) {
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <SpeedInsights />
           <NextAuthProvider>
-            {/* <CommandProvider> */}
+            <ConnectivityStatus>
+              {/* <CommandProvider> */}
               <main className="flex gap-8 h-screen w-full p-10 font-sans flex-wrap max-xl:gap-5 max-xl:px-6">
                 <RootComponent />
                 {children}
@@ -79,7 +80,7 @@ export default function RootLayout({ children }: Children) {
               <Toaster />
               <Sonner />
               <SpotifyTip />
-              <ConnectivityStatus />
+            </ConnectivityStatus>
           </NextAuthProvider>
         </ThemeProvider>
       </body>
