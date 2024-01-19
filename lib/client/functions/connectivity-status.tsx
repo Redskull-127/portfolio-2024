@@ -6,12 +6,21 @@ import { toast } from "sonner";
 function useNetwork() {
   const [isOnline, setNetwork] = useState(window.navigator.onLine);
   useEffect(() => {
+    if(!window) return;
     window.addEventListener("offline", () =>
       setNetwork(window.navigator.onLine)
     );
     window.addEventListener("online", () =>
       setNetwork(window.navigator.onLine)
     );
+    return () => {
+      window.removeEventListener("offline", () =>
+        setNetwork(window.navigator.onLine)
+      );
+      window.removeEventListener("online", () =>
+        setNetwork(window.navigator.onLine)
+      );
+    };
   });
   return isOnline;
 }
