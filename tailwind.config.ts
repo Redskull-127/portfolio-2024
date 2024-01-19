@@ -73,10 +73,20 @@ module.exports = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: 0 },
         },
+        "swipe-in": {
+          from: { transform: "translateX(50px)" },
+          to: { transform: "translateX(0px)" },
+        },
+        "fade-in": {
+          from: { opacity: 0 },
+          to: { opacity: 1 },
+        }
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "swipe-in": "swipe-in 0.7s",
+        "fade-in": "fade-in 0.7s ease-in-out",
       },
     },
   },

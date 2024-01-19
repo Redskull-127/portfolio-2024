@@ -14,6 +14,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Children } from "@/lib/types/children";
 import OG_IMG from "@/public/static/opengraph/image.png";
 import Favicon from "@/public/favicon.ico";
+import ConnectivityStatus from "@/lib/client/functions/connectivity-status";
 
 const santoshiSans = localFont({
   src: "./Satoshi-Variable.woff2",
@@ -78,6 +79,7 @@ export default function RootLayout({ children }: Children) {
               <Toaster />
               <Sonner />
               <SpotifyTip />
+              <ConnectivityStatus />
           </NextAuthProvider>
         </ThemeProvider>
       </body>

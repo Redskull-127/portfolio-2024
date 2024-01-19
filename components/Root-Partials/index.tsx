@@ -23,12 +23,16 @@ export function HeroCard() {
       <Suspense
         fallback={<Skeleton className="w-[128px] h-[128px] rounded-full" />}
       >
-        <Image
-          src="/static/svg/hero.svg"
-          width={128}
-          height={128}
-          alt="Meer Tarbani"
-        />
+        <div className="h-[128px] w-[128px] rounded-full bg-gradient-to-b from-[#feeeb8] to-[#fde89b]">
+          <Image
+            src="/static/svg/hero.png"
+            width={128}
+            className="animate-fade-in transform absolute"
+            height={128}
+            quality={100}
+            alt="Meer Tarbani"
+          />
+        </div>
       </Suspense>
       <div className="flex flex-col gap-2 justify-center items-center">
         <h1 className="max-xl:text-3xl text-4xl font-semibold font-sans">
@@ -146,7 +150,7 @@ export function AllPages() {
       name: "Credits",
       href: "/credits",
       implemented: true,
-    }
+    },
   ];
   return (
     <div className="max-xl:w-full flex flex-col bg-ternary-foreground w-[16.7%] h-[21.2rem] rounded-2xl pt-6 px-6 gap-5">

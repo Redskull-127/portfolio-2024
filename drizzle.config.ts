@@ -1,5 +1,4 @@
 import type { Config } from "drizzle-kit";
-import { readFileSync } from "fs";
 import postgres from "postgres";
 
 export const pgConfig = postgres({
@@ -7,9 +6,6 @@ export const pgConfig = postgres({
   database: process.env.DRIZZLE_DB!,
   password: process.env.DRIZZLE_PASSWORD!,
   port: Number(process.env.DRIZZLE_PORT!),
-  // ssl: {
-  //   ca: [readFileSync("./db/ca.pem").toString()]
-  // }
 })
 
 export default {
