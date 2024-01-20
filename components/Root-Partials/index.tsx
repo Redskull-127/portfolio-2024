@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { Spotify, SpotifyType } from "@/lib/server/functions/spotify";
+import { SpotifySelfApi, SpotifyType } from "@/lib/server/functions/spotify";
 
 import { Icons } from "../icons/icons";
 import { GitHub, Gmail, LinkedIn, X } from "../icons/AnimatedIcons";
@@ -81,7 +81,7 @@ export function QuickLinks() {
 }
 
 export async function SpotifyCard() {
-  const data: SpotifyType | undefined = await Spotify();
+  const data: SpotifyType | undefined = await SpotifySelfApi();
   if (data) {
     return <SpotifyComponent {...data} />;
   }
