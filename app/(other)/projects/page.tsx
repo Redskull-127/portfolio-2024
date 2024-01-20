@@ -8,5 +8,5 @@ export default function Home() {
   useEffect(() => {
     ProjectSignal.value.click();
   }, []);
-  return null;
+  return <></>;
 }
