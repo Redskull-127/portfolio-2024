@@ -122,5 +122,6 @@ export const SpotifySelfApi = unstable_cache(
   ["spotifyAPI"],
   {
     tags: ["spotifyAPI"],
+    revalidate: 1
   }
 );
