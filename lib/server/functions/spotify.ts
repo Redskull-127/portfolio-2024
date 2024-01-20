@@ -36,11 +36,7 @@ export const SpotifySelfApi = unstable_cache(
       return Buffer.from(authString).toString("base64");
     };
 
-    const generateBaseRequestConfig = () => ({
-      headers: {
-        Authorization: `Bearer ${SPOTIFY_TOKEN}`,
-      },
-    });
+   
 
     const requestRefreshToken = async () => {
       const data = new URLSearchParams({
@@ -57,13 +53,15 @@ export const SpotifySelfApi = unstable_cache(
         const response = await fetch(REFRESH_TOKEN_URL, {
           method: "POST",
           headers,
+          next: {
+            tags: ["spotifyAPI"],
+            revalidate: 1
+          },
           body: data,
         });
         const resp = await response.json();
         return resp.access_token;
       } catch (error) {
-        console.log(error);
-        throw error;
       }
     };
 
@@ -72,21 +70,25 @@ export const SpotifySelfApi = unstable_cache(
         SPOTIFY_TOKEN = await requestRefreshToken();
       }
 
-      const finalConfig = { ...generateBaseRequestConfig(), ...config };
       try {
-        const response = await fetch(url, finalConfig);
-        const res = await response.json();
-        if (response.status === 204) {
-          throw new Error(`${url} returned no data.`);
-        }
+        const makeResponse = await fetch(url, {
+          // ...config,
+          headers: {
+            Authorization: `Bearer ${SPOTIFY_TOKEN}`,
+          },
+          next: {
+            tags: ["spotifyAPI"],
+            revalidate: 1
+          },
+        });
+        const res = await makeResponse.json();
+        
         return res;
       } catch (error: any) {
         if (error.response?.status === 401) {
           SPOTIFY_TOKEN = await requestRefreshToken();
-          return makeRequest(url, config);
+          return makeRequest(url);
         }
-        console.log(error);
-        throw error;
       }
     };
     try {
@@ -114,7 +116,6 @@ export const SpotifySelfApi = unstable_cache(
           } as SpotifyType;
         }
       } catch (innerError) {
-        console.log(innerError);
         return;
       }
     }

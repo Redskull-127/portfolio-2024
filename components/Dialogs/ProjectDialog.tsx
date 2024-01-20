@@ -8,14 +8,11 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Button } from "../ui/button";
-import { Icons } from "../icons/icons";
+
 import { ProjectLists } from "../Root-Partials/project/ProjectLists";
 import { useRouter } from "next/navigation";
-import { ProjectSignal } from "@/lib/signals/signal";
 
 type PropsType = {
   projects: GitHubType[];
@@ -24,35 +21,24 @@ type PropsType = {
 export function ProjectDialog(props: PropsType) {
   const [providerList, setProviderList] = useState(props.projects);
   const [filteredList, setFilteredList] = useState(props.projects);
-  const dialogeRef = useRef<HTMLButtonElement>(null);
+  const [isMounted, setIsMounted] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
-    if (document.getElementById("project-btn") !== null) {
-      ProjectSignal.value = document.getElementById(
-        "project-btn"
-      ) as HTMLButtonElement;
-    }
-  }, []);
+    setIsMounted(true);
+  }, [])
+
+  if (!isMounted) return null;
 
   return (
     <Dialog
+      open={true}
       onOpenChange={(isOpen) => {
         if (!isOpen) {
           router.replace("/");
         }
       }}
     >
-      <DialogTrigger asChild>
-        <Button
-          id="project-btn"
-          ref={dialogeRef}
-          variant={"ghost"}
-          size={"icon"}
-        >
-          <Icons.Search />
-        </Button>
-      </DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Projects</DialogTitle>
