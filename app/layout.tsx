@@ -16,6 +16,7 @@ import OG_IMG from "@/public/static/opengraph/image.png";
 import Favicon from "@/public/favicon.ico";
 import ConnectivityStatus from "@/lib/client/functions/connectivity-status";
 
+
 const santoshiSans = localFont({
   src: "./Satoshi-Variable.woff2",
   display: "swap",

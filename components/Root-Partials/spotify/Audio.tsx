@@ -1,6 +1,5 @@
 "use client";
 import { useRef, useState, useEffect, useCallback } from "react";
-import { useRouter } from "next/navigation";
 import { Icons } from "../../icons/icons";
 import { toast } from "sonner";
 import Link from "next/link";
@@ -14,6 +13,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { getNewSong } from "@/lib/server/functions/spotify";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
 
 type AudioButtonType = {
   AudioSRC: string;
@@ -24,20 +28,19 @@ type AudioButtonType = {
 type AudioButtonProps = "playing" | "paused" | "stopped";
 
 export default function AudioButton(props: AudioButtonType) {
-  const router = useRouter();
   const [playing, setPlaying] = useState<AudioButtonProps>("stopped");
   const audioRef = useRef<HTMLAudioElement>(null);
   const [audioVolume, setAudioVolume] = useState<number>();
+  const [audioCurrDuration, setAudioCurrDuration] = useState<number>();
 
   const handleStop = useCallback(() => {
     setPlaying("stopped");
-
     toast(`Finished Playing:`, {
       description: props.name,
       action: {
         label: "Play Next",
         onClick: async () => {
-          await getNewSong()
+          await getNewSong();
         },
       },
     });
@@ -54,7 +57,7 @@ export default function AudioButton(props: AudioButtonType) {
         description: "Loading may take some time!",
       });
     } catch (error) {
-      toast("Error",{
+      toast("Error", {
         description: "Something went wrong while playing the audio",
       });
     }
@@ -82,6 +85,15 @@ export default function AudioButton(props: AudioButtonType) {
       ref?.removeEventListener("ended", handleStop);
     };
   }, [handlePause, handlePlay, handleStop, playing]);
+
+  useEffect(() => {
+    const ref = audioRef.current;
+    if (ref) {
+      ref.addEventListener("timeupdate", () => {
+        setAudioCurrDuration(ref.currentTime);
+      });
+    }
+  }, []);
 
   useEffect(() => {
     const spotifyImageAnimation = () => {
@@ -121,14 +133,13 @@ export default function AudioButton(props: AudioButtonType) {
     }
     setAudioVolume(Number(window.localStorage.getItem("audioVolume")));
   }, []);
-  
+
   useEffect(() => {
     const ref = audioRef.current;
     if (ref && audioVolume) {
       ref.volume = audioVolume / 100;
     }
   }, [audioVolume]);
-
 
   return (
     <div className="w-full gap-7 flex justify-center items-center">
@@ -178,14 +189,39 @@ export default function AudioButton(props: AudioButtonType) {
         {playing === "paused" || playing === "stopped" ? (
           <Icons.Play className="pl-1" />
         ) : (
-          <Icons.Pause />
+          <HoverCard>
+            <HoverCardTrigger asChild>
+              <Icons.Pause />
+            </HoverCardTrigger>
+
+            <HoverCardContent>
+              <input
+                value={audioCurrDuration}
+                max={audioRef.current?.duration}
+                type="range"
+                className="appearance-none w-full h-1 bg-foreground rounded-full outline-none"
+                style={{
+                  background: `linear-gradient(to right, #1DB954 0%, #1DB954 ${(
+                    (audioCurrDuration! / audioRef.current?.duration!) *
+                    100
+                  ).toString()}%, #535353 ${(
+                    (audioCurrDuration! / audioRef.current?.duration!) *
+                    100
+                  ).toString()}%, #535353 100%)`,
+                }}
+                onChange={(e) => {
+                  audioRef.current!.currentTime = Number(e.target.value);
+                }}
+              />
+            </HoverCardContent>
+          </HoverCard>
         )}
       </button>
 
       <SkipForward
-        onClick={ async () => {
+        onClick={async () => {
           setPlaying("paused");
-           return await getNewSong()
+          return await getNewSong();
         }}
         className="cursor-pointer h-5 w-5 "
       />
