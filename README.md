@@ -37,21 +37,21 @@ Before you begin, ensure you have the following installed:
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/your-username/your-repo.git
+   git clone https://github.com/Redskull-127/Portfolio-2024
    cd your-repo
    ```
 
 2. **Install dependencies:**
    ```bash
-   npm install
+   pnpm i
    ```
 
 3. **Set up the database:**
-   - Create a PostgreSQL database and configure the connection in `config/database.js`.
+   - Create a PostgreSQL database and configure the connection in `config.drizzle.js/ts`.
 
 4. **Run the application:**
    ```bash
-   npm run dev
+   pnpm run dev
    ```
 
 5. **Visit [http://localhost:3000](http://localhost:3000) in your browser.**

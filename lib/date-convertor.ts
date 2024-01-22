@@ -27,7 +27,3 @@ export function convertDateFormat(inputDate: string): string {
 
   return formattedDate;
 }
-
-// const inputDate: string = "2023-12-25 19:49:54.23998+00";
-// const formattedDate: string = convertDateFormat(inputDate);
-// console.log(formattedDate);

@@ -5,7 +5,6 @@ import { cn } from "@/lib/utils";
 import "./globals.css";
 import { ThemeProvider } from "@/components/Theme/ThemeProvider";
 import RootComponent from "@/components/root";
-import CommandProvider from "@/lib/commandbar/provider";
 import { Toaster } from "@/components/ui/toaster";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { SpotifyTip } from "@/lib/client/functions/initialfunctions";
@@ -73,7 +72,6 @@ export default function RootLayout({ children }: Children) {
           <SpeedInsights />
           <NextAuthProvider>
             <ConnectivityStatus>
-              {/* <CommandProvider> */}
               <main className="flex gap-8 h-screen w-full p-10 font-sans flex-wrap max-xl:gap-5 max-xl:px-6">
                 <RootComponent />
                 {children}
