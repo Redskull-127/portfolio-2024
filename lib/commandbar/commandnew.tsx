@@ -23,7 +23,7 @@ import { Button } from "@/components/ui/button";
 import { Home, Book, MessageCircleHeart } from "lucide-react";
 import { useEffect, useState } from "react";
 import { ActionCharacter } from "./getaction";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useSession, signIn, signOut } from "next-auth/react";
 import Image from "next/image";
@@ -32,13 +32,12 @@ export function CommandDialogBox() {
   const [open, setOpen] = useState(false);
   const { status, data: session } = useSession();
   const router = useRouter();
-  const pathname = usePathname();
   const Pages = [
     {
       name: "Home",
       icon: <Home className="mr-2 h-4 w-4" />,
       perform: () => {
-        if (pathname === "/") {
+        if (window.location.pathname === "/") {
           setOpen(false);
         } else {
           router.push("/");

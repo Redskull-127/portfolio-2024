@@ -2,7 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { SpotifySelfApi, SpotifyType } from "@/lib/server/functions/spotify";
-
 import { Icons } from "../icons/icons";
 import { GitHub, Gmail, LinkedIn, X } from "../icons/AnimatedIcons";
 
@@ -12,7 +11,6 @@ import SkillModel from "./skill/SkillModel";
 import { Settings as Controls } from "@/lib/client/functions/settings";
 import { GitHubAPI, GitHubType } from "@/lib/server/functions/github";
 import { ProjectLists } from "./project/ProjectLists";
-import { ProjectDialog } from "../Dialogs/ProjectDialog";
 import SpotifyComponent from "./spotify/SpotifyComponent";
 import { Suspense } from "react";
 import { Skeleton } from "../ui/skeleton";
@@ -81,7 +79,12 @@ export function QuickLinks() {
 }
 
 export async function SpotifyCard() {
-  const data: SpotifyType | undefined = await SpotifySelfApi();
+  const data: SpotifyType | Error | undefined = await SpotifySelfApi();
+  if (data instanceof Error) {
+    console.error(data);
+    return null;
+  }
+  
   if (data) {
     return <SpotifyComponent {...data} />;
   }
@@ -162,7 +165,7 @@ export function AllPages() {
               <Link
                 href={page.implemented === true ? page.href : "/"}
                 passHref={true}
-                className="flex text-foreground font-medium hover:text-black transition-all duration-300"
+                className="flex text-foreground font-medium hover:text-ternary transition-all duration-300"
               >
                 {page.name}
                 <Icons.ArrowUpRight className="h-4" />

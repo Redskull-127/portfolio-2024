@@ -23,9 +23,9 @@ const withPWA = require("@ducanh2912/next-pwa").default({
     cacheOnFrontEndNav: true,
     aggressiveFrontEndNavCaching: true,
     reloadOnOnline: true,
-    disable: false,
+    disable: process.env.NODE_ENV === 'development' ? true : false,
     workboxOptions: {
-        disableDevLogs: false,
+        disableDevLogs: true,
     }
 });
 
