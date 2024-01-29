@@ -145,6 +145,11 @@ export function AllPages() {
       implemented: true,
     },
     {
+      name: "Experience",
+      href: "/experience",
+      implemented: true,
+    },
+    {
       name: "Projects",
       href: "/projects",
       implemented: true,

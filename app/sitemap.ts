@@ -12,25 +12,31 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: "https://www.meertarbani.in/blogs",
       lastModified: new Date(),
       changeFrequency: "always",
-      priority: 0.5,
+      priority: 1,
     },
     {
       url: "https://www.meertarbani.in/chat",
       lastModified: new Date(),
       changeFrequency: "always",
-      priority: 0.5,
+      priority: 1,
     },
     {
       url: "https://www.meertarbani.in/events",
       lastModified: new Date(),
       changeFrequency: "always",
-      priority: 0.5,
+      priority: 1,
+    },
+    {
+      url: "https://www.meertarbani.in/experience",
+      lastModified: new Date(),
+      changeFrequency: "always",
+      priority: 1,
     },
     {
       url: "https://www.meertarbani.in/projects",
       lastModified: new Date(),
       changeFrequency: "always",
-      priority: 0.5,
+      priority: 1,
     },
   ];
 }
