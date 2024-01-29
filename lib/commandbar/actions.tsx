@@ -1,6 +1,6 @@
 "use client";
 
-import styles from "@/lib/static/command.module.css";
+// import styles from "@/lib/static/command.module.css";
 import { cn } from "../utils";
 import { ActionType } from "./commandbar";
 
@@ -10,7 +10,7 @@ export function ListGenerator(project: ActionType) {
     <div
       className={cn(
         "flex flex-row items-center justify-between gap-5 w-full bg-slate-800 rounded-lg transition duration-200 ease-in-out ",
-        styles.dialog_item
+        // styles.dialog_item
       )}
     >
       <div
