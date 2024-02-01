@@ -18,8 +18,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { cn } from "@/lib/utils";
-import styles from "@/lib/static/chat.module.css";
+
 import Image from "next/image";
 import { Button } from "../ui/button";
 import { ChatForm } from "@/lib/server/functions/chatform";

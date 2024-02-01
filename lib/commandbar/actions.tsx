@@ -1,16 +1,13 @@
 "use client";
 
-// import styles from "@/lib/static/command.module.css";
 import { cn } from "../utils";
 import { ActionType } from "./commandbar";
-
 
 export function ListGenerator(project: ActionType) {
   return (
     <div
       className={cn(
-        "flex flex-row items-center justify-between gap-5 w-full bg-slate-800 rounded-lg transition duration-200 ease-in-out ",
-        // styles.dialog_item
+        "flex flex-row items-center justify-between gap-5 w-full bg-slate-800 rounded-lg transition duration-200 ease-in-out "
       )}
     >
       <div
@@ -26,11 +23,7 @@ export function ListGenerator(project: ActionType) {
         {project.shortcut.map((key, index) => (
           <span
             key={index}
-            style={{
-              backgroundColor: "#1F2937",
-              borderRadius: "5px",
-            }}
-            className="text-sm font-bold p-2"
+            className="text-sm font-bold p-2 bg-[#1F2937] border-[5px]"
           >
             {key}
           </span>

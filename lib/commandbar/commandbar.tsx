@@ -124,16 +124,6 @@ export default function CommandBar() {
       icon: <Twitter className="w-6 h-6 mx-3" />,
       subtitle: "Go to my twitter.",
     },
-    // {
-    //   id: "loginAction",
-    //   name: getStatus as string,
-    //   shortcut: ["L", "S"],
-    //   keywords: "logout signout login signin",
-    //   section: "User Actions",
-    //   perform: () => status === "authenticated" || "loading" ? signOut() : signIn("google"),
-    //   icon: status === "authenticated" || "loading" ? <LogOut className="w-6 h-6 mx-3" /> : <LogIn className="w-6 h-6 mx-3" />,
-    //   subtitle: "Login to the website.",
-    // },
     {
       id: "exitAction",
       name: "Exit",
