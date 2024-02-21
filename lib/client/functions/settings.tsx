@@ -28,15 +28,14 @@ import {
   LogOut,
   LogIn,
   Bell,
+  Cast,
 } from "lucide-react";
-import { useCommandBarContext } from "@/lib/commandbar/commandbar";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useEffect, useRef } from "react";
 import { toast } from "sonner";
 import { CommandDialogBox } from "@/lib/commandbar/commandnew";
 
 export function Settings() {
-  const { shouldShow, setShouldShow } = useCommandBarContext();
   const { status, data: session } = useSession();
   const notificationRef = useRef<HTMLButtonElement>(null);
 
@@ -167,6 +166,18 @@ export function Settings() {
           }}
         >
           <Bell className="h-5 w-5" />
+        </Button>
+        <Button
+          onClick={(e) => {
+            toast.error("Chromecast is not supported yet", {
+              description: "Sorry for the inconvenience.",
+            });
+          }}
+          aria-label="chrome-cast"
+          variant={"default"}
+          size={"icon"}
+        >
+          <Cast className="h-5 w-5" />
         </Button>
       </div>
     </div>

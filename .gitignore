@@ -43,3 +43,4 @@ npm-debug.log*
 .npmrc
 
 .env
+certificates
