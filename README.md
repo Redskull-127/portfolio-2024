@@ -46,7 +46,8 @@ Before you begin, ensure you have the following installed:
    pnpm i
    ```
 
-3. **Set up the database:**
+3. **Set up project and database:**
+   - Rename `.env.template` to `.env` and configure the environment variables.
    - Create a PostgreSQL database and configure the connection in `config.drizzle.js/ts`.
 
 4. **Run the application:**
