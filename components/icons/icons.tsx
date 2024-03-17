@@ -10,6 +10,8 @@ import {
   Sun,
   Coffee,
   Search,
+  User,
+  Bot
 } from "lucide-react";
 
 export type LogoIcon = {
@@ -27,6 +29,8 @@ export const Icons = {
   Pause: Pause,
   ArrowUpRight: ArrowUpRight,
   Search: Search,
+  User:User,
+  Bot:Bot,
   logo: (props: LogoIcon) => {
     return (
       <Image

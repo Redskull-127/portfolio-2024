@@ -14,7 +14,8 @@ import { Children } from "@/lib/types/children";
 import OG_IMG from "@/public/static/opengraph/image.png";
 import Favicon from "@/public/favicon.ico";
 import ConnectivityStatus from "@/lib/client/functions/connectivity-status";
-import { Analytics } from '@vercel/analytics/react';
+import { Analytics } from "@vercel/analytics/react";
+import ChatAI from "@/components/Dialogs/ChatAI";
 
 const santoshiSans = localFont({
   src: "./Satoshi-Variable.woff2",
@@ -72,14 +73,15 @@ export default function RootLayout({ children }: Children) {
           <SpeedInsights />
           <NextAuthProvider>
             <ConnectivityStatus>
-                <main className="flex gap-8 h-screen w-full p-10 font-sans flex-wrap max-xl:gap-5 max-xl:px-6">
-                  <RootComponent />
-                  {children}
-                  <Analytics />
-                </main>
-                <Toaster />
-                <Sonner />
-                <SpotifyTip />
+              <ChatAI />
+              <main className="flex gap-8 h-screen w-full p-10 font-sans flex-wrap max-xl:gap-5 max-xl:px-6">
+                <RootComponent />
+                {children}
+                <Analytics />
+              </main>
+              <Toaster />
+              <Sonner />
+              <SpotifyTip />
             </ConnectivityStatus>
           </NextAuthProvider>
         </ThemeProvider>
