@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Cast } from "lucide-react";
 import { useCastContext } from "../providers/CastProvider";
-import CastSDK from "@/lib/cast-min.js";
+import Castjs from "@/lib/cast-min.js"
 
 export default function ChromeCast() {
   const { castDetails } = useCastContext();
@@ -11,10 +11,12 @@ export default function ChromeCast() {
     title: castDetails.title,
   };
   const handleClick = () => {
-    const cjs = new CastSDK();
-    console.log(castDetails.src);
-    if (cjs) {
-      cjs.cast(castDetails.src, Metadata);
+    if (typeof window !== undefined) {
+      const cjs = new Castjs();
+      console.log(castDetails.src);
+      if (cjs) {
+        cjs.cast(castDetails.src, Metadata);
+      }
     }
   };
   return (
