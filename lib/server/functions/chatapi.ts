@@ -10,7 +10,6 @@ type ChatAPIResponse = {
 };
 
 export async function ChatAPIMaker(message: string): Promise<ChatAPIType> {
-  console.log(message);
   try {
     const res = await fetch(process.env.NEXT_PUBLIC_AI_CHATBOT_URL as string, {
       method: "POST",
@@ -21,7 +20,6 @@ export async function ChatAPIMaker(message: string): Promise<ChatAPIType> {
       body: JSON.stringify({ message: message }),
     });
     const data = (await res.json()) as ChatAPIResponse;
-    console.log(data);
     return { status: "success", message: "Chat API Success", data: data };
   } catch (err) {
     console.log(err);

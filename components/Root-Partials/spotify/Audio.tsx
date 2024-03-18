@@ -18,6 +18,7 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
+import { useCastContext } from "@/lib/client/providers/CastProvider";
 
 type AudioButtonType = {
   AudioSRC: string;
@@ -28,6 +29,7 @@ type AudioButtonType = {
 type AudioButtonProps = "playing" | "paused" | "stopped";
 
 export default function AudioButton(props: AudioButtonType) {
+  const { setCastDetails } = useCastContext()
   const [playing, setPlaying] = useState<AudioButtonProps>("stopped");
   const audioRef = useRef<HTMLAudioElement>(null);
   const [audioVolume, setAudioVolume] = useState<number>();
@@ -94,6 +96,15 @@ export default function AudioButton(props: AudioButtonType) {
       });
     }
   }, []);
+
+  useEffect(() => {
+    if(props) {
+      setCastDetails({
+        src: props.AudioSRC,
+        title: props.name,
+      })
+    }
+  }, [props, setCastDetails]);
 
   useEffect(() => {
     const spotifyImageAnimation = () => {

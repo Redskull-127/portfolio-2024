@@ -23,17 +23,16 @@ import {
 import {
   Coffee,
   CircleDollarSign,
-  Home,
   CircleUser,
   LogOut,
   LogIn,
   Bell,
-  Cast,
 } from "lucide-react";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useEffect, useRef } from "react";
 import { toast } from "sonner";
 import { CommandDialogBox } from "@/lib/commandbar/commandnew";
+import ChromeCast from "./chromecast";
 
 export function Settings() {
   const { status, data: session } = useSession();
@@ -167,18 +166,8 @@ export function Settings() {
         >
           <Bell className="h-5 w-5" />
         </Button>
-        <Button
-          onClick={(e) => {
-            toast.error("Chromecast is not supported yet", {
-              description: "Sorry for the inconvenience.",
-            });
-          }}
-          aria-label="chrome-cast"
-          variant={"default"}
-          size={"icon"}
-        >
-          <Cast className="h-5 w-5" />
-        </Button>
+
+        <ChromeCast />
       </div>
     </div>
   );
