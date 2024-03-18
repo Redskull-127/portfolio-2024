@@ -6,12 +6,12 @@ import CastSDK from "@/lib/cast-min";
 
 export default function ChromeCast() {
   const { castDetails } = useCastContext();
-  const cjs = new CastSDK();
   const Metadata = {
     poster: "",
     title: castDetails.title,
   };
   const handleClick = () => {
+    const cjs = new CastSDK();
     console.log(castDetails.src);
     if (cjs) {
       cjs.cast(castDetails.src, Metadata);
