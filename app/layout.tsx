@@ -17,6 +17,7 @@ import ConnectivityStatus from "@/lib/client/functions/connectivity-status";
 import { Analytics } from "@vercel/analytics/react";
 import ChatAI from "@/components/Dialogs/ChatAI";
 import { ChromeCastProvider } from "@/lib/client/providers/CastProvider";
+import Script from "next/script";
 
 const santoshiSans = localFont({
   src: "./Satoshi-Variable.woff2",
@@ -64,6 +65,7 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: Children) {
   return (
     <html lang="en">
+      <Script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1" defer async></Script>
       <body
         className={cn(
           "min-h-screen bg-background antialiased transition-all duration-200",
