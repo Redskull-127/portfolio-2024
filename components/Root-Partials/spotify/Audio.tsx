@@ -178,12 +178,7 @@ export default function AudioButton(props: AudioButtonType) {
         onClick={() => {
           if (props.AudioSRC === null) {
             toast("Ah snap :(", {
-              description: (
-                <div className="gap-5">
-                  <p>This song doesn&apos;t have a preview</p>
-                  <Link href={props.uri}>Open in Spotify</Link>
-                </div>
-              ),
+              description: "No audio to play!",
               action: {
                 label: "Play Next!",
                 onClick: async () => {

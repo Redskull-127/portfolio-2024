@@ -11,7 +11,7 @@ export type SpotifyType = {
   artist: string;
   preview_url: string;
   uri?: string;
-  status: "now-playing" | "shuffle"
+  status: "now-playing" | "shuffle";
 };
 
 const SPOTIFY_CLIENT_ID = process.env.SPOTIFY_CLIENT_ID;
@@ -100,7 +100,7 @@ export const getNowPlaying = async () => {
       artist: data.item.artists[0].name,
       preview_url: data.item.preview_url,
       uri: data.item.uri,
-    } as SpotifyType;
+    } as unknown as SpotifyType;
   } else {
     return Error("Not Playing");
   }
@@ -110,6 +110,7 @@ export const getRecentlyPlayed = async () => {
   const data = await makeRequest(RECENTLY_PLAYING_URL);
   if (data.items) {
     const random = Math.floor(Math.random() * data.items.length);
+
     return {
       status: "shuffle",
       images: data.items[random].track.album.images,
@@ -117,7 +118,8 @@ export const getRecentlyPlayed = async () => {
       artist: data.items[random].track.artists[0].name,
       preview_url: data.items[random].track.preview_url,
       uri: data.items[random].track.uri,
-    } as SpotifyType;
+
+    } as unknown as SpotifyType;
   } else {
     return Error("Not Playing");
   }

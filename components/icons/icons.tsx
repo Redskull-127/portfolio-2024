@@ -11,7 +11,8 @@ import {
   Coffee,
   Search,
   User,
-  Bot
+  Bot,
+  WholeWord
 } from "lucide-react";
 
 export type LogoIcon = {
@@ -31,6 +32,7 @@ export const Icons = {
   Search: Search,
   User:User,
   Bot:Bot,
+  WholeWord:WholeWord,
   logo: (props: LogoIcon) => {
     return (
       <Image

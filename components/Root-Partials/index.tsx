@@ -14,6 +14,7 @@ import { ProjectLists } from "./project/ProjectLists";
 import SpotifyComponent from "./spotify/SpotifyComponent";
 import { Suspense } from "react";
 import { Skeleton } from "../ui/skeleton";
+import getLyrics from "@/lib/server/functions/lyrics";
 
 export function HeroCard() {
   return (
@@ -84,7 +85,7 @@ export async function SpotifyCard() {
     console.error(data);
     return null;
   }
-  
+
   if (data) {
     return <SpotifyComponent {...data} />;
   }
@@ -116,7 +117,7 @@ export async function Projects() {
   return (
     <div className="max-xl:w-full flex flex-col bg-ternary-foreground w-1/3 h-[21.2rem] rounded-2xl pt-6 px-6 gap-5">
       <h1 className="flex text-3xl font-semibold text-ternary items-center gap-1">
-        Projects 
+        Projects
       </h1>
       <div className="flex flex-col gap-3 overflow-hidden overflow-y-scroll">
         {data.map((project, index) => {
