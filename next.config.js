@@ -3,24 +3,7 @@
 const nextConfig = {
   reactStrictMode: false,
   experimental: {
-    turbo: {
-      rules: {
-        '*.svg': {
-          loaders: ['@svgr/webpack'],
-          as: '*.js',
-        },
-      },
-      resolveExtensions: [
-        '.mdx',
-        '.tsx',
-        '.ts',
-        '.tsx',
-        '.jsx',
-        '.js',
-        '.mjs',
-        '.json',
-      ]
-    }
+    turbo: {}
   },
   images: {
     remotePatterns: [

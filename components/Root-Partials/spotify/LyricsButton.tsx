@@ -4,12 +4,13 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
+
+
 export default function LyricsButton({
   song,
   name,
@@ -19,6 +20,8 @@ export default function LyricsButton({
   name: string;
   lyrics: string;
 }) {
+
+
   return (
     <Dialog>
       <DialogTrigger title="Lyrics" asChild>
@@ -30,9 +33,13 @@ export default function LyricsButton({
           <DialogDescription>
             {song} - {name}
             <div className="pt-8">
-              <ScrollArea className="h-96">
-                <p className="text-lg">{lyrics}</p>
-              </ScrollArea>
+              {lyrics && lyrics !== "" ? (
+                <ScrollArea className="h-96">
+                  <p className="text-lg">{lyrics}</p>
+                </ScrollArea>
+              ) : (
+                <p>No lyrics found. :(</p>
+              )}
             </div>
           </DialogDescription>
         </DialogHeader>

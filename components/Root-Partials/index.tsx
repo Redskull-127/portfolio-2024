@@ -14,7 +14,6 @@ import { ProjectLists } from "./project/ProjectLists";
 import SpotifyComponent from "./spotify/SpotifyComponent";
 import { Suspense } from "react";
 import { Skeleton } from "../ui/skeleton";
-import getLyrics from "@/lib/server/functions/lyrics";
 
 export function HeroCard() {
   return (
