@@ -5,17 +5,19 @@ import { toast } from "sonner";
 
 export function SpotifyTip() {
   useEffect(() => {
-    toast("❔ Did you know?", {
-      description: (
+    toast(
+      <div>
+        {" "}
+        <h1>❔ Did you know?</h1>
         <div className="inline-flex">
           Press{" "}
           <pre>
             <code> CTRL + K </code>
           </pre>{" "}
           to open the command bar!
-        </div>
-      ),
-    });
+        </div>{" "}
+      </div>
+    );
   }, []);
   return null;
 }

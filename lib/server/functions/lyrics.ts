@@ -1,5 +1,5 @@
 // @ts-ignore
-import { getLyrics as GetLyric, getSong } from "genius-lyrics-api";
+import { getLyrics as GetLyric } from "genius-lyrics-api";
 
 export default async function getLyrics(song: string, artist: string) {
   const options = {

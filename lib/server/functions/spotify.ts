@@ -2,6 +2,7 @@
 
 import { revalidateTag } from "next/cache";
 import { unstable_cache } from "next/cache";
+import { DeepScarpSong } from "./deep-song-scrap";
 
 export type SpotifyType = {
   images: {
@@ -59,7 +60,7 @@ const requestRefreshToken = async () => {
   }
 };
 
-const makeRequest = async (url: string, config = {}): Promise<any> => {
+export const makeRequest = async (url: string, config = {}): Promise<any> => {
   if (!SPOTIFY_TOKEN) {
     SPOTIFY_TOKEN = await requestRefreshToken();
   }
@@ -93,6 +94,19 @@ export async function getNewSong() {
 export const getNowPlaying = async () => {
   const data = await makeRequest(NOW_PLAYING_URL);
   if (data.item) {
+    if (data.item.preview_url === null) {
+      const preview = await DeepScarpSong(
+        `${data.item.name} ${data.item.artists[0].name}`
+      );
+      return {
+        status: "now-playing",
+        images: data.item.album.images,
+        name: data.item.name,
+        artist: data.item.artists[0].name,
+        preview_url: preview,
+        uri: data.item.uri,
+      } as unknown as SpotifyType;
+    }
     return {
       status: "now-playing",
       images: data.item.album.images,
@@ -110,7 +124,19 @@ export const getRecentlyPlayed = async () => {
   const data = await makeRequest(RECENTLY_PLAYING_URL);
   if (data.items) {
     const random = Math.floor(Math.random() * data.items.length);
-
+    if (data.items[random].track.preview_url === null) {
+      const preview = await DeepScarpSong(
+        `${data.items[random].track.name} ${data.items[random].track.artists[0].name}`
+      );
+      return {
+        status: "shuffle",
+        images: data.items[random].track.album.images,
+        name: data.items[random].track.name,
+        artist: data.items[random].track.artists[0].name,
+        preview_url: preview,
+        uri: data.items[random].track.uri,
+      } as unknown as SpotifyType;
+    }
     return {
       status: "shuffle",
       images: data.items[random].track.album.images,
@@ -118,7 +144,6 @@ export const getRecentlyPlayed = async () => {
       artist: data.items[random].track.artists[0].name,
       preview_url: data.items[random].track.preview_url,
       uri: data.items[random].track.uri,
-
     } as unknown as SpotifyType;
   } else {
     return Error("Not Playing");
