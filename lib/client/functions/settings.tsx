@@ -33,6 +33,7 @@ import { useEffect, useRef } from "react";
 import { toast } from "sonner";
 import { CommandDialogBox } from "@/lib/commandbar/commandnew";
 import ChromeCast from "./chromecast";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 export function Settings() {
   const { status, data: session } = useSession();
@@ -45,130 +46,135 @@ export function Settings() {
   }, []);
 
   return (
-    <div className=" flex flex-col h-fit rounded-2xl bg-ternary-foreground p-6 w-full">
+    <div id="settings" className=" flex flex-col h-36 rounded-2xl bg-ternary-foreground p-6 w-full">
       <h1 className="text-3xl font-semibold text-ternary">Other</h1>
-      <div className="grid grid-flow-col justify-start gap-3 py-2 max-xl:py-4 overflow-hidden w-full place-items-start max-xl:overflow-x-scroll ">
-        <CommandDialogBox />
+      {/* <div className="grid grid-flow-col justify-start gap-3 py-2 max-xl:py-4 overflow-hidden w-full place-items-start max-xl:overflow-x-scroll ">
 
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              aria-label="user action center"
-              variant={status === "authenticated" ? "ghost" : "default"}
-              size={"icon"}
-            >
+      </div> */}
+      <ScrollArea className="w-full whitespace-nowrap">
+        <div className="flex w-max py-1 space-x-3">
+          <CommandDialogBox />
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                aria-label="user action center"
+                variant={status === "authenticated" ? "ghost" : "default"}
+                size={"icon"}
+              >
+                {status === "authenticated" ? (
+                  <Image
+                    src={session.user?.image!}
+                    width={40}
+                    height={40}
+                    className="rounded-sm"
+                    alt="user"
+                  />
+                ) : (
+                  <CircleUser className="h-5 w-5" />
+                )}
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuLabel>
+                {status === "authenticated"
+                  ? session.user?.name
+                  : "Action Required"}
+              </DropdownMenuLabel>
+              <DropdownMenuSeparator />
               {status === "authenticated" ? (
-                <Image
-                  src={session.user?.image!}
-                  width={40}
-                  height={40}
-                  className="rounded-sm"
-                  alt="user"
-                />
+                <DropdownMenuItem
+                  onClick={() => {
+                    signOut();
+                  }}
+                >
+                  <LogOut className="h-5 w-5 mr-2" /> Sign Out
+                </DropdownMenuItem>
               ) : (
-                <CircleUser className="h-5 w-5" />
+                <DropdownMenuItem
+                  onClick={() => {
+                    signIn("google");
+                  }}
+                >
+                  <LogIn className="h-5 w-5 mr-2" /> Log in
+                </DropdownMenuItem>
               )}
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuLabel>
-              {status === "authenticated"
-                ? session.user?.name
-                : "Action Required"}
-            </DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            {status === "authenticated" ? (
-              <DropdownMenuItem
-                onClick={() => {
-                  signOut();
-                }}
-              >
-                <LogOut className="h-5 w-5 mr-2" /> Sign Out
-              </DropdownMenuItem>
-            ) : (
-              <DropdownMenuItem
-                onClick={() => {
-                  signIn("google");
-                }}
-              >
-                <LogIn className="h-5 w-5 mr-2" /> Log in
-              </DropdownMenuItem>
-            )}
-          </DropdownMenuContent>
-        </DropdownMenu>
+            </DropdownMenuContent>
+          </DropdownMenu>
 
-        <ThemeToggle />
+          <ThemeToggle />
 
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Link
-                href="https://www.buymeacoffee.com/meertarbani"
-                target="_blank"
-              >
-                <Button
-                  aria-label="buy me a coffee"
-                  variant="default"
-                  size={"icon"}
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Link
+                  href="https://www.buymeacoffee.com/meertarbani"
+                  target="_blank"
                 >
-                  <Coffee className="h-5 w-5" />
-                </Button>
-              </Link>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Buy me a coffee!</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+                  <Button
+                    aria-label="buy me a coffee"
+                    variant="default"
+                    size={"icon"}
+                  >
+                    <Coffee className="h-5 w-5" />
+                  </Button>
+                </Link>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Buy me a coffee!</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
 
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Link
-                href={"https://github.com/sponsors/Redskull-127?o=esc"}
-                target="_blank"
-              >
-                <Button
-                  aria-label="Support me on stripe"
-                  variant="default"
-                  size={"icon"}
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Link
+                  href={"https://github.com/sponsors/Redskull-127?o=esc"}
+                  target="_blank"
                 >
-                  <CircleDollarSign className="h-5 w-5" />
-                </Button>
-              </Link>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Support Me!</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+                  <Button
+                    aria-label="Support me on stripe"
+                    variant="default"
+                    size={"icon"}
+                  >
+                    <CircleDollarSign className="h-5 w-5" />
+                  </Button>
+                </Link>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Support Me!</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
 
-        <Button
-          aria-label="notification center"
-          variant={"default"}
-          size={"icon"}
-          ref={notificationRef}
-          onClick={(e) => {
-            const ref = notificationRef.current;
-            const bell = ref?.firstChild as HTMLElement;
-            bell.classList.toggle("scale-125");
-            if (bell.classList.contains("scale-125")) {
-              window.localStorage.setItem("notificationSound", "high");
-            } else {
-              window.localStorage.setItem("notificationSound", "low");
-            }
-            toast("Notification Sound Changed:", {
-              description: bell.classList.contains("scale-125")
-                ? "High"
-                : "Low",
-            });
-          }}
-        >
-          <Bell className="h-5 w-5" />
-        </Button>
+          <Button
+            aria-label="notification center"
+            variant={"default"}
+            size={"icon"}
+            ref={notificationRef}
+            onClick={(e) => {
+              const ref = notificationRef.current;
+              const bell = ref?.firstChild as HTMLElement;
+              bell.classList.toggle("scale-125");
+              if (bell.classList.contains("scale-125")) {
+                window.localStorage.setItem("notificationSound", "high");
+              } else {
+                window.localStorage.setItem("notificationSound", "low");
+              }
+              toast("Notification Sound Changed:", {
+                description: bell.classList.contains("scale-125")
+                  ? "High"
+                  : "Low",
+              });
+            }}
+          >
+            <Bell className="h-5 w-5" />
+          </Button>
 
-        <ChromeCast />
-      </div>
+          <ChromeCast />
+        </div>
+        <ScrollBar orientation="horizontal" />
+      </ScrollArea>
     </div>
   );
 }

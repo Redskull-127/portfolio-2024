@@ -9,7 +9,7 @@ import getLyrics from "@/lib/server/functions/lyrics";
 export default async function SpotifyComponent(props: SpotifyType) {
   const lyrics = await getLyrics(props.name, props.artist);
   return (
-    <div className="max-xl:w-full max-xl:h-fit flex flex-col justify-between h-80 rounded-2xl w-[25%] gap-5 bg-ternary-foreground p-6">
+    <div id="spotify-card" className="max-xl:w-full max-xl:h-fit flex flex-col justify-between h-80 rounded-2xl w-[25%] gap-5 bg-ternary-foreground p-6">
       <div className="flex justify-between items-center">
         <Link
           href={

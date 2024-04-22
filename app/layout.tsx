@@ -18,6 +18,8 @@ import { Analytics } from "@vercel/analytics/react";
 import ChatAI from "@/components/Dialogs/ChatAI";
 import { ChromeCastProvider } from "@/lib/client/providers/CastProvider";
 import Script from "next/script";
+import { DriverProvider } from "@/lib/client/providers/Driver";
+import DynamicIsland from "@/lib/client/functions/dynamic-island";
 
 const santoshiSans = localFont({
   src: "./Satoshi-Variable.woff2",
@@ -65,7 +67,11 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: Children) {
   return (
     <html lang="en">
-      <Script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1" defer async></Script>
+      <Script
+        src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"
+        defer
+        async
+      ></Script>
       <body
         className={cn(
           "min-h-screen bg-background antialiased transition-all duration-200",
@@ -77,12 +83,15 @@ export default function RootLayout({ children }: Children) {
           <NextAuthProvider>
             <ConnectivityStatus>
               <ChromeCastProvider>
-                <ChatAI />
-                <main className="flex gap-8 h-screen w-full p-10 font-sans flex-wrap max-xl:gap-5 max-xl:px-6">
-                  <RootComponent />
-                  {children}
-                  <Analytics />
-                </main>
+                {/* <ChatAI /> */}
+                <DynamicIsland />
+                <DriverProvider>
+                  <main className="flex gap-8 h-screen w-full p-10 font-sans flex-wrap max-xl:gap-5 max-xl:px-6">
+                    <RootComponent />
+                    {children}
+                    <Analytics />
+                  </main>
+                </DriverProvider>
                 <Toaster />
                 <Sonner />
                 <SpotifyTip />

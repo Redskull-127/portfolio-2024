@@ -54,15 +54,12 @@ export default function ChatAI() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <div className="left-0 cursor-pointer hover:text-muted-foreground transition-all duration-200 right-0 top-[2%] max-md:top-[90%] fixed mx-auto flex h-fit w-fit items-center justify-center">
-          <div className="h-12 w-full  rounded-xl bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 p-1">
-            <div className="flex h-full w-full rounded-xl items-center justify-center bg-primary-foreground back">
-              <h1 className="text-md px-4 select-none font-medium">
-                Chat with AI!
-              </h1>
-            </div>
-          </div>
-        </div>
+        <button id="chat-with-ai" className="relative inline-flex h-12 overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50">
+          <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
+          <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-slate-950 px-3 py-1 text-sm font-medium text-white backdrop-blur-3xl">
+            Chat with AI!
+          </span>
+        </button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

@@ -14,6 +14,8 @@ import { ProjectLists } from "./project/ProjectLists";
 import SpotifyComponent from "./spotify/SpotifyComponent";
 import { Suspense } from "react";
 import { Skeleton } from "../ui/skeleton";
+import { StartDriver } from "@/lib/client/providers/Driver";
+import ChatAI from "../Dialogs/ChatAI";
 
 export function HeroCard() {
   return (
@@ -44,7 +46,7 @@ export function HeroCard() {
 
 export function Introduction() {
   return (
-    <div className="flex flex-col h-fit w-full bg-muted text-muted-foreground rounded-2xl p-6 gap-2">
+    <div id="introduction" className="flex flex-col h-fit w-full bg-muted text-muted-foreground rounded-2xl p-6 gap-2">
       <h1 className="text-2xl font-semibold">Introduction</h1>
       <p className="text-foreground font-medium">
         Hey, I&apos;m Meer. GDSC Lead &apos;22, Organizer of Hack For India &
@@ -66,7 +68,10 @@ export function Introduction() {
 
 export function QuickLinks() {
   return (
-    <div className="flex flex-col h-auto w-full bg-ternary-foreground text-ternary rounded-2xl px-6 py-3 gap-3 justify-evenly">
+    <div
+      id="quick-links"
+      className="flex flex-col h-auto w-full bg-ternary-foreground text-ternary rounded-2xl px-6 py-3 gap-3 justify-evenly"
+    >
       <h1 className="text-2xl font-semibold">Quick Links</h1>
       <div className="w-full flex justify-between gap-5">
         <GitHub />
@@ -92,7 +97,7 @@ export async function SpotifyCard() {
 
 export function Skills() {
   return (
-    <div className=" flex flex-col h-fit rounded-2xl bg-ternary-foreground p-6">
+    <div id="skills" className=" flex flex-col h-fit rounded-2xl bg-ternary-foreground p-6">
       <h1 className="text-3xl font-semibold text-ternary">Skills</h1>
       <div className="flex flex-wrap py-3">
         {SkillsJson.map((skill, index) => (
@@ -114,7 +119,7 @@ export async function Projects() {
     return null;
   }
   return (
-    <div className="max-xl:w-full flex flex-col bg-ternary-foreground w-1/3 h-[21.2rem] rounded-2xl pt-6 px-6 gap-5">
+    <div id="projects" className="max-xl:w-full flex flex-col bg-ternary-foreground w-1/3 h-[21.2rem] rounded-2xl pt-6 px-6 gap-5">
       <h1 className="flex text-3xl font-semibold text-ternary items-center gap-1">
         Projects
       </h1>
@@ -138,6 +143,7 @@ export function AllPages() {
       name: "Chat",
       href: "/chat",
       implemented: true,
+      id: "chat",
     },
     {
       name: "Events",
@@ -161,12 +167,12 @@ export function AllPages() {
     },
   ];
   return (
-    <div className="max-xl:w-full flex flex-col bg-ternary-foreground w-[16.7%] h-[21.2rem] rounded-2xl pt-6 px-6 gap-5">
+    <div id="pages" className="max-xl:w-full flex flex-col bg-ternary-foreground w-[16.7%] h-[21.2rem] rounded-2xl pt-6 px-6 gap-5">
       <h1 className="text-3xl font-semibold text-ternary">Pages</h1>
       <div className="flex flex-col gap-1 overflow-hidden overflow-y-scroll">
         {Pages.map((page, index) => {
           return (
-            <div key={index} className="w-full border-b-2 flex p-2">
+            <div id={page.id} key={index} className="w-full border-b-2 flex p-2">
               <Link
                 href={page.implemented === true ? page.href : "/"}
                 passHref={true}

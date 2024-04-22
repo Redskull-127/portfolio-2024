@@ -4,7 +4,6 @@ import { SessionProvider } from "next-auth/react";
 import { useEffect, useCallback } from "react";
 import { useSession, signIn } from "next-auth/react";
 import { Children } from "@/lib/types/children";
-// @ts-ignore
 import { toast } from "sonner";
 export default function NextAuthProvider({ children }: Children) {
   return (

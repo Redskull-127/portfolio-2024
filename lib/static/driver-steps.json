@@ -1,0 +1,64 @@
+[
+  {
+    "element": "#introduction",
+    "popover": {
+      "title": "Introduction"
+    }
+  },
+  {
+    "element": "#quick-links",
+    "popover": {
+      "title": "Quick Links",
+      "description": "Quick links for my social media and github."
+    }
+  },
+  {
+    "element": "#spotify-card",
+    "popover": {
+      "title": "Spotify",
+      "description": "Listen to what I'm listening to on Spotify with Lyrics!\n This is a custom module I made."
+    }
+  },
+  {
+    "element": "#skills",
+    "popover": {
+      "title": "Skills",
+      "description": "These are the skills I have. kinda..."
+    }
+  },
+  {
+    "element": "#settings",
+    "popover": {
+      "title": "Settings and Controls",
+      "description": "Use this section to control the website. You can do change the theme, login/logout, Cast audio to chrome cast, set notification volume and more."
+    }
+  },
+  {
+    "element": "#projects",
+    "popover": {
+      "title": "Projects",
+      "description": "These are some of the projects I have worked on. Some are still in progress."
+    }
+  },
+  {
+    "element": "#pages",
+    "popover": {
+      "title": "Pages",
+      "description": "These are the pages on my website. You can navigate to them using the navbar."
+    }
+  },
+  {
+    "element": "#chat",
+    "popover": {
+      "title": "Chat",
+      "description": "You can chat with everyone here. Uses Web Sockets, Postgres DB, Drizzle ORM and more."
+    }
+  },
+  {
+    "element": "#chat-with-ai",
+    "popover": {
+      "title": "Chat with AI",
+      "description": "You can chat with an AI here. This uses custom AI model that is trained on my resume and other data."
+    }
+  }
+]
