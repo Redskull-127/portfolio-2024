@@ -7,6 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "format:write": "prettier --write \"**/*.{ts,tsx,mdx}\" --cache",
+    "format:check": "prettier --check \"**/*.{ts,tsx,mdx}\" --cache",
     "db:push": "npx drizzle-kit push:pg",
     "db:studio": "npx drizzle-kit studio"
   },
@@ -48,6 +50,7 @@
     "next-themes": "^0.3.0",
     "pg": "^8.11.5",
     "postgres": "^3.4.4",
+    "prettier": "^3.2.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "sharp": "^0.33.3",

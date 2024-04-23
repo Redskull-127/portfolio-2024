@@ -21,7 +21,7 @@ const SPOTIFY_REFRESH_TOKEN = process.env.SPOTIFY_REFRESH_TOKEN;
 const NOW_PLAYING_URL =
   "https://api.spotify.com/v1/me/player/currently-playing";
 const RECENTLY_PLAYING_URL = `https://api.spotify.com/v1/playlists/42h3IewUsTfRNHE5Puw9EK/tracks?limit=50&offset=${Math.floor(
-  Math.random() * 951
+  Math.random() * 951,
 )}`;
 const REFRESH_TOKEN_URL = "https://accounts.spotify.com/api/token";
 
@@ -96,7 +96,7 @@ export const getNowPlaying = async () => {
   if (data.item) {
     if (data.item.preview_url === null) {
       const preview = await DeepScarpSong(
-        `${data.item.name} ${data.item.artists[0].name}`
+        `${data.item.name} ${data.item.artists[0].name}`,
       );
       return {
         status: "now-playing",
@@ -126,7 +126,7 @@ export const getRecentlyPlayed = async () => {
     const random = Math.floor(Math.random() * data.items.length);
     if (data.items[random].track.preview_url === null) {
       const preview = await DeepScarpSong(
-        `${data.items[random].track.name} ${data.items[random].track.artists[0].name}`
+        `${data.items[random].track.name} ${data.items[random].track.artists[0].name}`,
       );
       return {
         status: "shuffle",
@@ -166,5 +166,5 @@ export const SpotifySelfApi = unstable_cache(
   {
     tags: ["spotifyAPI"],
     revalidate: 1,
-  }
+  },
 );

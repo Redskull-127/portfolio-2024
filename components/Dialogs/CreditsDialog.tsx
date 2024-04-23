@@ -42,7 +42,8 @@ export default function CreditsDialog() {
         <DialogHeader>
           <DialogTitle>Credits</DialogTitle>
           <DialogDescription className="py-2">
-            Thank&apos;s to all the people/services who/which helped me in making this website.
+            Thank&apos;s to all the people/services who/which helped me in
+            making this website.
           </DialogDescription>
         </DialogHeader>
         <ScrollArea className="max-h-80 w-full">

@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Cast } from "lucide-react";
 import { useCastContext } from "../providers/CastProvider";
-import Castjs from "@/lib/cast-min.js"
+import Castjs from "@/lib/cast-min.js";
 
 export default function ChromeCast() {
   const { castDetails } = useCastContext();

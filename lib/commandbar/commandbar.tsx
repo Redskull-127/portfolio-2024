@@ -199,7 +199,7 @@ export default function CommandBar() {
                       filteredSection ||
                       filteredSubtitle
                     );
-                  })
+                  }),
                 );
               }
             }}

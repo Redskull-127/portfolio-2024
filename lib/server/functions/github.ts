@@ -11,7 +11,7 @@ export async function GitHubAPI() {
   if (process.env.NODE_ENV === "production") {
     try {
       const res = await fetch(
-        "https://api.github.com/users/redskull-127/repos?sort=created"
+        "https://api.github.com/users/redskull-127/repos?sort=created",
       );
       const data = await res.json();
       const repos: GitHubType[] = data.map((repo: GitHubType) => ({
@@ -20,7 +20,7 @@ export async function GitHubAPI() {
         description: repo.description,
         homepage: repo.homepage,
       }));
-      return repos
+      return repos;
     } catch (err) {
       console.log(err);
       return new Error("Something went wrong");

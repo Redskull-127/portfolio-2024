@@ -76,7 +76,7 @@ export default function RootLayout({ children }: Children) {
       <body
         className={cn(
           "min-h-screen bg-background antialiased transition-all duration-200",
-          santoshiSans.className
+          santoshiSans.className,
         )}
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>

@@ -12,7 +12,7 @@ export default async function ChatHandler() {
     <Suspense
       fallback={<Skeleton className="w-[100px] h-[20px] rounded-full" />}
     >
-      <ChatDialog messages={allMessages}  />
+      <ChatDialog messages={allMessages} />
     </Suspense>
   );
 }

@@ -98,9 +98,9 @@ export function CommandDialogBox() {
         ),
       perform: () => {
         if (status === "authenticated") {
-            signOut();
+          signOut();
         } else {
-            signIn("google");
+          signIn("google");
         }
       },
     },

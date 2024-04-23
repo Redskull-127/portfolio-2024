@@ -19,7 +19,7 @@ try {
       }),
       {
         schema,
-      }
+      },
     );
   } else {
     if (!global.db) {
@@ -29,7 +29,7 @@ try {
             rejectUnauthorized: false,
           },
         }),
-        { schema }
+        { schema },
       );
     }
     db = global.db;

@@ -7,7 +7,7 @@ export function ListGenerator(project: ActionType) {
   return (
     <div
       className={cn(
-        "flex flex-row items-center justify-between gap-5 w-full bg-slate-800 rounded-lg transition duration-200 ease-in-out "
+        "flex flex-row items-center justify-between gap-5 w-full bg-slate-800 rounded-lg transition duration-200 ease-in-out ",
       )}
     >
       <div

@@ -37,7 +37,7 @@ export default function NotFoundClient() {
             <span
               onClick={() => {
                 return toast.success(
-                  `Issued a warning regarding\n404 - Page Not Found - ("${pathname}")`
+                  `Issued a warning regarding\n404 - Page Not Found - ("${pathname}")`,
                 );
               }}
               className="font-mono text-sm font-bold text-red-500 cursor-pointer"

@@ -28,7 +28,7 @@ export async function getMessages() {
 }
 
 export async function deleteMessage(id: number) {
-  try{
+  try {
     await db.delete(messagesSchema).where(eq(messagesSchema.id, id));
   } catch (error) {
     console.error(error);

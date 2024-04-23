@@ -16,7 +16,7 @@ export function SpotifyTip() {
           </pre>{" "}
           to open the command bar!
         </div>{" "}
-      </div>
+      </div>,
     );
   }, []);
   return null;

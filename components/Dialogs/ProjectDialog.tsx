@@ -26,7 +26,7 @@ export function ProjectDialog(props: PropsType) {
 
   useEffect(() => {
     setIsMounted(true);
-  }, [])
+  }, []);
 
   if (!isMounted) return null;
 
@@ -57,7 +57,7 @@ export function ProjectDialog(props: PropsType) {
                       return item.name
                         .toLowerCase()
                         .includes(query.toLowerCase());
-                    })
+                    }),
                   );
                 }
               }}

@@ -12,7 +12,7 @@ const CastContext = createContext(
   {} as {
     castDetails: CastDetailsProps;
     setCastDetails: (details: CastDetailsProps) => void;
-  }
+  },
 );
 
 export function useCastContext() {

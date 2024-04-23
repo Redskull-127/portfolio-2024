@@ -52,7 +52,7 @@ export function ChatDialog({ messages }: { messages: MessageType[] }) {
 
   const sendMessageSocket = async (
     message: MessageType,
-    e: HTMLFormElement
+    e: HTMLFormElement,
   ) => {
     const stringify = message;
     socket.emit("send:message", stringify);
@@ -72,7 +72,7 @@ export function ChatDialog({ messages }: { messages: MessageType[] }) {
         notifyRef.current?.play();
       }
     },
-    [session?.user?.email]
+    [session?.user?.email],
   );
 
   useEffect(() => {
@@ -275,7 +275,7 @@ export function ChatDialog({ messages }: { messages: MessageType[] }) {
 export async function sendMessage(
   e: React.FormEvent<HTMLFormElement>,
   session: any,
-  sendMessageSocket: (message: MessageType, e: HTMLFormElement) => void
+  sendMessageSocket: (message: MessageType, e: HTMLFormElement) => void,
 ) {
   const form = e.target as HTMLFormElement;
   const formData = new FormData(form);
@@ -287,7 +287,7 @@ export async function sendMessage(
         senderMail: session?.user?.email!,
         senderImage: session?.user?.image!,
       },
-      form
+      form,
     );
   } catch (error) {
     console.error(error);

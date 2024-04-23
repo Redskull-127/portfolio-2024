@@ -46,7 +46,10 @@ export function Settings() {
   }, []);
 
   return (
-    <div id="settings" className=" flex flex-col h-36 rounded-2xl bg-ternary-foreground p-6 w-full">
+    <div
+      id="settings"
+      className=" flex flex-col h-36 rounded-2xl bg-ternary-foreground p-6 w-full"
+    >
       <h1 className="text-3xl font-semibold text-ternary">Other</h1>
       {/* <div className="grid grid-flow-col justify-start gap-3 py-2 max-xl:py-4 overflow-hidden w-full place-items-start max-xl:overflow-x-scroll ">
 

@@ -19,7 +19,6 @@ export default function LyricsButton({
   name: string;
   lyrics: string;
 }) {
-
   return (
     <Dialog>
       <DialogTrigger title="Lyrics" asChild>
@@ -35,7 +34,7 @@ export default function LyricsButton({
                 <ScrollArea className="h-96">
                   <p
                     className="text-ternary text-lg whitespace-pre-line"
-                    dangerouslySetInnerHTML={{ __html: lyrics}}
+                    dangerouslySetInnerHTML={{ __html: lyrics }}
                   />
                 </ScrollArea>
               ) : (

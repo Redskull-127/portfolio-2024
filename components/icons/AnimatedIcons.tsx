@@ -10,40 +10,65 @@ import DiscordJson from "@/public/static/lottie/discord.json";
 
 export function Gmail() {
   return (
-    <Link aria-label="Send mail to me" href={'mailto:redskull@duck.com'} target="_blank" className="flex w-full justify-evenly">
+    <Link
+      aria-label="Send mail to me"
+      href={"mailto:redskull@duck.com"}
+      target="_blank"
+      className="flex w-full justify-evenly"
+    >
       <LottieAnimationPlayer JSON={GmailJson} classes="h-16" />
     </Link>
   );
 }
 
 export function GitHub() {
-    return (
-        <Link aria-label="Meer Tarbani's Github" href={'https://github.com/redskull-127'} target="_blank" className="flex w-full justify-evenly">
-        <LottieAnimationPlayer JSON={GitHubJson} classes="h-16" />
-        </Link>
-    );
+  return (
+    <Link
+      aria-label="Meer Tarbani's Github"
+      href={"https://github.com/redskull-127"}
+      target="_blank"
+      className="flex w-full justify-evenly"
+    >
+      <LottieAnimationPlayer JSON={GitHubJson} classes="h-16" />
+    </Link>
+  );
 }
 
 export function LinkedIn() {
-    return (
-        <Link aria-label="Meer Tarbani's LinkedIn" href={'https://www.linkedin.com/in/meertarbani'} target="_blank" className="flex w-full justify-evenly">
-        <LottieAnimationPlayer JSON={LinkedInJson} classes="h-16" />
-        </Link>
-    );
+  return (
+    <Link
+      aria-label="Meer Tarbani's LinkedIn"
+      href={"https://www.linkedin.com/in/meertarbani"}
+      target="_blank"
+      className="flex w-full justify-evenly"
+    >
+      <LottieAnimationPlayer JSON={LinkedInJson} classes="h-16" />
+    </Link>
+  );
 }
 
 export function X() {
-    return (
-        <Link aria-label="Meer Tarbani's X (Twitter)" href={'https://twitter.com/meertarbani'} target="_blank" className="flex w-full justify-evenly">
-        <LottieAnimationPlayer JSON={XJson} classes="h-16" />
-        </Link>
-    );
+  return (
+    <Link
+      aria-label="Meer Tarbani's X (Twitter)"
+      href={"https://twitter.com/meertarbani"}
+      target="_blank"
+      className="flex w-full justify-evenly"
+    >
+      <LottieAnimationPlayer JSON={XJson} classes="h-16" />
+    </Link>
+  );
 }
 
 export function Discord() {
   return (
-    <Link aria-label="Meer Tarbani's Discord" href={'https://discord.com/users/redskull127'} target="_blank" className="flex w-full justify-evenly">
+    <Link
+      aria-label="Meer Tarbani's Discord"
+      href={"https://discord.com/users/redskull127"}
+      target="_blank"
+      className="flex w-full justify-evenly"
+    >
       <LottieAnimationPlayer JSON={DiscordJson} classes="h-16" />
-      </Link>
-  )
+    </Link>
+  );
 }

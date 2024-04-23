@@ -6,7 +6,7 @@ export const pgConfig = postgres({
   database: process.env.DRIZZLE_DB!,
   password: process.env.DRIZZLE_PASSWORD!,
   port: Number(process.env.DRIZZLE_PORT!),
-})
+});
 
 export default {
   schema: "./db/schema.ts",
@@ -15,5 +15,5 @@ export default {
   dbCredentials: {
     host: process.env.DRIZZLE_HOST!,
     connectionString: `${process.env.DATABASE_URL}?sslmode=no-verify`,
-  }
+  },
 } satisfies Config;
