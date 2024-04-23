@@ -85,12 +85,12 @@
   display: none;
 }
 
-*{
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+* {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
-.SpotifyImage{
+.SpotifyImage {
   box-shadow: 0px 0px 10px #248f68;
   transition: all 0.3s ease;
   cursor: pointer;
@@ -98,11 +98,11 @@
 }
 
 @keyframes ImageAnimation {
-  0%{
-      box-shadow: 0px 0px 10px #248f68;
+  0% {
+    box-shadow: 0px 0px 10px #248f68;
   }
-  100%{
-      box-shadow: 0px 0px 75px #248f68;
+  100% {
+    box-shadow: 0px 0px 75px #248f68;
   }
 }
 

@@ -20,12 +20,13 @@ import {
 } from "@/components/ui/tooltip";
 
 import Image from "next/image";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 import { ChatForm } from "@/lib/server/functions/chatform";
 import { useFormStatus } from "react-dom";
-import { Icons } from "../icons/icons";
+import { Icons } from "../../icons/icons";
 import { convertDateFormat } from "@/lib/date-convertor";
 import { useSocket } from "@/lib/client/providers/Socket";
+import DeleteBtn from "./delete-message";
 
 export type MessageType = {
   id?: number;
@@ -178,41 +179,54 @@ export function ChatDialog({ messages }: { messages: MessageType[] }) {
             }}
             className="w-full flex flex-col py-2 px-5 max-h-[70vh] gap-3 overflow-hidden max-w-full overflow-y-scroll "
           >
-
             {data.map((chat) => {
               return (
                 <div key={chat.id}>
                   <div className="flex">
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <div className="gap-2">
-                          <span className="text-[#a3a3a3] mr-2">
-                            {chat.sender}:
-                          </span>
-                          {chat.message}
-                        </div>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <div className="gap-2 flex flex-row justify-center items-center">
-                          <Image
-                            src={chat.senderImage}
-                            className="rounded-full"
-                            alt=""
-                            width={36}
-                            height={36}
-                          />
-                          <p>
-                            <span className="font-semibold">{chat.sender}</span>
-                            <br />
-                            <span className="font-light">
-                              {convertDateFormat(chat.createdAt!)}
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <div className="gap-2">
+                            <span className="text-[#a3a3a3] mr-2">
+                              {chat.sender}:
                             </span>
-                          </p>
-                        </div>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
+                            {chat.message}{" "}
+                            {chat.senderMail === session?.user?.email ||
+                            session?.user?.email ===
+                              process.env.NEXT_PUBLIC_ADMIN_EMAIL ? (
+                              <DeleteBtn
+                                id={Number(chat.id)}
+                                createdAt={chat.createdAt!}
+                                message={chat.message}
+                                sender={chat.sender}
+                              />
+                            ) : (
+                              <></>
+                            )}
+                          </div>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <div className="gap-2 flex flex-row justify-center items-center">
+                            <Image
+                              src={chat.senderImage}
+                              className="rounded-full"
+                              alt=""
+                              width={36}
+                              height={36}
+                            />
+                            <p>
+                              <span className="font-semibold">
+                                {chat.sender}
+                              </span>
+                              <br />
+                              <span className="font-light">
+                                {convertDateFormat(chat.createdAt!)}
+                              </span>
+                            </p>
+                          </div>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
                   </div>
                 </div>
               );

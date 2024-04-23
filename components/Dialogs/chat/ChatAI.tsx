@@ -8,9 +8,9 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Icons } from "../icons/icons";
-import { Textarea } from "../ui/textarea";
-import { Button } from "../ui/button";
+import { Icons } from "../../icons/icons";
+import { Textarea } from "../../ui/textarea";
+import { Button } from "../../ui/button";
 import { useEffect, useRef, useState } from "react";
 import { ChatAPIMaker } from "@/lib/server/functions/chatapi";
 

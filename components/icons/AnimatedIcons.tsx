@@ -6,6 +6,7 @@ import GmailJson from "@/public/static/lottie/gmail.json";
 import GitHubJson from "@/public/static/lottie/github.json";
 import LinkedInJson from "@/public/static/lottie/linkedin.json";
 import XJson from "@/public/static/lottie/x.json";
+import DiscordJson from "@/public/static/lottie/discord.json";
 
 export function Gmail() {
   return (
@@ -37,4 +38,12 @@ export function X() {
         <LottieAnimationPlayer JSON={XJson} classes="h-16" />
         </Link>
     );
+}
+
+export function Discord() {
+  return (
+    <Link aria-label="Meer Tarbani's Discord" href={'https://discord.com/users/redskull127'} target="_blank" className="flex w-full justify-evenly">
+      <LottieAnimationPlayer JSON={DiscordJson} classes="h-16" />
+      </Link>
+  )
 }

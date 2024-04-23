@@ -1,5 +1,6 @@
 // @ts-ignore
 import { getLyrics as GetLyric } from "genius-lyrics-api";
+import { AxiosError } from "axios";
 
 export default async function getLyrics(song: string, artist: string) {
   const options = {
@@ -8,6 +9,11 @@ export default async function getLyrics(song: string, artist: string) {
     artist: artist,
     optimizeQuery: true,
   };
-  const data = await GetLyric(options);
-  return data as typeof data;
+
+  try {
+    const data = await GetLyric(options);
+    return data as typeof data;
+  } catch (error: AxiosError | any) {
+    console.error(error.message);
+  }
 }

@@ -1,4 +1,4 @@
-import ChatHandler from "@/components/Dialogs/ChatHandler";
+import ChatHandler from "@/components/Dialogs/chat/ChatHandler";
 
 export const revalidate = 0
 

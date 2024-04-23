@@ -10,17 +10,15 @@ import {
 } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
-
 export default function LyricsButton({
   song,
   name,
-  lyrics
+  lyrics,
 }: {
   song: string;
   name: string;
   lyrics: string;
 }) {
-
 
   return (
     <Dialog>
@@ -35,7 +33,10 @@ export default function LyricsButton({
             <div className="pt-8">
               {lyrics && lyrics !== "" ? (
                 <ScrollArea className="h-96">
-                  <p className="text-lg">{lyrics}</p>
+                  <p
+                    className="text-ternary text-lg whitespace-pre-line"
+                    dangerouslySetInnerHTML={{ __html: lyrics}}
+                  />
                 </ScrollArea>
               ) : (
                 <p>No lyrics found. :(</p>
