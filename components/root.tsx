@@ -13,12 +13,12 @@ export default function RootComponent() {
   return (
     <>
       <HeroCard />
-      <div className="max-xl:w-full max-xl:gap-5 max-xl:max-h-fit w-[45%] max-h-80 flex flex-col justify-between items-center">
+      <div className="flex flex-col gap-5 max-xl:w-full xl:w-[45%] h-fit">
         <Introduction />
         <QuickLinks />
       </div>
       <SpotifyCard />
-      <div className="flex flex-col max-xl:h-fit max-xl:w-full w-[45%] gap-3">
+      <div className="flex flex-col gap-3 max-xl:w-full xl:w-[45%] h-fit">
         <Skills />
         <Settings />
       </div>

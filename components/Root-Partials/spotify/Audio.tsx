@@ -103,7 +103,7 @@ export default function AudioButton(props: AudioButtonType) {
       setCastDetails({
         src: props.AudioSRC,
         title: props.name,
-        poster: props.image
+        poster: props.image,
       });
     }
   }, [props, setCastDetails]);

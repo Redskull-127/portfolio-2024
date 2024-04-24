@@ -11,7 +11,7 @@ export default async function SpotifyComponent(props: SpotifyType) {
   return (
     <div
       id="spotify-card"
-      className="max-xl:w-full max-xl:h-fit flex flex-col justify-between h-80 rounded-2xl w-[25%] gap-5 bg-ternary-foreground p-6"
+      className=" flex flex-col justify-between h-80 rounded-2xl max-xl:w-full xl:max-w-[24%] 2xl:max-w-[25%] w-full gap-5 bg-ternary-foreground p-6"
     >
       <div className="flex justify-between items-center">
         <Link
@@ -27,8 +27,8 @@ export default async function SpotifyComponent(props: SpotifyType) {
       </div>
       <div className="w-full flex flex-col justify-center items-center gap-3">
         <SpotifyImage url={String(props.images[1].url)} />
-        <h1 className="text-lg font-semibold text-center overflow-hidden w-full  truncate">
-          {props.name} - <span className="text-opacity-50">{props.artist}</span>
+        <h1 className="text-lg font-semibold text-center overflow-hidden text-ellipsis w-full">
+          {props.name} - {props.artist}
         </h1>
       </div>
       <div className="w-full flex justify-center items-center">

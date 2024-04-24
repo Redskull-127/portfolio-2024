@@ -20,7 +20,6 @@ import Script from "next/script";
 import { DriverProvider } from "@/lib/client/providers/Driver";
 import DynamicIsland from "@/lib/client/functions/dynamic-island";
 import { TailwindIndicator } from "@/lib/taillwind-indicator";
-import { Fragment } from "react";
 
 const santoshiSans = localFont({
   src: "./Satoshi-Variable.woff2",
@@ -86,7 +85,7 @@ export default function RootLayout({ children }: Children) {
               <ChromeCastProvider>
                 <DynamicIsland />
                 <DriverProvider>
-                  <main className="flex gap-8 h-screen w-full p-10 font-sans flex-wrap max-xl:gap-5 max-xl:px-6 ">
+                  <main className="flex flex-wrap gap-8 h-screen w-screen font-sans p-10">
                     <RootComponent />
                     {children}
                     <Analytics />
