@@ -6,6 +6,7 @@ import { useState } from "react";
 export type CastDetailsProps = {
   src: string;
   title: string;
+  poster: string;
 };
 
 const CastContext = createContext(
@@ -23,6 +24,7 @@ export function ChromeCastProvider({ children }: Children) {
   const [castDetails, setCastDetails] = useState<CastDetailsProps>({
     src: "",
     title: "",
+    poster: "",
   });
 
   return (

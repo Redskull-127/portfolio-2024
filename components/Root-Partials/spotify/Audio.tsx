@@ -24,6 +24,7 @@ type AudioButtonType = {
   AudioSRC: string;
   name: string;
   uri: string;
+  image: string;
 };
 
 type AudioButtonProps = "playing" | "paused" | "stopped";
@@ -102,6 +103,7 @@ export default function AudioButton(props: AudioButtonType) {
       setCastDetails({
         src: props.AudioSRC,
         title: props.name,
+        poster: props.image
       });
     }
   }, [props, setCastDetails]);

@@ -36,6 +36,7 @@ export default async function SpotifyComponent(props: SpotifyType) {
           uri={props.uri!}
           AudioSRC={props.preview_url}
           name={props.name}
+          image={props.images[1].url}
         />
       </div>
     </div>
