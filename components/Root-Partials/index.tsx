@@ -12,16 +12,12 @@ import { Settings as Controls } from "@/lib/client/functions/settings";
 import { GitHubAPI, GitHubType } from "@/lib/server/functions/github";
 import { ProjectLists } from "./project/ProjectLists";
 import SpotifyComponent from "./spotify/SpotifyComponent";
-import { Suspense } from "react";
-import { Skeleton } from "../ui/skeleton";
+import Avatar3D from "./3D-avatar";
 
 export function HeroCard() {
   return (
-    <div className="max-xl:w-full xl:min-w-[25%] flex flex-col justify-center items-center h-80 shadow-lg shadow-[#248F68] rounded-2xl gap-5 bg-[#248F68] text-white">
-      <Suspense
-        fallback={<Skeleton className="w-[128px] h-[128px] rounded-full" />}
-      >
-        <div className="h-[128px] w-[128px] rounded-full bg-gradient-to-b from-[#feeeb8] to-[#fde89b]">
+    <div className="max-xl:w-full xl:min-w-[25%] flex flex-col justify-end place-items-center h-80 shadow-lg shadow-[#248F68] rounded-2xl gap-5 bg-[#248F68] text-white">
+      {/* <div className="h-[128px] w-[128px] rounded-full bg-gradient-to-b from-[#feeeb8] to-[#fde89b]">
           <Image
             src="/static/svg/hero.png"
             width={128}
@@ -30,9 +26,9 @@ export function HeroCard() {
             quality={100}
             alt="Meer Tarbani"
           />
-        </div>
-      </Suspense>
-      <div className="flex flex-col gap-2 justify-center items-center">
+        </div> */}
+      <Avatar3D />
+      <div className="flex flex-col gap-2 justify-center items-center mb-10">
         <h1 className="max-xl:text-3xl text-4xl font-semibold font-sans">
           Meer Tarbani
         </h1>

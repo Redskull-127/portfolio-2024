@@ -82,12 +82,17 @@ module.exports = {
           from: { opacity: 0 },
           to: { opacity: 1 },
         },
+        "marquee-text": {
+          from: { transform: "translateX(70%)" },
+          to: { transform: "translateX(-100%)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "swipe-in": "swipe-in 0.7s",
         "fade-in": "fade-in 0.7s ease-in-out",
+        "marquee-text": "marquee-text 10s linear infinite",
       },
     },
   },
