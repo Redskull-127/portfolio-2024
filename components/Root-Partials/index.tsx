@@ -17,22 +17,12 @@ import Avatar3D from "./3D-avatar";
 export function HeroCard() {
   return (
     <div className="max-xl:w-full xl:min-w-[25%] flex flex-col justify-end place-items-center h-80 shadow-lg shadow-[#248F68] rounded-2xl gap-5 bg-[#248F68] text-white">
-      {/* <div className="h-[128px] w-[128px] rounded-full bg-gradient-to-b from-[#feeeb8] to-[#fde89b]">
-          <Image
-            src="/static/svg/hero.png"
-            width={128}
-            className="animate-fade-in transform absolute"
-            height={128}
-            quality={100}
-            alt="Meer Tarbani"
-          />
-        </div> */}
       <Avatar3D />
-      <div className="flex flex-col gap-2 justify-center items-center mb-10">
+      <div className="flex flex-col gap-2 justify-center items-center mb-14">
         <h1 className="max-xl:text-3xl text-4xl font-semibold font-sans">
           Meer Tarbani
         </h1>
-        <span className="text-sm">Full Stack Web Developer</span>
+        <span className="text-sm font-medium">Full Stack Web Developer</span>
       </div>
     </div>
   );
