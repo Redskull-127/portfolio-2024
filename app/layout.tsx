@@ -72,6 +72,11 @@ export default function RootLayout({ children }: Children) {
         defer
         async
       ></Script>
+      <Script
+        defer
+        src="https://static.cloudflareinsights.com/beacon.min.js"
+        data-cf-beacon={process.env.CF_WEB_TOKEN as string}
+      ></Script>
       <body
         className={cn(
           "min-h-screen bg-background antialiased transition-all duration-200",
