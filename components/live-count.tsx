@@ -5,7 +5,7 @@ export default function LiveCount() {
   const [activeUsers, setActiveUsers] = useState(0);
 
   useEffect(() => {
-    const ws = new WebSocket(`ws://${SOCKET_URL}`);
+    const ws = new WebSocket(`wss://${SOCKET_URL}`);
     ws.onmessage = (event) => {
       const data = JSON.parse(event.data);
       setActiveUsers(data.activeUsers);
