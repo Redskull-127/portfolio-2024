@@ -34,6 +34,7 @@ import { toast } from "sonner";
 import { CommandDialogBox } from "@/lib/commandbar/commandnew";
 import ChromeCast from "./chromecast";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import LiveCount from "@/components/live-count";
 
 export function Settings() {
   const { status, data: session } = useSession();
@@ -175,6 +176,8 @@ export function Settings() {
           </Button>
 
           <ChromeCast />
+
+          <LiveCount />
         </div>
         <ScrollBar orientation="horizontal" />
       </ScrollArea>
