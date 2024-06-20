@@ -25,14 +25,19 @@ This repository contains the source code for my portfolio website, showcasing my
 - **Websockets**: Enables real-time communication for interactive and dynamic features.
 - **Postgres DB**: A robust relational database for storing and retrieving data efficiently.
 - **Drizzle ORM**: A feature-rich Object-Relational Mapping library for interfacing with the Postgres database seamlessly.
+- **Auth.js Authentication**: Secure user authentication and authorization for protected routes and data.
+- **Posthog Analytics**: Track user interactions and behavior to improve the website and user experience.
+- **Dark Mode**: Toggle between light and dark themes for better readability and user experience.
 
 ## Prerequisites
 
 Before you begin, ensure you have the following installed:
 
-- Node.js and pnpm
+- Node.js and npm/yarn/pnpm
 - PostgreSQL database
 - Drizzle ORM
+- Auth.js Authentication
+- Posthog Analytics
 
 ## Getting Started
 
@@ -46,6 +51,10 @@ Before you begin, ensure you have the following installed:
 2. **Install dependencies:**
 
    ```bash
+   npm install
+   or
+   yarn install
+   or
    pnpm i
    ```
 
@@ -56,7 +65,11 @@ Before you begin, ensure you have the following installed:
 4. **Run the application:**
 
    ```bash
-   pnpm run dev
+   npm run dev
+   or
+   yarn dev
+   or
+   pnpm dev
    ```
 
 5. **Visit [http://localhost:3000](http://localhost:3000) in your browser.**
