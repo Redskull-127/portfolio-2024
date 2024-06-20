@@ -20,6 +20,7 @@ import Script from "next/script";
 import { DriverProvider } from "@/lib/client/providers/Driver";
 import DynamicIsland from "@/lib/client/functions/dynamic-island";
 import { TailwindIndicator } from "@/lib/taillwind-indicator";
+import { CSPostHogProvider } from "@/lib/client/providers/Posthog";
 
 const santoshiSans = localFont({
   src: "./Satoshi-Variable.woff2",
@@ -77,34 +78,36 @@ export default function RootLayout({ children }: Children) {
         src="https://static.cloudflareinsights.com/beacon.min.js"
         data-cf-beacon={process.env.CF_WEB_TOKEN as string}
       ></Script>
-      <body
-        className={cn(
-          "min-h-screen bg-background antialiased transition-all duration-200",
-          santoshiSans.className,
-        )}
-      >
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <SpeedInsights />
-          <NextAuthProvider>
-            <ConnectivityStatus>
-              <ChromeCastProvider>
-                <DynamicIsland />
-                <DriverProvider>
-                  <main className="flex flex-wrap gap-8 h-screen w-screen font-sans p-10 max-xl:gap-5 max-xl:px-8">
-                    <RootComponent />
-                    {children}
-                    <Analytics />
-                    <TailwindIndicator />
-                  </main>
-                </DriverProvider>
-                <Toaster />
-                <Sonner />
-                <SpotifyTip />
-              </ChromeCastProvider>
-            </ConnectivityStatus>
-          </NextAuthProvider>
-        </ThemeProvider>
-      </body>
+      <CSPostHogProvider>
+        <body
+          className={cn(
+            "min-h-screen bg-background antialiased transition-all duration-200",
+            santoshiSans.className,
+          )}
+        >
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            <SpeedInsights />
+            <NextAuthProvider>
+              <ConnectivityStatus>
+                <ChromeCastProvider>
+                  <DynamicIsland />
+                  <DriverProvider>
+                    <main className="flex flex-wrap gap-8 h-screen w-screen font-sans p-10 max-xl:gap-5 max-xl:px-8">
+                      <RootComponent />
+                      {children}
+                      <Analytics />
+                      <TailwindIndicator />
+                    </main>
+                  </DriverProvider>
+                  <Toaster />
+                  <Sonner />
+                  <SpotifyTip />
+                </ChromeCastProvider>
+              </ConnectivityStatus>
+            </NextAuthProvider>
+          </ThemeProvider>
+        </body>
+      </CSPostHogProvider>
     </html>
   );
 }
