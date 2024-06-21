@@ -1,4 +1,4 @@
-# Portfolio Website - Meertarbani
+# Portfolio Website - Meer Tarbani
 
 Welcome to the repository of my personal portfolio website, built using Next.js, ShadCN, Tailwind CSS, Websockets, Postgres DB, and Drizzle ORM.
 

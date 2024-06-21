@@ -1,15 +1,18 @@
 "use client";
 import { useEffect, useState } from "react";
+import WebSocket from "isomorphic-ws";
+
 const SOCKET_URL = process.env.NEXT_PUBLIC_LIVEUSER!;
 export default function LiveCount() {
   const [activeUsers, setActiveUsers] = useState(0);
 
   useEffect(() => {
-    const ws = new WebSocket(`wss://${SOCKET_URL}`);
-    ws.onmessage = (event) => {
+    const ws = new WebSocket(SOCKET_URL);
+    ws.onmessage = (event: WebSocket) => {
       const data = JSON.parse(event.data);
       setActiveUsers(data.activeUsers);
     };
+
 
     return () => {
       ws.close();
