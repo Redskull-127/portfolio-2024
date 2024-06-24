@@ -13,7 +13,6 @@ import { Button } from "@/components/ui/button";
 import { convertDateFormat } from "@/lib/date-convertor";
 import { deleteMessage } from "@/lib/server/functions/chatform";
 import { Trash2 } from "lucide-react";
-import { revalidatePath } from "next/cache";
 import { toast } from "sonner";
 
 type DeleteBtnProps = {

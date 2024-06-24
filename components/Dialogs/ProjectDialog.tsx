@@ -1,5 +1,5 @@
 "use client";
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 import { GitHubType } from "@/lib/server/functions/github";
 import {

@@ -7,10 +7,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "format:write": "prettier --write \"**/*.{ts,tsx,mdx}\" --cache",
-    "format:check": "prettier --check \"**/*.{ts,tsx,mdx}\" --cache",
+    "format:write": "prettier --write \"**/*.{ts,tsx,mdx,js,jsx,md,css,yaml,yml}\" --cache",
+    "format:check": "prettier --check \"**/*.{ts,tsx,mdx,js,jsx,md,css,yaml,yml}\" --cache",
     "db:push": "bun drizzle-kit push:pg",
-    "db:studio": "bun drizzle-kit studio"
+    "db:studio": "bun drizzle-kit studio",
+    "prepare": "husky"
   },
   "dependencies": {
     "@ducanh2912/next-pwa": "^10.2.6",
@@ -75,6 +76,7 @@
     "drizzle-kit": "^0.20.16",
     "eslint": "^8.57.0",
     "eslint-config-next": "14.2.2",
+    "husky": "^9.0.11",
     "postcss": "^8.4.38",
     "tailwindcss": "^3.4.3",
     "typescript": "^5.4.5"

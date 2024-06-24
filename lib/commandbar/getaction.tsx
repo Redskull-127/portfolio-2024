@@ -6,7 +6,7 @@ export function ActionCharacter() {
   useEffect(() => {
     if (
       navigator.platform.indexOf("Mac") === 0 ||
-      navigator.platform === "iPhone"
+      navigator.platform.includes("iPhone")
     ) {
       setAction("⌘");
     } else {
