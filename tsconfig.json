@@ -23,7 +23,6 @@
       "@/*": ["./*"]
     },
     "allowImportingTsExtensions": true,
-    "verbatimModuleSyntax": true,
     "noFallthroughCasesInSwitch": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
