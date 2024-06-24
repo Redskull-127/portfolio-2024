@@ -15,9 +15,9 @@ export type SpotifyType = {
   status: "now-playing" | "shuffle";
 };
 
-const SPOTIFY_CLIENT_ID = process.env.SPOTIFY_CLIENT_ID;
-const SPOTIFY_SECRET_ID = process.env.SPOTIFY_SECRET_ID;
-const SPOTIFY_REFRESH_TOKEN = process.env.SPOTIFY_REFRESH_TOKEN;
+const SPOTIFY_CLIENT_ID = process.env["SPOTIFY_CLIENT_ID"];
+const SPOTIFY_SECRET_ID = process.env["SPOTIFY_SECRET_ID"];
+const SPOTIFY_REFRESH_TOKEN = process.env["SPOTIFY_REFRESH_TOKEN"];
 const NOW_PLAYING_URL =
   "https://api.spotify.com/v1/me/player/currently-playing";
 const RECENTLY_PLAYING_URL = `https://api.spotify.com/v1/playlists/42h3IewUsTfRNHE5Puw9EK/tracks?limit=50&offset=${Math.floor(

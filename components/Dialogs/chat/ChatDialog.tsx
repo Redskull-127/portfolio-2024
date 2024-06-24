@@ -193,7 +193,7 @@ export function ChatDialog({ messages }: { messages: MessageType[] }) {
                             {chat.message}{" "}
                             {chat.senderMail === session?.user?.email ||
                             session?.user?.email ===
-                              process.env.NEXT_PUBLIC_ADMIN_EMAIL ? (
+                              process.env["NEXT_PUBLIC_ADMIN_EMAIL"] ? (
                               <DeleteBtn
                                 id={Number(chat.id)}
                                 createdAt={chat.createdAt!}

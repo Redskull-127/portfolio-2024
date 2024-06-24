@@ -76,7 +76,7 @@ export default function RootLayout({ children }: Children) {
       <Script
         defer
         src="https://static.cloudflareinsights.com/beacon.min.js"
-        data-cf-beacon={process.env.CF_WEB_TOKEN as string}
+        data-cf-beacon={process.env["CF_WEB_TOKEN"] as string}
       ></Script>
       <CSPostHogProvider>
         <body

@@ -11,8 +11,8 @@ const MakeRequest = async (song: string) => {
       limit: "1",
     },
     headers: {
-      "X-RapidAPI-Key": process.env.RapidAPI_Key as string,
-      "X-RapidAPI-Host": process.env.RapidAPI_Host as string,
+      "X-RapidAPI-Key": process.env["RapidAPI_Key"] as string,
+      "X-RapidAPI-Host": process.env["RapidAPI_Host"] as string,
     },
   };
   try {

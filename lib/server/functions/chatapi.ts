@@ -11,7 +11,7 @@ type ChatAPIResponse = {
 
 export async function ChatAPIMaker(message: string): Promise<ChatAPIType> {
   try {
-    const res = await fetch(process.env.NEXT_PUBLIC_AI_CHATBOT_URL as string, {
+    const res = await fetch(process.env["NEXT_PUBLIC_AI_CHATBOT_URL"] as string, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
