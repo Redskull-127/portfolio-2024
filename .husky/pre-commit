@@ -1,3 +1,1 @@
-bun
-run
-format:write
+bun run format:write

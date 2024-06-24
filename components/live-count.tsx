@@ -13,7 +13,6 @@ export default function LiveCount() {
       setActiveUsers(data.activeUsers);
     };
 
-
     return () => {
       ws.close();
     };

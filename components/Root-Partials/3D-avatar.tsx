@@ -22,7 +22,6 @@ export default function Avatar3D() {
   );
 }
 
-
 function Loading() {
   return (
     <div className="absolute size-[400px] max-xl:size-[280px] flex justify-center items-start">

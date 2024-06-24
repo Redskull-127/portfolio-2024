@@ -10,7 +10,10 @@ export const useSocket = () => {
 };
 
 export const SocketProvider = (props: { children: React.ReactNode }) => {
-  const socket = useMemo(() => io(process.env["NEXT_PUBLIC_SOCKET_NEW_URL"]!), []);
+  const socket = useMemo(
+    () => io(process.env["NEXT_PUBLIC_SOCKET_NEW_URL"]!),
+    [],
+  );
 
   return (
     <SocketContext.Provider value={socket}>

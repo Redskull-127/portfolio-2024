@@ -59,6 +59,7 @@ Before you begin, ensure you have the following installed:
    ```
 
 3. **Set up project and database:**
+
    - Rename `.env.template` to `.env` and configure the environment variables.
    - Create a PostgreSQL database and configure the connection in `config.drizzle.js/ts`.
 
