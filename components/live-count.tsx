@@ -2,13 +2,13 @@
 import { useEffect, useState } from "react";
 import WebSocket from "isomorphic-ws";
 
-const SOCKET_URL = process.env.NEXT_PUBLIC_LIVEUSER!;
+const SOCKET_URL = process.env["NEXT_PUBLIC_LIVEUSER"]!;
 export default function LiveCount() {
   const [activeUsers, setActiveUsers] = useState(0);
 
   useEffect(() => {
     const ws = new WebSocket(SOCKET_URL);
-    ws.onmessage = (event: WebSocket) => {
+    ws.onmessage = (event: any) => {
       const data = JSON.parse(event.data);
       setActiveUsers(data.activeUsers);
     };
