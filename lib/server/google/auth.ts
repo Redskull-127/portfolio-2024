@@ -32,4 +32,4 @@ class GetAuth {
   }
 }
 
-export {GetAuth};
+export { GetAuth };

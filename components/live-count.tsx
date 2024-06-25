@@ -30,5 +30,9 @@ export default function LiveCount() {
   //     </span>
   //   </button>
   // );
-  return <span>{activeUsers} Live {activeUsers === 1 ? "User" : "Users"}</span>
+  return (
+    <span>
+      {activeUsers} Live {activeUsers === 1 ? "User" : "Users"}
+    </span>
+  );
 }

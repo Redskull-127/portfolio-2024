@@ -100,7 +100,7 @@ export function Skills() {
 }
 
 export async function Settings() {
-  const totalViews = await getTotalVisits() ?? 0;
+  const totalViews = (await getTotalVisits()) ?? 0;
   return <Controls totalViews={totalViews} />;
 }
 

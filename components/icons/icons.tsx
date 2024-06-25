@@ -14,7 +14,7 @@ import {
   Bot,
   WholeWord,
   TrendingUp,
-  Radio
+  Radio,
 } from "lucide-react";
 
 export type LogoIcon = {
