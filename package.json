@@ -46,6 +46,7 @@
     "drizzle-orm": "^0.30.8",
     "framer-motion": "^11.1.7",
     "genius-lyrics-api": "^3.2.1",
+    "googleapis": "^140.0.0",
     "isomorphic-ws": "^5.0.0",
     "lottie-react": "^2.4.0",
     "lucide-react": "^0.368.0",

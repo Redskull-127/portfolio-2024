@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 
 import { SpotifySelfApi, SpotifyType } from "@/lib/server/functions/spotify";
@@ -13,6 +12,7 @@ import { GitHubAPI, GitHubType } from "@/lib/server/functions/github";
 import { ProjectLists } from "./project/ProjectLists";
 import SpotifyComponent from "./spotify/SpotifyComponent";
 import Avatar3D from "./3D-avatar";
+import { getTotalVisits } from "@/lib/server/google/apis/search-analytics";
 
 export function HeroCard() {
   return (
@@ -99,8 +99,9 @@ export function Skills() {
   );
 }
 
-export function Settings() {
-  return <Controls />;
+export async function Settings() {
+  const totalViews = await getTotalVisits() ?? 0;
+  return <Controls totalViews={totalViews} />;
 }
 
 export async function Projects() {

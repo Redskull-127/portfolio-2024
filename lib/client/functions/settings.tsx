@@ -35,8 +35,13 @@ import { CommandDialogBox } from "@/lib/commandbar/commandnew";
 import ChromeCast from "./chromecast";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import LiveCount from "@/components/live-count";
+import { Icons } from "@/components/icons/icons";
 
-export function Settings() {
+export type SettingsProps = {
+  totalViews: number;
+};
+
+export function Settings(params: SettingsProps) {
   const { status, data: session } = useSession();
   const notificationRef = useRef<HTMLButtonElement>(null);
 
@@ -51,10 +56,21 @@ export function Settings() {
       id="settings"
       className="flex flex-col rounded-2xl bg-ternary-foreground p-6 gap-3 w-full"
     >
-      <h1 className="text-3xl font-semibold text-ternary">Other</h1>
-      {/* <div className="grid grid-flow-col justify-start gap-3 py-2 max-xl:py-4 overflow-hidden w-full place-items-start max-xl:overflow-x-scroll ">
-
-      </div> */}
+      <div className="font-semibold text-ternary flex items-center justify-between max-md:flex-col max-md:items-start">
+        <h1 className="text-3xl">Controls</h1>
+        <div className="flex items-center gap-3">
+          {params.totalViews && (
+            <span className="inline-flex gap-1 hover:text-primary cursor-pointer transition-all">
+              <Icons.TrendingUp />
+              {params.totalViews} Unique Views
+            </span>
+          )}{" "}
+          <span className="inline-flex gap-1 hover:text-primary cursor-pointer transition-all">
+            <Icons.Radio />
+            <LiveCount />
+          </span>
+        </div>
+      </div>
       <ScrollArea className="w-full whitespace-nowrap">
         <div className="flex w-max py-1 space-x-3">
           <CommandDialogBox />
@@ -176,8 +192,6 @@ export function Settings() {
           </Button>
 
           <ChromeCast />
-
-          <LiveCount />
         </div>
         <ScrollBar orientation="horizontal" />
       </ScrollArea>

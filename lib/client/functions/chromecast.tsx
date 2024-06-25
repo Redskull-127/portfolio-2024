@@ -29,8 +29,6 @@ export default function ChromeCast() {
   const handleClick = () => {
     if (typeof window !== undefined) {
       castRef.current = new Castjs();
-      console.log(castDetails.src);
-      console.log(castRef.current.device);
       if (connected === true) {
         return toast("Already connected to a device!", {
           action: (
