@@ -39,8 +39,6 @@ export const getTotalVisits = async () => {
     totalClicks += row.clicks ?? 0;
     totalImpressions += row.impressions ?? 0;
   });
-  console.log(`Total Clicks: ${totalClicks}`);
-  console.log(`Total Impressions: ${totalImpressions}`);
   return searchAnalytics.rows?.reduce((acc, curr) => {
     return acc + (curr.clicks ?? 0) + (curr.impressions ?? 0);
   }, 0);

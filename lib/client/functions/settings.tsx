@@ -36,6 +36,7 @@ import ChromeCast from "./chromecast";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import LiveCount from "@/components/live-count";
 import { Icons } from "@/components/icons/icons";
+import NumFormate from "@/lib/number-formate";
 
 export type SettingsProps = {
   totalViews: number;
@@ -58,17 +59,38 @@ export function Settings(params: SettingsProps) {
     >
       <div className="font-semibold text-ternary flex items-center justify-between max-md:flex-col max-md:items-start">
         <h1 className="text-3xl">Controls</h1>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 max-md:items-between max-md:text-sm max-md:mt-3">
           {params.totalViews && (
-            <span className="inline-flex gap-1 hover:text-primary cursor-pointer transition-all">
-              <Icons.TrendingUp />
-              {params.totalViews} Unique Views
-            </span>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <span className="inline-flex gap-1 hover:text-primary cursor-pointer transition-all">
+                    <Icons.TrendingUp />
+                    {NumFormate(params.totalViews)} Unique Visitors
+                  </span>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>
+                    {NumFormate(params.totalViews)} Unique Visitors in past 30
+                    Days!
+                  </p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           )}{" "}
-          <span className="inline-flex gap-1 hover:text-primary cursor-pointer transition-all">
-            <Icons.Radio />
-            <LiveCount />
-          </span>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <span className="inline-flex gap-1 hover:text-primary cursor-pointer transition-all">
+                  <Icons.Radio />
+                  <LiveCount />
+                </span>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Active users in past 1 minute!</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </div>
       </div>
       <ScrollArea className="w-full whitespace-nowrap">
