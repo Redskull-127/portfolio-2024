@@ -1,5 +1,5 @@
-import ChatAI from "@/components/Dialogs/chat/ChatAI";
-import { StartDriver } from "../providers/Driver";
+import ChatAI from '@/components/Dialogs/chat/ChatAI';
+import { StartDriver } from '../providers/Driver';
 
 export default function DynamicIsland() {
   return (

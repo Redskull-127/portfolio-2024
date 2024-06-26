@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   CalendarIcon,
@@ -7,7 +7,7 @@ import {
   GearIcon,
   PersonIcon,
   RocketIcon,
-} from "@radix-ui/react-icons";
+} from '@radix-ui/react-icons';
 
 import {
   CommandDialog,
@@ -18,15 +18,15 @@ import {
   CommandList,
   CommandSeparator,
   CommandShortcut,
-} from "@/components/ui/command";
-import { Button } from "@/components/ui/button";
-import { Home, Book, MessageCircleHeart } from "lucide-react";
-import { useEffect, useState } from "react";
-import { ActionCharacter } from "./getaction";
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
-import { useSession, signIn, signOut } from "next-auth/react";
-import Image from "next/image";
+} from '@/components/ui/command';
+import { Button } from '@/components/ui/button';
+import { Home, Book, MessageCircleHeart } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { ActionCharacter } from './getaction';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
+import { useSession, signIn, signOut } from 'next-auth/react';
+import Image from 'next/image';
 
 export function CommandDialogBox() {
   const [open, setOpen] = useState(false);
@@ -34,61 +34,61 @@ export function CommandDialogBox() {
   const router = useRouter();
   const Pages = [
     {
-      name: "Home",
+      name: 'Home',
       icon: <Home className="mr-2 h-4 w-4" />,
       perform: () => {
-        if (window.location.pathname === "/") {
+        if (window.location.pathname === '/') {
           setOpen(false);
         } else {
-          router.push("/");
+          router.push('/');
         }
       },
     },
     {
-      name: "Blogs",
+      name: 'Blogs',
       icon: <Book className="mr-2 h-4 w-4" />,
       perform: () => {
-        router.push("/blogs");
+        router.push('/blogs');
       },
     },
     {
-      name: "Chat",
+      name: 'Chat',
       icon: <MessageCircleHeart className="mr-2 h-4 w-4" />,
       perform: () => {
-        router.push("/chat");
+        router.push('/chat');
       },
     },
     {
-      name: "Events",
+      name: 'Events',
       icon: <CalendarIcon className="mr-2 h-4 w-4" />,
       perform: () => {
-        router.push("/events");
+        router.push('/events');
       },
     },
     {
-      name: "Projects",
+      name: 'Projects',
       icon: <RocketIcon className="mr-2 h-4 w-4" />,
       perform: () => {
-        router.push("/projects");
+        router.push('/projects');
       },
     },
     {
-      name: "Credits",
+      name: 'Credits',
       icon: <FaceIcon className="mr-2 h-4 w-4" />,
       perform: () => {
-        router.push("/credits");
+        router.push('/credits');
       },
     },
   ];
 
   const Settings = [
     {
-      name: status === "authenticated" ? "Sign Out" : "Sign In",
+      name: status === 'authenticated' ? 'Sign Out' : 'Sign In',
       icon:
-        status === "authenticated" ? (
+        status === 'authenticated' ? (
           <Image
-            src={session.user?.image || ""}
-            alt={session.user?.name || ""}
+            src={session.user?.image || ''}
+            alt={session.user?.name || ''}
             width={20}
             className="rounded-full mr-2"
             height={16}
@@ -97,26 +97,26 @@ export function CommandDialogBox() {
           <PersonIcon className="mr-2 h-4 w-4" />
         ),
       perform: () => {
-        if (status === "authenticated") {
+        if (status === 'authenticated') {
           signOut();
         } else {
-          signIn("google");
+          signIn('google');
         }
       },
     },
     {
-      name: "Mail",
+      name: 'Mail',
       icon: <EnvelopeClosedIcon className="mr-2 h-4 w-4" />,
       perform: () => {
-        window.open("mailto:redskull@duck.com");
+        window.open('mailto:redskull@duck.com');
       },
     },
     {
-      name: "Settings",
+      name: 'Settings',
       icon: <GearIcon className="mr-2 h-4 w-4" />,
       perform: () => {
-        toast("⛑️ On it:", {
-          description: "Settings Page is under development",
+        toast('⛑️ On it:', {
+          description: 'Settings Page is under development',
         });
       },
     },
@@ -124,14 +124,14 @@ export function CommandDialogBox() {
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
-      if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
+      if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
         setOpen((open) => !open);
       }
     };
 
-    document.addEventListener("keydown", down);
-    return () => document.removeEventListener("keydown", down);
+    document.addEventListener('keydown', down);
+    return () => document.removeEventListener('keydown', down);
   }, []);
 
   return (

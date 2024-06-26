@@ -1,5 +1,5 @@
-"use client";
-import Lottie from "lottie-react";
+'use client';
+import Lottie from 'lottie-react';
 
 type LottiePlayerProps = {
   JSON: any;

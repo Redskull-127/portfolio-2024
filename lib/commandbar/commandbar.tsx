@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   SetStateAction,
@@ -7,15 +7,15 @@ import {
   useContext,
   Dispatch,
   useState,
-} from "react";
+} from 'react';
 
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
 import {
   FolderGit2,
   Github,
@@ -25,10 +25,10 @@ import {
   LogOut,
   Mail,
   Twitter,
-} from "lucide-react";
-import { useRouter } from "next/navigation";
-import { ListGenerator } from "./actions";
-import { signIn, signOut, useSession } from "next-auth/react";
+} from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { ListGenerator } from './actions';
+import { signIn, signOut, useSession } from 'next-auth/react';
 interface CommandBarState {
   shouldShow: boolean;
   setShouldShow: Dispatch<SetStateAction<boolean>>;
@@ -53,10 +53,10 @@ export default function CommandBar() {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (status === "authenticated") {
-        setGetStatus("Logout");
-      } else if (status === "unauthenticated") {
-        setGetStatus("Login");
+      if (status === 'authenticated') {
+        setGetStatus('Logout');
+      } else if (status === 'unauthenticated') {
+        setGetStatus('Login');
       }
     }, 2000);
     return () => clearTimeout(timer);
@@ -64,75 +64,75 @@ export default function CommandBar() {
 
   const action: ActionType[] = [
     {
-      id: "homeAction",
-      name: "Home",
-      shortcut: ["G", "H"],
-      keywords: "back",
-      section: "Navigation",
-      perform: () => router.push("/"),
+      id: 'homeAction',
+      name: 'Home',
+      shortcut: ['G', 'H'],
+      keywords: 'back',
+      section: 'Navigation',
+      perform: () => router.push('/'),
       icon: <Home className="w-6 h-6 mx-3" />,
-      subtitle: "Go to home.",
+      subtitle: 'Go to home.',
     },
     {
-      id: "projectsAction",
-      name: "Projects",
-      shortcut: ["G", "P"],
-      keywords: "projects",
-      section: "Navigation",
-      perform: () => router.push("/projects"),
+      id: 'projectsAction',
+      name: 'Projects',
+      shortcut: ['G', 'P'],
+      keywords: 'projects',
+      section: 'Navigation',
+      perform: () => router.push('/projects'),
       icon: <FolderGit2 className="w-6 h-6 mx-3" />,
-      subtitle: "Go to project section.",
+      subtitle: 'Go to project section.',
     },
     {
-      id: "mailAction",
-      name: "Mail",
-      shortcut: ["M"],
-      keywords: "mail",
-      section: "Social Media",
-      perform: () => router.push("mailto:redskull@duck.com"),
+      id: 'mailAction',
+      name: 'Mail',
+      shortcut: ['M'],
+      keywords: 'mail',
+      section: 'Social Media',
+      perform: () => router.push('mailto:redskull@duck.com'),
       icon: <Mail className="w-6 h-6 mx-3" />,
-      subtitle: "Send me a mail.",
+      subtitle: 'Send me a mail.',
     },
     {
-      id: "githubAction",
-      name: "Github",
-      shortcut: ["G"],
-      keywords: "github",
-      section: "Social Media",
-      perform: () => window.open("https://github.com/redskull-127", "_blank"),
+      id: 'githubAction',
+      name: 'Github',
+      shortcut: ['G'],
+      keywords: 'github',
+      section: 'Social Media',
+      perform: () => window.open('https://github.com/redskull-127', '_blank'),
       icon: <Github className="w-6 h-6 mx-3" />,
-      subtitle: "Go to my github.",
+      subtitle: 'Go to my github.',
     },
     {
-      id: "linkedinAction",
-      name: "Linkedin",
-      shortcut: ["L"],
-      keywords: "linkedin",
-      section: "Social Media",
+      id: 'linkedinAction',
+      name: 'Linkedin',
+      shortcut: ['L'],
+      keywords: 'linkedin',
+      section: 'Social Media',
       perform: () =>
-        window.open("https://www.linkedin.com/in/meertarbani/", "_blank"),
+        window.open('https://www.linkedin.com/in/meertarbani/', '_blank'),
       icon: <Linkedin className="w-6 h-6 mx-3" />,
-      subtitle: "Go to my linkedin.",
+      subtitle: 'Go to my linkedin.',
     },
     {
-      id: "twitterAction",
-      name: "Twitter",
-      shortcut: ["T"],
-      keywords: "twitter",
-      section: "Social Media",
-      perform: () => window.open("https://twitter.com/meertarbani", "_blank"),
+      id: 'twitterAction',
+      name: 'Twitter',
+      shortcut: ['T'],
+      keywords: 'twitter',
+      section: 'Social Media',
+      perform: () => window.open('https://twitter.com/meertarbani', '_blank'),
       icon: <Twitter className="w-6 h-6 mx-3" />,
-      subtitle: "Go to my twitter.",
+      subtitle: 'Go to my twitter.',
     },
     {
-      id: "exitAction",
-      name: "Exit",
-      shortcut: ["ESC"],
-      keywords: "exit",
-      section: "Navigation",
+      id: 'exitAction',
+      name: 'Exit',
+      shortcut: ['ESC'],
+      keywords: 'exit',
+      section: 'Navigation',
       perform: () => {},
       icon: <Home className="w-6 h-6 mx-3" />,
-      subtitle: "Exit the terminal.",
+      subtitle: 'Exit the terminal.',
     },
   ];
 
@@ -141,14 +141,14 @@ export default function CommandBar() {
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.ctrlKey && e.key === "k") {
+      if (e.ctrlKey && e.key === 'k') {
         e.preventDefault();
         e.stopPropagation();
         setShouldShow(!shouldShow);
       }
     };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, [shouldShow, setShouldShow]);
 
   return (
@@ -171,7 +171,7 @@ export default function CommandBar() {
             placeholder="search"
             onChange={(e) => {
               const query = e.target.value;
-              if (query === "") {
+              if (query === '') {
                 setFilteredList(actionList);
               } else {
                 setFilteredList(
@@ -183,7 +183,7 @@ export default function CommandBar() {
                       .toLowerCase()
                       .includes(query.toLowerCase());
                     const filteredShortcuts = item.shortcut
-                      .join("")
+                      .join('')
                       .toLowerCase()
                       .includes(query.toLowerCase());
                     const filteredSection = item.section

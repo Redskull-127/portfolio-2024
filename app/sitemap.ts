@@ -1,41 +1,41 @@
-import { MetadataRoute } from "next";
+import { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
-      url: "https://www.meertarbani.in",
+      url: 'https://www.meertarbani.in',
       lastModified: new Date(),
-      changeFrequency: "always",
+      changeFrequency: 'always',
       priority: 1,
     },
     {
-      url: "https://www.meertarbani.in/blogs",
+      url: 'https://www.meertarbani.in/blogs',
       lastModified: new Date(),
-      changeFrequency: "always",
+      changeFrequency: 'always',
       priority: 1,
     },
     {
-      url: "https://www.meertarbani.in/chat",
+      url: 'https://www.meertarbani.in/chat',
       lastModified: new Date(),
-      changeFrequency: "always",
+      changeFrequency: 'always',
       priority: 1,
     },
     {
-      url: "https://www.meertarbani.in/events",
+      url: 'https://www.meertarbani.in/events',
       lastModified: new Date(),
-      changeFrequency: "always",
+      changeFrequency: 'always',
       priority: 1,
     },
     {
-      url: "https://www.meertarbani.in/experience",
+      url: 'https://www.meertarbani.in/experience',
       lastModified: new Date(),
-      changeFrequency: "always",
+      changeFrequency: 'always',
       priority: 1,
     },
     {
-      url: "https://www.meertarbani.in/projects",
+      url: 'https://www.meertarbani.in/projects',
       lastModified: new Date(),
-      changeFrequency: "always",
+      changeFrequency: 'always',
       priority: 1,
     },
   ];

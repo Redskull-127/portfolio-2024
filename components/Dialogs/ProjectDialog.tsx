@@ -1,18 +1,18 @@
-"use client";
-import { useState, useEffect } from "react";
+'use client';
+import { useState, useEffect } from 'react';
 
-import { GitHubType } from "@/lib/server/functions/github";
+import { GitHubType } from '@/lib/server/functions/github';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
 
-import { ProjectLists } from "../Root-Partials/project/ProjectLists";
-import { useRouter } from "next/navigation";
+import { ProjectLists } from '../Root-Partials/project/ProjectLists';
+import { useRouter } from 'next/navigation';
 
 type PropsType = {
   projects: GitHubType[];
@@ -35,7 +35,7 @@ export function ProjectDialog(props: PropsType) {
       open={true}
       onOpenChange={(isOpen) => {
         if (!isOpen) {
-          router.replace("/");
+          router.replace('/');
         }
       }}
     >
@@ -49,7 +49,7 @@ export function ProjectDialog(props: PropsType) {
               placeholder="search"
               onChange={(e) => {
                 const query = e.target.value;
-                if (query === "") {
+                if (query === '') {
                   setFilteredList(providerList);
                 } else {
                   setFilteredList(

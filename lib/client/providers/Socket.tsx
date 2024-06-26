@@ -1,6 +1,6 @@
-"use client";
-import React, { createContext, useMemo, useContext } from "react";
-import { io, Socket } from "socket.io-client";
+'use client';
+import React, { createContext, useMemo, useContext } from 'react';
+import { io, Socket } from 'socket.io-client';
 
 const SocketContext = createContext({} as Socket);
 
@@ -11,7 +11,7 @@ export const useSocket = () => {
 
 export const SocketProvider = (props: { children: React.ReactNode }) => {
   const socket = useMemo(
-    () => io(process.env["NEXT_PUBLIC_SOCKET_NEW_URL"]!),
+    () => io(process.env['NEXT_PUBLIC_SOCKET_NEW_URL']!),
     [],
   );
 

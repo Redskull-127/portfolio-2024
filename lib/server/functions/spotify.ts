@@ -1,8 +1,8 @@
-"use server";
+'use server';
 
-import { revalidateTag } from "next/cache";
-import { unstable_cache } from "next/cache";
-import { DeepScarpSong } from "./deep-song-scrap";
+import { revalidateTag } from 'next/cache';
+import { unstable_cache } from 'next/cache';
+import { DeepScarpSong } from './deep-song-scrap';
 
 export type SpotifyType = {
   images: {
@@ -12,43 +12,43 @@ export type SpotifyType = {
   artist: string;
   preview_url: string;
   uri?: string;
-  status: "now-playing" | "shuffle";
+  status: 'now-playing' | 'shuffle';
 };
 
-const SPOTIFY_CLIENT_ID = process.env["SPOTIFY_CLIENT_ID"];
-const SPOTIFY_SECRET_ID = process.env["SPOTIFY_SECRET_ID"];
-const SPOTIFY_REFRESH_TOKEN = process.env["SPOTIFY_REFRESH_TOKEN"];
+const SPOTIFY_CLIENT_ID = process.env['SPOTIFY_CLIENT_ID'];
+const SPOTIFY_SECRET_ID = process.env['SPOTIFY_SECRET_ID'];
+const SPOTIFY_REFRESH_TOKEN = process.env['SPOTIFY_REFRESH_TOKEN'];
 const NOW_PLAYING_URL =
-  "https://api.spotify.com/v1/me/player/currently-playing";
+  'https://api.spotify.com/v1/me/player/currently-playing';
 const RECENTLY_PLAYING_URL = `https://api.spotify.com/v1/playlists/42h3IewUsTfRNHE5Puw9EK/tracks?limit=50&offset=${Math.floor(
   Math.random() * 951,
 )}`;
-const REFRESH_TOKEN_URL = "https://accounts.spotify.com/api/token";
+const REFRESH_TOKEN_URL = 'https://accounts.spotify.com/api/token';
 
-let SPOTIFY_TOKEN = "";
+let SPOTIFY_TOKEN = '';
 
 const getAuthHeader = () => {
   const authString = `${SPOTIFY_CLIENT_ID}:${SPOTIFY_SECRET_ID}`;
-  return Buffer.from(authString).toString("base64");
+  return Buffer.from(authString).toString('base64');
 };
 
 const requestRefreshToken = async () => {
   const data = new URLSearchParams({
-    grant_type: "refresh_token",
+    grant_type: 'refresh_token',
     refresh_token: SPOTIFY_REFRESH_TOKEN as string,
   });
 
   const headers = {
     Authorization: `Basic ${getAuthHeader()}`,
-    "Content-Type": "application/x-www-form-urlencoded",
+    'Content-Type': 'application/x-www-form-urlencoded',
   };
 
   try {
     const response = await fetch(REFRESH_TOKEN_URL, {
-      method: "POST",
+      method: 'POST',
       headers,
       next: {
-        tags: ["spotifyAPI"],
+        tags: ['spotifyAPI'],
         revalidate: 1,
       },
       body: data,
@@ -72,7 +72,7 @@ export const makeRequest = async (url: string, config = {}): Promise<any> => {
         Authorization: `Bearer ${SPOTIFY_TOKEN}`,
       },
       next: {
-        tags: ["spotifyAPI"],
+        tags: ['spotifyAPI'],
         revalidate: 1,
       },
     });
@@ -88,7 +88,7 @@ export const makeRequest = async (url: string, config = {}): Promise<any> => {
 };
 
 export async function getNewSong() {
-  return revalidateTag("spotifyAPI");
+  return revalidateTag('spotifyAPI');
 }
 
 export const getNowPlaying = async () => {
@@ -99,7 +99,7 @@ export const getNowPlaying = async () => {
         `${data.item.name} ${data.item.artists[0].name}`,
       );
       return {
-        status: "now-playing",
+        status: 'now-playing',
         images: data.item.album.images,
         name: data.item.name,
         artist: data.item.artists[0].name,
@@ -108,7 +108,7 @@ export const getNowPlaying = async () => {
       } as unknown as SpotifyType;
     }
     return {
-      status: "now-playing",
+      status: 'now-playing',
       images: data.item.album.images,
       name: data.item.name,
       artist: data.item.artists[0].name,
@@ -116,7 +116,7 @@ export const getNowPlaying = async () => {
       uri: data.item.uri,
     } as unknown as SpotifyType;
   } else {
-    return Error("Not Playing");
+    return Error('Not Playing');
   }
 };
 
@@ -129,7 +129,7 @@ export const getRecentlyPlayed = async () => {
         `${data.items[random].track.name} ${data.items[random].track.artists[0].name}`,
       );
       return {
-        status: "shuffle",
+        status: 'shuffle',
         images: data.items[random].track.album.images,
         name: data.items[random].track.name,
         artist: data.items[random].track.artists[0].name,
@@ -138,7 +138,7 @@ export const getRecentlyPlayed = async () => {
       } as unknown as SpotifyType;
     }
     return {
-      status: "shuffle",
+      status: 'shuffle',
       images: data.items[random].track.album.images,
       name: data.items[random].track.name,
       artist: data.items[random].track.artists[0].name,
@@ -146,7 +146,7 @@ export const getRecentlyPlayed = async () => {
       uri: data.items[random].track.uri,
     } as unknown as SpotifyType;
   } else {
-    return Error("Not Playing");
+    return Error('Not Playing');
   }
 };
 
@@ -162,9 +162,9 @@ export const SpotifySelfApi = unstable_cache(
       }
     }
   },
-  ["spotifyAPI"],
+  ['spotifyAPI'],
   {
-    tags: ["spotifyAPI"],
+    tags: ['spotifyAPI'],
     revalidate: 1,
   },
 );

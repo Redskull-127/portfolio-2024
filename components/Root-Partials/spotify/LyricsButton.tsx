@@ -1,5 +1,5 @@
-"use client";
-import { Icons } from "@/components/icons/icons";
+'use client';
+import { Icons } from '@/components/icons/icons';
 import {
   Dialog,
   DialogContent,
@@ -7,8 +7,8 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { ScrollArea } from "@/components/ui/scroll-area";
+} from '@/components/ui/dialog';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 export default function LyricsButton({
   song,
@@ -30,7 +30,7 @@ export default function LyricsButton({
           <DialogDescription>
             {song} - {name}
             <div className="pt-8">
-              {lyrics && lyrics !== "" ? (
+              {lyrics && lyrics !== '' ? (
                 <ScrollArea className="h-96">
                   <p
                     className="text-ternary text-lg whitespace-pre-line"

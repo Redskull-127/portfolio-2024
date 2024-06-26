@@ -1,6 +1,6 @@
-import * as schema from "./schema";
-import { PostgresJsDatabase, drizzle } from "drizzle-orm/postgres-js";
-import postgres from "postgres";
+import * as schema from './schema';
+import { PostgresJsDatabase, drizzle } from 'drizzle-orm/postgres-js';
+import postgres from 'postgres';
 
 declare global {
   // eslint-disable-next-line no-var -- only var works here
@@ -10,9 +10,9 @@ declare global {
 let db: PostgresJsDatabase<typeof schema>;
 
 try {
-  if (process.env.NODE_ENV === "production") {
+  if (process.env.NODE_ENV === 'production') {
     db = drizzle(
-      postgres(`${process.env["DATABASE_URL"]}?sslmode=require`, {
+      postgres(`${process.env['DATABASE_URL']}?sslmode=require`, {
         ssl: {
           rejectUnauthorized: false,
         },
@@ -24,7 +24,7 @@ try {
   } else {
     if (!global.db) {
       global.db = drizzle(
-        postgres(`${process.env["DATABASE_URL"]}?sslmode=require`, {
+        postgres(`${process.env['DATABASE_URL']}?sslmode=require`, {
           ssl: {
             rejectUnauthorized: false,
           },

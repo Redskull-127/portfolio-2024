@@ -1,6 +1,6 @@
-"use client";
-import { getTotalVisits } from "@/lib/server/google/apis/search-analytics";
-import { useEffect, useState } from "react";
+'use client';
+import { getTotalVisits } from '@/lib/server/google/apis/search-analytics';
+import { useEffect, useState } from 'react';
 
 export default function TotalViews() {
   const [totalViews, setTotalViews] = useState(0);
@@ -15,5 +15,5 @@ export default function TotalViews() {
     };
   }, []);
 
-  return <span>{totalViews ? totalViews : "Loading..."}</span>;
+  return <span>{totalViews ? totalViews : 'Loading...'}</span>;
 }

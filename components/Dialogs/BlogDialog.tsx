@@ -1,6 +1,6 @@
-"use client";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+'use client';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 import {
   Dialog,
@@ -8,17 +8,17 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
+} from '@/components/ui/dialog';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/accordion";
-import { ScrollArea } from "@/components/ui/scroll-area";
+} from '@/components/ui/accordion';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
-import BlogJSON from "@/lib/static/blogs.json";
-import { Button } from "../ui/button";
+import BlogJSON from '@/lib/static/blogs.json';
+import { Button } from '../ui/button';
 
 export default function BlogDialog() {
   const router = useRouter();
@@ -34,7 +34,7 @@ export default function BlogDialog() {
       open={true}
       onOpenChange={(isOpen) => {
         if (!isOpen) {
-          router.replace("/");
+          router.replace('/');
         }
       }}
     >
@@ -54,9 +54,9 @@ export default function BlogDialog() {
                   <div className="flex justify-between items-center">
                     <p>{blog.description}</p>
                     <Button
-                      variant={"link"}
+                      variant={'link'}
                       onClick={() => {
-                        window.open(blog.link, "_blank");
+                        window.open(blog.link, '_blank');
                       }}
                     >
                       Read

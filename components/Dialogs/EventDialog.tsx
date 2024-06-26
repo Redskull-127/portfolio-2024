@@ -1,6 +1,6 @@
-"use client";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+'use client';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 import {
   Dialog,
@@ -8,17 +8,17 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
+} from '@/components/ui/dialog';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/accordion";
-import { ScrollArea } from "@/components/ui/scroll-area";
+} from '@/components/ui/accordion';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
-import EventsJSON from "@/lib/static/events.json";
-import { Button } from "../ui/button";
+import EventsJSON from '@/lib/static/events.json';
+import { Button } from '../ui/button';
 
 export default function EventsDialog() {
   const router = useRouter();
@@ -34,7 +34,7 @@ export default function EventsDialog() {
       open={true}
       onOpenChange={(isOpen) => {
         if (!isOpen) {
-          router.replace("/");
+          router.replace('/');
         }
       }}
     >
@@ -54,9 +54,9 @@ export default function EventsDialog() {
                   <div className="flex justify-between items-center">
                     <p>{event.description}</p>
                     <Button
-                      variant={"link"}
+                      variant={'link'}
                       onClick={() => {
-                        window.open(event.link, "_blank");
+                        window.open(event.link, '_blank');
                       }}
                     >
                       Check Out!

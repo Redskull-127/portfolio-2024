@@ -87,7 +87,7 @@
   ],
   "husky": {
     "hooks": {
-      "pre-commit": "echo \"[Husky] pre-commit \""
+      "pre-commit": "bun run format:write && bun run lint"
     }
   }
 }

@@ -1,9 +1,9 @@
-"use client";
-import Link from "next/link";
+'use client';
+import Link from 'next/link';
 
-import { GitHubType } from "@/lib/server/functions/github";
-import { Github, Link as LinkIcon } from "lucide-react";
-import { Button } from "../../ui/button";
+import { GitHubType } from '@/lib/server/functions/github';
+import { Github, Link as LinkIcon } from 'lucide-react';
+import { Button } from '../../ui/button';
 
 export function ProjectLists(props: GitHubType) {
   return (
@@ -19,13 +19,13 @@ export function ProjectLists(props: GitHubType) {
       <div className="flex flex-row-reverse gap-2 max-xl:items-end">
         {props.homepage != null ? (
           <Link href={props.homepage} aria-label={props.name} target="_blank">
-            <Button variant={"default"} size={"icon"}>
+            <Button variant={'default'} size={'icon'}>
               <LinkIcon size={24} />
             </Button>
           </Link>
         ) : null}
         <Link href={props.html_url} aria-label={props.name} target="_blank">
-          <Button variant={"default"} size={"icon"}>
+          <Button variant={'default'} size={'icon'}>
             <Github size={24} />
           </Button>
         </Link>

@@ -1,6 +1,6 @@
 export type ChatAPIType = {
   message: string;
-  status: "success" | "error";
+  status: 'success' | 'error';
   data?: ChatAPIResponse;
 };
 
@@ -12,20 +12,20 @@ type ChatAPIResponse = {
 export async function ChatAPIMaker(message: string): Promise<ChatAPIType> {
   try {
     const res = await fetch(
-      process.env["NEXT_PUBLIC_AI_CHATBOT_URL"] as string,
+      process.env['NEXT_PUBLIC_AI_CHATBOT_URL'] as string,
       {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
-          Accept: "*/*",
+          'Content-Type': 'application/json',
+          Accept: '*/*',
         },
         body: JSON.stringify({ message: message }),
       },
     );
     const data = (await res.json()) as ChatAPIResponse;
-    return { status: "success", message: "Chat API Success", data: data };
+    return { status: 'success', message: 'Chat API Success', data: data };
   } catch (err) {
     console.log(err);
-    return { status: "error", message: "Something went wrong" };
+    return { status: 'error', message: 'Something went wrong' };
   }
 }

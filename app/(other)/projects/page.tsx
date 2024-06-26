@@ -1,5 +1,5 @@
-import { ProjectDialog } from "@/components/Dialogs/ProjectDialog";
-import { GitHubAPI, GitHubType } from "@/lib/server/functions/github";
+import { ProjectDialog } from '@/components/Dialogs/ProjectDialog';
+import { GitHubAPI, GitHubType } from '@/lib/server/functions/github';
 
 export const revalidate = 0;
 

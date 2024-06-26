@@ -1,6 +1,6 @@
-import { Skeleton } from "@/components/ui/skeleton";
-import Image from "next/image";
-import { Suspense } from "react";
+import { Skeleton } from '@/components/ui/skeleton';
+import Image from 'next/image';
+import { Suspense } from 'react';
 
 export default function SpotifyImage(url: { url: string }) {
   return (
@@ -9,7 +9,7 @@ export default function SpotifyImage(url: { url: string }) {
     >
       <Image
         id="spotifyImage"
-        className={"rounded-full shadow-[#248F68]"}
+        className={'rounded-full shadow-[#248F68]'}
         src={url.url}
         width={96}
         height={96}

@@ -1,7 +1,7 @@
-"use client";
-import { Children } from "@/lib/types/children";
-import { createContext, useContext } from "react";
-import { useState } from "react";
+'use client';
+import { Children } from '@/lib/types/children';
+import { createContext, useContext } from 'react';
+import { useState } from 'react';
 
 export type CastDetailsProps = {
   src: string;
@@ -22,9 +22,9 @@ export function useCastContext() {
 
 export function ChromeCastProvider({ children }: Children) {
   const [castDetails, setCastDetails] = useState<CastDetailsProps>({
-    src: "",
-    title: "",
-    poster: "",
+    src: '',
+    title: '',
+    poster: '',
   });
 
   return (

@@ -1,8 +1,8 @@
-"use client";
-import { Button } from "@/components/ui/button";
-import { Cast } from "lucide-react";
-import { useCastContext } from "../providers/CastProvider";
-import Castjs from "@/lib/cast-min.js";
+'use client';
+import { Button } from '@/components/ui/button';
+import { Cast } from 'lucide-react';
+import { useCastContext } from '../providers/CastProvider';
+import Castjs from '@/lib/cast-min.js';
 import {
   Dialog,
   DialogContent,
@@ -10,9 +10,9 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { useState, useRef } from "react";
-import { toast } from "sonner";
+} from '@/components/ui/dialog';
+import { useState, useRef } from 'react';
+import { toast } from 'sonner';
 
 export default function ChromeCast() {
   const [dPad, showDPad] = useState(false);
@@ -22,7 +22,7 @@ export default function ChromeCast() {
   const castRef = useRef<any>();
   const Metadata = {
     poster: castDetails.poster,
-    description: "Playing from meertarbani.in",
+    description: 'Playing from meertarbani.in',
     title: castDetails.title,
   };
 
@@ -30,7 +30,7 @@ export default function ChromeCast() {
     if (typeof window !== undefined) {
       castRef.current = new Castjs();
       if (connected === true) {
-        return toast("Already connected to a device!", {
+        return toast('Already connected to a device!', {
           action: (
             <div
               onClick={(e) => {
@@ -39,7 +39,7 @@ export default function ChromeCast() {
                 setConnected(false);
                 showDPad(false);
                 toast.dismiss();
-                toast.success("Disconnected from device successfully!");
+                toast.success('Disconnected from device successfully!');
               }}
               className="p-2 border cursor-pointer ml-2"
             >
@@ -52,7 +52,7 @@ export default function ChromeCast() {
         castRef.current.cast(castDetails.src, Metadata);
         const connectPromise = () =>
           new Promise((resolve) =>
-            castRef.current.on("connect", () => {
+            castRef.current.on('connect', () => {
               setConnected(true);
               resolve({ name: castRef.current.device });
               toast.success(
@@ -64,17 +64,17 @@ export default function ChromeCast() {
           );
 
         toast.promise(connectPromise, {
-          loading: "Loading...",
+          loading: 'Loading...',
           success: (data: any) => {
             return `${data.name} connected successfully!\n Now Playing ${castDetails.title}!`;
           },
-          error: "Error",
+          error: 'Error',
         });
 
-        castRef.current.on("disconnect", () => {
+        castRef.current.on('disconnect', () => {
           setConnected(false);
           showDPad(false);
-          toast.success("Disconnected from device successfully!");
+          toast.success('Disconnected from device successfully!');
         });
       }
     }
@@ -90,8 +90,8 @@ export default function ChromeCast() {
             console.error(error);
           }
         }}
-        variant={"default"}
-        size={"icon"}
+        variant={'default'}
+        size={'icon'}
       >
         <Cast className="h-5 w-5" />
       </Button>

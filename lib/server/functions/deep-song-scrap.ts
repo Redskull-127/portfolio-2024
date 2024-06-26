@@ -1,18 +1,18 @@
-import axios from "axios";
+import axios from 'axios';
 
 const MakeRequest = async (song: string) => {
   const options = {
-    method: "GET",
-    url: "https://shazam.p.rapidapi.com/search",
+    method: 'GET',
+    url: 'https://shazam.p.rapidapi.com/search',
     params: {
       term: song,
-      locale: "en-US",
-      offset: "0",
-      limit: "1",
+      locale: 'en-US',
+      offset: '0',
+      limit: '1',
     },
     headers: {
-      "X-RapidAPI-Key": process.env["RapidAPI_Key"] as string,
-      "X-RapidAPI-Host": process.env["RapidAPI_Host"] as string,
+      'X-RapidAPI-Key': process.env['RapidAPI_Key'] as string,
+      'X-RapidAPI-Host': process.env['RapidAPI_Host'] as string,
     },
   };
   try {

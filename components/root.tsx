@@ -7,7 +7,7 @@ import {
   Settings,
   Skills,
   SpotifyCard,
-} from "./Root-Partials";
+} from './Root-Partials';
 
 export default function RootComponent() {
   return (

@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { Children } from "@/lib/types/children";
-import { driver } from "driver.js";
-import DriverSteps from "@/lib/static/driver-steps.json";
-import "@/styles/driver.css";
+import { Children } from '@/lib/types/children';
+import { driver } from 'driver.js';
+import DriverSteps from '@/lib/static/driver-steps.json';
+import '@/styles/driver.css';
 
 const Instance = driver({
   showProgress: true,

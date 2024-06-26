@@ -1,4 +1,4 @@
-import TestData from "@/lib/static/testprojects.json";
+import TestData from '@/lib/static/testprojects.json';
 
 export type GitHubType = {
   name: string;
@@ -8,10 +8,10 @@ export type GitHubType = {
 };
 
 export async function GitHubAPI() {
-  if (process.env.NODE_ENV === "production") {
+  if (process.env.NODE_ENV === 'production') {
     try {
       const res = await fetch(
-        "https://api.github.com/users/redskull-127/repos?sort=created",
+        'https://api.github.com/users/redskull-127/repos?sort=created',
       );
       const data = await res.json();
       const repos: GitHubType[] = data.map((repo: GitHubType) => ({
@@ -23,14 +23,14 @@ export async function GitHubAPI() {
       return repos;
     } catch (err) {
       console.log(err);
-      return new Error("Something went wrong");
+      return new Error('Something went wrong');
     }
   } else {
     try {
       return TestData;
     } catch (err) {
       console.log(err);
-      return new Error("Something went wrong");
+      return new Error('Something went wrong');
     }
   }
 }

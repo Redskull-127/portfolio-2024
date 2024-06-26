@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import Image from "next/image";
+import Link from 'next/link';
+import Image from 'next/image';
 
-import { ThemeToggle } from "@/components/Theme/ThemeToggler";
-import { Button } from "@/components/ui/button";
+import { ThemeToggle } from '@/components/Theme/ThemeToggler';
+import { Button } from '@/components/ui/button';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
+} from '@/components/ui/tooltip';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,7 +18,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from '@/components/ui/dropdown-menu';
 
 import {
   Coffee,
@@ -27,16 +27,16 @@ import {
   LogOut,
   LogIn,
   Bell,
-} from "lucide-react";
-import { signIn, signOut, useSession } from "next-auth/react";
-import { useEffect, useRef } from "react";
-import { toast } from "sonner";
-import { CommandDialogBox } from "@/lib/commandbar/commandnew";
-import ChromeCast from "./chromecast";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import LiveCount from "@/components/live-count";
-import { Icons } from "@/components/icons/icons";
-import NumFormate from "@/lib/number-formate";
+} from 'lucide-react';
+import { signIn, signOut, useSession } from 'next-auth/react';
+import { useEffect, useRef } from 'react';
+import { toast } from 'sonner';
+import { CommandDialogBox } from '@/lib/commandbar/commandnew';
+import ChromeCast from './chromecast';
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
+import LiveCount from '@/components/live-count';
+import { Icons } from '@/components/icons/icons';
+import NumFormate from '@/lib/number-formate';
 
 export type SettingsProps = {
   totalViews: number;
@@ -47,8 +47,8 @@ export function Settings(params: SettingsProps) {
   const notificationRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    if (!window.localStorage.getItem("notificationSound")) {
-      window.localStorage.setItem("notificationSound", "low");
+    if (!window.localStorage.getItem('notificationSound')) {
+      window.localStorage.setItem('notificationSound', 'low');
     }
   }, []);
 
@@ -77,7 +77,7 @@ export function Settings(params: SettingsProps) {
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
-          )}{" "}
+          )}{' '}
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
@@ -100,10 +100,10 @@ export function Settings(params: SettingsProps) {
             <DropdownMenuTrigger asChild>
               <Button
                 aria-label="user action center"
-                variant={status === "authenticated" ? "ghost" : "default"}
-                size={"icon"}
+                variant={status === 'authenticated' ? 'ghost' : 'default'}
+                size={'icon'}
               >
-                {status === "authenticated" ? (
+                {status === 'authenticated' ? (
                   <Image
                     src={session.user?.image!}
                     width={40}
@@ -118,12 +118,12 @@ export function Settings(params: SettingsProps) {
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuLabel>
-                {status === "authenticated"
+                {status === 'authenticated'
                   ? session.user?.name
-                  : "Action Required"}
+                  : 'Action Required'}
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
-              {status === "authenticated" ? (
+              {status === 'authenticated' ? (
                 <DropdownMenuItem
                   onClick={() => {
                     signOut();
@@ -134,7 +134,7 @@ export function Settings(params: SettingsProps) {
               ) : (
                 <DropdownMenuItem
                   onClick={() => {
-                    signIn("google");
+                    signIn('google');
                   }}
                 >
                   <LogIn className="h-5 w-5 mr-2" /> Log in
@@ -155,7 +155,7 @@ export function Settings(params: SettingsProps) {
                   <Button
                     aria-label="buy me a coffee"
                     variant="default"
-                    size={"icon"}
+                    size={'icon'}
                   >
                     <Coffee className="h-5 w-5" />
                   </Button>
@@ -171,13 +171,13 @@ export function Settings(params: SettingsProps) {
             <Tooltip>
               <TooltipTrigger asChild>
                 <Link
-                  href={"https://github.com/sponsors/Redskull-127?o=esc"}
+                  href={'https://github.com/sponsors/Redskull-127?o=esc'}
                   target="_blank"
                 >
                   <Button
                     aria-label="Support me on stripe"
                     variant="default"
-                    size={"icon"}
+                    size={'icon'}
                   >
                     <CircleDollarSign className="h-5 w-5" />
                   </Button>
@@ -191,22 +191,22 @@ export function Settings(params: SettingsProps) {
 
           <Button
             aria-label="notification center"
-            variant={"default"}
-            size={"icon"}
+            variant={'default'}
+            size={'icon'}
             ref={notificationRef}
             onClick={(e) => {
               const ref = notificationRef.current;
               const bell = ref?.firstChild as HTMLElement;
-              bell.classList.toggle("scale-125");
-              if (bell.classList.contains("scale-125")) {
-                window.localStorage.setItem("notificationSound", "high");
+              bell.classList.toggle('scale-125');
+              if (bell.classList.contains('scale-125')) {
+                window.localStorage.setItem('notificationSound', 'high');
               } else {
-                window.localStorage.setItem("notificationSound", "low");
+                window.localStorage.setItem('notificationSound', 'low');
               }
-              toast("Notification Sound Changed:", {
-                description: bell.classList.contains("scale-125")
-                  ? "High"
-                  : "Low",
+              toast('Notification Sound Changed:', {
+                description: bell.classList.contains('scale-125')
+                  ? 'High'
+                  : 'Low',
               });
             }}
           >

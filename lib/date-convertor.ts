@@ -2,7 +2,7 @@ export function convertDateFormat(inputDate: string): string {
   const parsedDate = new Date(inputDate);
 
   if (isNaN(parsedDate.getTime())) {
-    return "Invalid date";
+    return 'Invalid date';
   }
 
   const month: number = parsedDate.getMonth() + 1;
@@ -10,7 +10,7 @@ export function convertDateFormat(inputDate: string): string {
   const year: number = parsedDate.getFullYear();
   const hours: number = parsedDate.getHours();
   const minutes: number = parsedDate.getMinutes();
-  const ampm: string = hours >= 12 ? "PM" : "AM";
+  const ampm: string = hours >= 12 ? 'PM' : 'AM';
 
   const formattedHours: number = hours % 12 || 12;
 

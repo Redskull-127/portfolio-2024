@@ -1,8 +1,8 @@
-"use client";
-import { useState, useEffect, useRef, useCallback } from "react";
-import { useRouter } from "next/navigation";
-import { Suspense } from "react";
-import { useSession, signIn } from "next-auth/react";
+'use client';
+import { useState, useEffect, useRef, useCallback } from 'react';
+import { useRouter } from 'next/navigation';
+import { Suspense } from 'react';
+import { useSession, signIn } from 'next-auth/react';
 import {
   Drawer,
   DrawerContent,
@@ -10,23 +10,23 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerFooter,
-} from "@/components/ui/drawer";
-import { Textarea } from "@/components/ui/textarea";
+} from '@/components/ui/drawer';
+import { Textarea } from '@/components/ui/textarea';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
+} from '@/components/ui/tooltip';
 
-import Image from "next/image";
-import { Button } from "../../ui/button";
-import { ChatForm } from "@/lib/server/functions/chatform";
-import { useFormStatus } from "react-dom";
-import { Icons } from "../../icons/icons";
-import { convertDateFormat } from "@/lib/date-convertor";
-import { useSocket } from "@/lib/client/providers/Socket";
-import DeleteBtn from "./delete-message";
+import Image from 'next/image';
+import { Button } from '../../ui/button';
+import { ChatForm } from '@/lib/server/functions/chatform';
+import { useFormStatus } from 'react-dom';
+import { Icons } from '../../icons/icons';
+import { convertDateFormat } from '@/lib/date-convertor';
+import { useSocket } from '@/lib/client/providers/Socket';
+import DeleteBtn from './delete-message';
 
 export type MessageType = {
   id?: number;
@@ -55,7 +55,7 @@ export function ChatDialog({ messages }: { messages: MessageType[] }) {
     e: HTMLFormElement,
   ) => {
     const stringify = message;
-    socket.emit("send:message", stringify);
+    socket.emit('send:message', stringify);
     const formData = new FormData(e);
     await ChatForm(formData, {
       name: session?.user?.name!,
@@ -81,21 +81,21 @@ export function ChatDialog({ messages }: { messages: MessageType[] }) {
   }, []);
 
   useEffect(() => {
-    socket.on("receive:message", handleNewMessage);
+    socket.on('receive:message', handleNewMessage);
     return () => {
-      socket.off("receive:message", handleNewMessage);
+      socket.off('receive:message', handleNewMessage);
     };
   }, [socket, handleNewMessage]);
 
   useEffect(() => {
     const handleEnter = (e: KeyboardEvent) => {
-      if (e.key === "Enter") {
+      if (e.key === 'Enter') {
         e.preventDefault();
         return submitRef.current?.click();
       }
     };
-    window.addEventListener("keydown", handleEnter);
-    return () => window.removeEventListener("keydown", handleEnter);
+    window.addEventListener('keydown', handleEnter);
+    return () => window.removeEventListener('keydown', handleEnter);
   }, []);
 
   useEffect(() => {
@@ -109,31 +109,31 @@ export function ChatDialog({ messages }: { messages: MessageType[] }) {
   }, [shouldScroll, data]);
 
   useEffect(() => {
-    if (window.localStorage.getItem("notificationSound")) {
+    if (window.localStorage.getItem('notificationSound')) {
       if (notifyRef.current) {
         const notificationSound =
-          window.localStorage.getItem("notificationSound");
-        if (notificationSound === "low") {
+          window.localStorage.getItem('notificationSound');
+        if (notificationSound === 'low') {
           notifyRef.current.volume = 0.1;
         } else {
           notifyRef.current.volume = 1;
         }
       }
     } else {
-      window.localStorage.setItem("notificationSound", "low");
+      window.localStorage.setItem('notificationSound', 'low');
     }
   }, []);
 
-  if (!isMounted || status === "loading") return null;
+  if (!isMounted || status === 'loading') return null;
 
-  if (status === "unauthenticated") {
+  if (status === 'unauthenticated') {
     return (
       <Drawer
         shouldScaleBackground={true}
         open={shouldOpen}
         onOpenChange={(isOpen) => {
           if (!isOpen) {
-            router.push("/");
+            router.push('/');
           }
         }}
       >
@@ -146,7 +146,7 @@ export function ChatDialog({ messages }: { messages: MessageType[] }) {
           </DrawerHeader>
           <div className="w-full h-72 flex flex-col gap-3 justify-center items-center">
             <h1 className="text-2xl font-semibold">Sign in @meertarbani.in</h1>
-            <Button className="ml-2 gap-2" onClick={() => signIn("google")}>
+            <Button className="ml-2 gap-2" onClick={() => signIn('google')}>
               <Icons.google className="h-5 w-5" /> Continue with Google
             </Button>
           </div>
@@ -162,7 +162,7 @@ export function ChatDialog({ messages }: { messages: MessageType[] }) {
         open={shouldOpen}
         onOpenChange={(isOpen) => {
           if (!isOpen) {
-            router.push("/");
+            router.push('/');
           }
         }}
       >
@@ -190,10 +190,10 @@ export function ChatDialog({ messages }: { messages: MessageType[] }) {
                             <span className="text-[#a3a3a3] mr-2">
                               {chat.sender}:
                             </span>
-                            {chat.message}{" "}
+                            {chat.message}{' '}
                             {chat.senderMail === session?.user?.email ||
                             session?.user?.email ===
-                              process.env["NEXT_PUBLIC_ADMIN_EMAIL"] ? (
+                              process.env['NEXT_PUBLIC_ADMIN_EMAIL'] ? (
                               <DeleteBtn
                                 id={Number(chat.id)}
                                 createdAt={chat.createdAt!}
@@ -256,7 +256,7 @@ export function ChatDialog({ messages }: { messages: MessageType[] }) {
                 {pending ? (
                   <div className="animate-spin w-5 h-5 border-2 border-white rounded-full"></div>
                 ) : (
-                  "Send"
+                  'Send'
                 )}
               </Button>
             </form>
@@ -282,7 +282,7 @@ export async function sendMessage(
   try {
     sendMessageSocket(
       {
-        message: formData.get("message-input") as string,
+        message: formData.get('message-input') as string,
         sender: session?.user?.name!,
         senderMail: session?.user?.email!,
         senderImage: session?.user?.image!,

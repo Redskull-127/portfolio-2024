@@ -1,18 +1,18 @@
-import Link from "next/link";
+import Link from 'next/link';
 
-import { SpotifySelfApi, SpotifyType } from "@/lib/server/functions/spotify";
-import { Icons } from "../icons/icons";
-import { Discord, GitHub, Gmail, LinkedIn, X } from "../icons/AnimatedIcons";
+import { SpotifySelfApi, SpotifyType } from '@/lib/server/functions/spotify';
+import { Icons } from '../icons/icons';
+import { Discord, GitHub, Gmail, LinkedIn, X } from '../icons/AnimatedIcons';
 
-import SkillsJson from "@/lib/static/skills.json";
-import SkillModel from "./skill/SkillModel";
+import SkillsJson from '@/lib/static/skills.json';
+import SkillModel from './skill/SkillModel';
 
-import { Settings as Controls } from "@/lib/client/functions/settings";
-import { GitHubAPI, GitHubType } from "@/lib/server/functions/github";
-import { ProjectLists } from "./project/ProjectLists";
-import SpotifyComponent from "./spotify/SpotifyComponent";
-import Avatar3D from "./3D-avatar";
-import { getTotalVisits } from "@/lib/server/google/apis/search-analytics";
+import { Settings as Controls } from '@/lib/client/functions/settings';
+import { GitHubAPI, GitHubType } from '@/lib/server/functions/github';
+import { ProjectLists } from './project/ProjectLists';
+import SpotifyComponent from './spotify/SpotifyComponent';
+import Avatar3D from './3D-avatar';
+import { getTotalVisits } from '@/lib/server/google/apis/search-analytics';
 
 export function HeroCard() {
   return (
@@ -130,34 +130,34 @@ export async function Projects() {
 export function AllPages() {
   const Pages = [
     {
-      name: "Blogs",
-      href: "/blogs",
+      name: 'Blogs',
+      href: '/blogs',
       implemented: true,
     },
     {
-      name: "Chat",
-      href: "/chat",
+      name: 'Chat',
+      href: '/chat',
       implemented: true,
-      id: "chat",
+      id: 'chat',
     },
     {
-      name: "Events",
-      href: "/events",
-      implemented: true,
-    },
-    {
-      name: "Experience",
-      href: "/experience",
+      name: 'Events',
+      href: '/events',
       implemented: true,
     },
     {
-      name: "Projects",
-      href: "/projects",
+      name: 'Experience',
+      href: '/experience',
       implemented: true,
     },
     {
-      name: "Credits",
-      href: "/credits",
+      name: 'Projects',
+      href: '/projects',
+      implemented: true,
+    },
+    {
+      name: 'Credits',
+      href: '/credits',
       implemented: true,
     },
   ];
@@ -176,7 +176,7 @@ export function AllPages() {
               className="w-full border-b-2 flex p-2"
             >
               <Link
-                href={page.implemented === true ? page.href : "/"}
+                href={page.implemented === true ? page.href : '/'}
                 passHref={true}
                 className="flex text-foreground font-medium hover:text-ternary transition-all duration-300"
               >

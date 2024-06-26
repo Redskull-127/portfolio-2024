@@ -1,16 +1,16 @@
-"use client";
-import { useEffect, useState } from "react";
+'use client';
+import { useEffect, useState } from 'react';
 
 export function ActionCharacter() {
   const [action, setAction] = useState<String>();
   useEffect(() => {
     if (
-      navigator.platform.indexOf("Mac") === 0 ||
-      navigator.platform.includes("iPhone")
+      navigator.platform.indexOf('Mac') === 0 ||
+      navigator.platform.includes('iPhone')
     ) {
-      setAction("⌘");
+      setAction('⌘');
     } else {
-      setAction("CTRL");
+      setAction('CTRL');
     }
   }, []);
   return action!;

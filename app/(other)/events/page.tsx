@@ -1,4 +1,4 @@
-import EventsDialog from "@/components/Dialogs/EventDialog";
+import EventsDialog from '@/components/Dialogs/EventDialog';
 
 export const revalidate = 0;
 

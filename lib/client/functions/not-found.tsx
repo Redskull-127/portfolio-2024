@@ -1,7 +1,7 @@
-"use client";
-import { usePathname, useRouter } from "next/navigation";
+'use client';
+import { usePathname, useRouter } from 'next/navigation';
 
-import { HomeIcon, RefreshCwIcon } from "lucide-react";
+import { HomeIcon, RefreshCwIcon } from 'lucide-react';
 
 import {
   AlertDialog,
@@ -11,14 +11,14 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
+} from '@/components/ui/alert-dialog';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { toast } from "sonner";
+} from '@/components/ui/tooltip';
+import { toast } from 'sonner';
 
 export default function NotFoundClient() {
   const pathname = usePathname();
@@ -43,7 +43,7 @@ export default function NotFoundClient() {
               className="font-mono text-sm font-bold text-red-500 cursor-pointer"
             >
               Click Here
-            </span>{" "}
+            </span>{' '}
             to report if you find this as an issue!
           </AlertDialogDescription>
         </AlertDialogHeader>
@@ -69,7 +69,7 @@ export default function NotFoundClient() {
                 <AlertDialogAction>
                   <HomeIcon
                     className="h-5 w-5"
-                    onClick={() => router.push("/")}
+                    onClick={() => router.push('/')}
                   />
                 </AlertDialogAction>
               </TooltipTrigger>

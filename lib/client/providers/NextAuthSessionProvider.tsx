@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { SessionProvider } from "next-auth/react";
-import { useEffect, useCallback } from "react";
-import { useSession, signIn } from "next-auth/react";
-import { Children } from "@/lib/types/children";
-import { toast } from "sonner";
+import { SessionProvider } from 'next-auth/react';
+import { useEffect, useCallback } from 'react';
+import { useSession, signIn } from 'next-auth/react';
+import { Children } from '@/lib/types/children';
+import { toast } from 'sonner';
 export default function NextAuthProvider({ children }: Children) {
   return (
     <SessionProvider>
@@ -18,24 +18,24 @@ export function ShowAuthStatus({ children }: Children) {
 
   const showStatus = useCallback(() => {
     switch (status) {
-      case "authenticated":
-        toast("You are now logged in!", {
+      case 'authenticated':
+        toast('You are now logged in!', {
           description: `Welcome ${session?.user?.name}`,
         });
         break;
-      case "unauthenticated":
-        toast("You are not signed in!", {
+      case 'unauthenticated':
+        toast('You are not signed in!', {
           description: `Please sign in to continue`,
           action: {
-            label: "Sign In",
+            label: 'Sign In',
             onClick: () => {
-              signIn("google");
+              signIn('google');
             },
           },
         });
         break;
-      case "loading":
-        toast("Logging you in...", {
+      case 'loading':
+        toast('Logging you in...', {
           description: `Please wait`,
         });
         break;

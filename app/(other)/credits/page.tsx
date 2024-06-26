@@ -1,4 +1,4 @@
-import CreditsDialog from "@/components/Dialogs/CreditsDialog";
+import CreditsDialog from '@/components/Dialogs/CreditsDialog';
 
 export const revalidate = 0;
 

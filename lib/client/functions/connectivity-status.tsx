@@ -1,24 +1,24 @@
-"use client";
-import { Children } from "@/lib/types/children";
-import { useState, useEffect, useRef } from "react";
-import { toast } from "sonner";
+'use client';
+import { Children } from '@/lib/types/children';
+import { useState, useEffect, useRef } from 'react';
+import { toast } from 'sonner';
 
 function useNetwork() {
-  const superWindow = typeof window !== "undefined" && window.navigator.onLine;
+  const superWindow = typeof window !== 'undefined' && window.navigator.onLine;
   const [isOnline, setNetwork] = useState<boolean>(superWindow);
   useEffect(() => {
     if (!window) return;
-    window.addEventListener("offline", () =>
+    window.addEventListener('offline', () =>
       setNetwork(window.navigator.onLine),
     );
-    window.addEventListener("online", () =>
+    window.addEventListener('online', () =>
       setNetwork(window.navigator.onLine),
     );
     return () => {
-      window.removeEventListener("offline", () =>
+      window.removeEventListener('offline', () =>
         setNetwork(window.navigator.onLine),
       );
-      window.removeEventListener("online", () =>
+      window.removeEventListener('online', () =>
         setNetwork(window.navigator.onLine),
       );
     };
@@ -32,11 +32,11 @@ export default function ConnectivityStatus({ children }: Children) {
   useEffect(() => {
     if (!isOnline) {
       connectivityStatusRef.current = isOnline;
-      toast.warning("You are offline!");
+      toast.warning('You are offline!');
     }
     if (isOnline && connectivityStatusRef.current === false) {
       connectivityStatusRef.current = isOnline;
-      toast.success("You are online!");
+      toast.success('You are online!');
     }
   }, [isOnline]);
   return children;

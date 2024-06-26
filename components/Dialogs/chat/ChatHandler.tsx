@@ -1,9 +1,9 @@
-"use server";
+'use server';
 
-import { getMessages } from "@/lib/server/functions/chatform";
-import { ChatDialog } from "./ChatDialog";
-import { Suspense } from "react";
-import { Skeleton } from "../../ui/skeleton";
+import { getMessages } from '@/lib/server/functions/chatform';
+import { ChatDialog } from './ChatDialog';
+import { Suspense } from 'react';
+import { Skeleton } from '../../ui/skeleton';
 
 export default async function ChatHandler() {
   const allMessages = await getMessages();

@@ -1,6 +1,6 @@
-"use client";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+'use client';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 import {
   Dialog,
@@ -8,16 +8,16 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
+} from '@/components/ui/dialog';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/accordion";
-import { ScrollArea } from "@/components/ui/scroll-area";
+} from '@/components/ui/accordion';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
-import ExperienceJSON from "@/lib/static/experience.json";
+import ExperienceJSON from '@/lib/static/experience.json';
 
 export default function ExperienceDialog() {
   const router = useRouter();
@@ -33,7 +33,7 @@ export default function ExperienceDialog() {
       open={true}
       onOpenChange={(isOpen) => {
         if (!isOpen) {
-          router.replace("/");
+          router.replace('/');
         }
       }}
     >
@@ -66,7 +66,7 @@ export default function ExperienceDialog() {
                           className="text-sm font-semibold text-ternary"
                         >
                           {skill}
-                          {index !== event.skills.length - 1 && ","}
+                          {index !== event.skills.length - 1 && ','}
                         </p>
                       ))}
                     </div>

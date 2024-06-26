@@ -1,6 +1,6 @@
-"use client";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+'use client';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 import {
   Dialog,
@@ -8,17 +8,17 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
+} from '@/components/ui/dialog';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/accordion";
-import { ScrollArea } from "@/components/ui/scroll-area";
+} from '@/components/ui/accordion';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
-import CreditsJSON from "@/lib/static/credits.json";
-import { Button } from "../ui/button";
+import CreditsJSON from '@/lib/static/credits.json';
+import { Button } from '../ui/button';
 
 export default function CreditsDialog() {
   const router = useRouter();
@@ -34,7 +34,7 @@ export default function CreditsDialog() {
       open={true}
       onOpenChange={(isOpen) => {
         if (!isOpen) {
-          router.replace("/");
+          router.replace('/');
         }
       }}
     >
@@ -55,9 +55,9 @@ export default function CreditsDialog() {
                   <div className="flex justify-between items-center">
                     <p>{event.description}</p>
                     <Button
-                      variant={"link"}
+                      variant={'link'}
                       onClick={() => {
-                        window.open(event.link, "_blank");
+                        window.open(event.link, '_blank');
                       }}
                     >
                       Check Out!

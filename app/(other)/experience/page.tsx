@@ -1,4 +1,4 @@
-import ExperienceDialog from "@/components/Dialogs/ExperienceDialog";
+import ExperienceDialog from '@/components/Dialogs/ExperienceDialog';
 export const revalidate = 0;
 
 export default async function Home() {

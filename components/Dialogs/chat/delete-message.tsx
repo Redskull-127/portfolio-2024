@@ -8,12 +8,12 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
-import { convertDateFormat } from "@/lib/date-convertor";
-import { deleteMessage } from "@/lib/server/functions/chatform";
-import { Trash2 } from "lucide-react";
-import { toast } from "sonner";
+} from '@/components/ui/alert-dialog';
+import { Button } from '@/components/ui/button';
+import { convertDateFormat } from '@/lib/date-convertor';
+import { deleteMessage } from '@/lib/server/functions/chatform';
+import { Trash2 } from 'lucide-react';
+import { toast } from 'sonner';
 
 type DeleteBtnProps = {
   id: number;
@@ -26,7 +26,7 @@ export default function DeleteBtn(props: DeleteBtnProps) {
   return (
     <AlertDialog>
       <AlertDialogTrigger>
-        <Button size={"icon"} variant={"outline"}>
+        <Button size={'icon'} variant={'outline'}>
           <Trash2 className="size-3" />
         </Button>
       </AlertDialogTrigger>
@@ -51,10 +51,10 @@ export default function DeleteBtn(props: DeleteBtnProps) {
               e.preventDefault();
               try {
                 await deleteMessage(props.id);
-                toast.success("Message deleted successfully");
+                toast.success('Message deleted successfully');
               } catch (error) {
                 console.error(error);
-                toast.error("Failed to delete message");
+                toast.error('Failed to delete message');
               }
             }}
           >

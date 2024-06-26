@@ -1,8 +1,8 @@
-"use client";
-import { useEffect, useState } from "react";
-import WebSocket from "isomorphic-ws";
+'use client';
+import { useEffect, useState } from 'react';
+import WebSocket from 'isomorphic-ws';
 
-const SOCKET_URL = process.env["NEXT_PUBLIC_LIVEUSER"]!;
+const SOCKET_URL = process.env['NEXT_PUBLIC_LIVEUSER']!;
 export default function LiveCount() {
   const [activeUsers, setActiveUsers] = useState(0);
 
@@ -32,7 +32,7 @@ export default function LiveCount() {
   // );
   return (
     <span>
-      {activeUsers} Live {activeUsers === 1 ? "User" : "Users"}
+      {activeUsers} Live {activeUsers === 1 ? 'User' : 'Users'}
     </span>
   );
 }
