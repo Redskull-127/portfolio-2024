@@ -8,6 +8,7 @@ import {
   Skills,
   SpotifyCard,
 } from './Root-Partials';
+import IntroProvider from './intro';
 
 export default function RootComponent() {
   return (
@@ -24,6 +25,7 @@ export default function RootComponent() {
       </div>
       <Projects />
       <AllPages />
+      <IntroProvider />
     </>
   );
 }

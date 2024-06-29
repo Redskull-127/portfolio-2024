@@ -27,7 +27,7 @@
     "@radix-ui/react-select": "^2.0.0",
     "@radix-ui/react-separator": "^1.0.3",
     "@radix-ui/react-slider": "^1.1.2",
-    "@radix-ui/react-slot": "^1.0.2",
+    "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-switch": "^1.0.3",
     "@radix-ui/react-toast": "^1.1.5",
     "@radix-ui/react-tooltip": "^1.0.7",
@@ -55,7 +55,7 @@
     "next-themes": "^0.3.0",
     "pg": "^8.11.5",
     "postgres": "^3.4.4",
-    "posthog-js": "^1.139.5",
+    "posthog-js": "^1.142.1",
     "prettier": "^3.2.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -92,7 +92,7 @@
       "eslint"
     ],
     "*": [
-       "prettier --write --ignore-unknown --cache"
+      "prettier --write --ignore-unknown --cache"
     ]
   }
 }
