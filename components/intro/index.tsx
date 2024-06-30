@@ -6,7 +6,7 @@ export default function IntroProvider() {
 
   useEffect(() => {
     const intro = localStorage.getItem('intro-visited');
-    if (!intro) {
+    if (!intro || intro === 'false') {
       setIntro(true);
     }
   }, []);

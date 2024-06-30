@@ -1,0 +1,24 @@
+{
+  "Frontend": [
+    "React.js",
+    "Next.js",
+    "ShadCN",
+    "Radix UI",
+    "Tailwind CSS",
+    "Frame Motion",
+    "Lucid Icons",
+    "Sooner"
+  ],
+  "Backend": [
+    "Node.js for server",
+    "Bun.js for dev",
+    "WebSockets",
+    "Postgres DB",
+    "Drizzle ORM",
+    "Auth.js",
+    "GCP APIs",
+    "Vercel",
+    "Koyeb"
+  ],
+  "Analytics": ["Vercel Analytics", "Posthog", "Google Analytics"]
+}

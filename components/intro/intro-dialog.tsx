@@ -1,6 +1,5 @@
 'use client';
 import { useEffect, useState } from 'react';
-
 import {
   Dialog,
   DialogContent,
@@ -15,14 +14,15 @@ import {
   BreadcrumbList,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
-
 import { Button } from '../ui/button';
 import clsx from 'clsx';
+import { Features, GettingStarted, SourceCode, Technologies } from './crumbs';
 
 export default function IntroDialog() {
   const [mounted, setMounted] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(true);
   const [selectedCrumb, setSelectedCrumb] = useState<number>(0);
+
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -30,19 +30,57 @@ export default function IntroDialog() {
   if (!mounted) return null;
 
   const crumbs = [
-    {
-      name: 'Getting Started',
-    },
-    {
-      name: 'Technologies',
-    },
-    {
-      name: 'Features',
-    },
-    {
-      name: 'Source Code',
-    },
+    { name: 'Getting Started' },
+    { name: 'Technologies' },
+    { name: 'Features' },
+    { name: 'Source Code' },
   ];
+
+  const handleCrumbClick = (index: number) => setSelectedCrumb(index);
+
+  const renderSelectedCrumbContent = () => {
+    switch (selectedCrumb) {
+      case 0:
+        return <GettingStarted />;
+      case 1:
+        return <Technologies />;
+      case 2:
+        return <Features />;
+      case 3:
+        return (
+          <>
+            <SourceCode />
+            <Button
+              variant="link"
+              onClick={() =>
+                window.open(
+                  'https://github.com/redskull-127/Portfolio-2024',
+                  '_blank',
+                )
+              }
+            >
+              Check Out!
+            </Button>
+          </>
+        );
+      default:
+        return null;
+    }
+  };
+
+  const handlePreviousClick = () => {
+    if (selectedCrumb > 0) setSelectedCrumb(selectedCrumb - 1);
+  };
+
+  const handleNextClick = () => {
+    if (selectedCrumb < crumbs.length - 1) setSelectedCrumb(selectedCrumb + 1);
+    else handleOnFinish();
+  };
+
+  const handleOnFinish = () => {
+    localStorage.setItem('intro-visited', 'true');
+    setOpen(false);
+  };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -53,77 +91,48 @@ export default function IntroDialog() {
             Hey there, welcome to my portfolio! Let&apos;s get started...
           </DialogDescription>
         </DialogHeader>
-        <Breadcrumb className="w-full ">
+        <Breadcrumb className="w-full">
           <BreadcrumbList>
-            {crumbs.map((crumb, index) => {
-              return (
-                <>
-                  <BreadcrumbItem key={index}>
-                    <BreadcrumbLink asChild>
-                      <Button
-                        variant="link"
-                        className={clsx(
-                          'p-0 text-secondary',
-                          index === selectedCrumb && 'text-primary underline',
-                        )}
-                        onClick={() => {
-                          setSelectedCrumb(index);
-                        }}
-                      >
-                        {crumb.name}
-                      </Button>
-                    </BreadcrumbLink>
-                  </BreadcrumbItem>
-                  {index !== crumbs.length - 1 && <BreadcrumbSeparator />}
-                </>
-              );
-            })}
+            {crumbs.map((crumb, index) => (
+              <BreadcrumbItem key={index}>
+                <BreadcrumbLink asChild>
+                  <Button
+                    variant="link"
+                    className={clsx(
+                      'p-0 text-secondary',
+                      index === selectedCrumb && 'text-primary underline',
+                    )}
+                    onClick={() => handleCrumbClick(index)}
+                  >
+                    {crumb.name}
+                  </Button>
+                </BreadcrumbLink>
+                {index !== crumbs.length - 1 && <BreadcrumbSeparator />}
+              </BreadcrumbItem>
+            ))}
           </BreadcrumbList>
         </Breadcrumb>
         <div className="flex justify-between items-center">
-          <p>
-            {selectedCrumb === 0
-              ? `This is a simple portfolio built with Next.js and TailwindCSS.`
-              : selectedCrumb === 1
-                ? `I have used various technologies like React, TypeScript, and TailwindCSS.`
-                : selectedCrumb === 2
-                  ? `This portfolio showcases my projects, skills, and other information.`
-                  : `You can view the source code of this portfolio on GitHub.`}
-          </p>
-          {selectedCrumb === 3 && (
-            <Button
-              variant={'link'}
-              onClick={() => {
-                window.open(
-                  'https://github.com/redskull-127/Portfolio-2024',
-                  '_blank',
-                );
-              }}
-            >
-              Check Out!
-            </Button>
-          )}
+          {renderSelectedCrumbContent()}
         </div>
-
-        {/* next button */}
         <div className="flex gap-3 justify-end">
           <Button
-            variant={'secondary'}
-            onClick={() => {
-              if (selectedCrumb === 0) return;
-              setSelectedCrumb(selectedCrumb - 1);
-            }}
+            variant="secondary"
+            disabled={selectedCrumb === 0}
+            className="select-none"
+            onClick={handlePreviousClick}
           >
             Previous
           </Button>
-
           <Button
-            onClick={() => {
-              if (selectedCrumb === 3) return;
-              setSelectedCrumb(selectedCrumb + 1);
-            }}
+            className={clsx(
+              'select-none',
+              selectedCrumb === crumbs.length - 1 &&
+                'bg-[#248f68] hover:bg-ternary text-white',
+            )}
+            onClick={handleNextClick}
           >
-            Next
+            {selectedCrumb === crumbs.length - 1 ? 'Finish' : 'Next'}
           </Button>
         </div>
       </DialogContent>
