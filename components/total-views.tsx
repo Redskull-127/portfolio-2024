@@ -15,5 +15,5 @@ export default function TotalViews() {
     };
   }, []);
 
-  return <span>{totalViews ? totalViews : 'Loading...'}</span>;
+  return <span>{totalViews ? totalViews : 'Loading ...'}</span>;
 }
