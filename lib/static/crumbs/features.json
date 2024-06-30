@@ -1,0 +1,46 @@
+[
+  {
+    "name": "Dark Mode",
+    "description": "Toggle between light and dark mode."
+  },
+  {
+    "name": "Open Source",
+    "description": "View the source code on GitHub."
+  },
+  {
+    "name": "Live Chat",
+    "description": "Chat with all the active users in real-time."
+  },
+  {
+    "name": "Custom Spotify API/Player",
+    "description": "Get my current playing song on Spotify and play it on the website. I'm a huge music lover, so this was a must-have feature! This is custom made API also available on my GitHub/Npm registry."
+  },
+  {
+    "name": "Chromecast Support",
+    "description": "Cast the website and Spotify audio to your Chromecast enabled devices."
+  },
+  {
+    "name": "Responsive Design",
+    "description": "Optimized for mobile, tablet, and desktop."
+  },
+  {
+    "name": "Interactive UI",
+    "description": "Bento design with engaging animations and transitions."
+  },
+  {
+    "name": "Accessibility",
+    "description": "Fully accessible with keyboard navigation."
+  },
+  {
+    "name": "SEO Friendly",
+    "description": "Optimized for search engines."
+  },
+  {
+    "name": "PWA Support",
+    "description": "Install as a Progressive Web App."
+  },
+  {
+    "name": "Analytics",
+    "description": "Track page views and interactions."
+  }
+]
