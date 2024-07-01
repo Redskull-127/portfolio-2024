@@ -38,5 +38,35 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'always',
       priority: 1,
     },
+    {
+      url: 'https://www.meertarbani.in/github',
+      lastModified: new Date(),
+      changeFrequency: 'always',
+      priority: 0.8,
+    },
+    {
+      url: 'https://www.meertarbani.in/source-code',
+      lastModified: new Date(),
+      changeFrequency: 'always',
+      priority: 0.8,
+    },
+    {
+      url: 'https://www.meertarbani.in/linkedin',
+      lastModified: new Date(),
+      changeFrequency: 'always',
+      priority: 0.8,
+    },
+    {
+      url: 'https://www.meertarbani.in/twitter',
+      lastModified: new Date(),
+      changeFrequency: 'always',
+      priority: 0.8,
+    },
+    {
+      url: 'https://www.meertarbani.in/spotify',
+      lastModified: new Date(),
+      changeFrequency: 'always',
+      priority: 0.8,
+    },
   ];
 }
