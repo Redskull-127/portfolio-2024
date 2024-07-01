@@ -1,5 +1,5 @@
-// @ts-check
 /** @type {import('next').NextConfig} */
+
 const nextConfig = {
   reactStrictMode: false,
   basePath: '',
@@ -18,40 +18,42 @@ const nextConfig = {
     ],
   },
   async redirects() {
+    const SocialMediaLinks = require('./default-links').SocialMediaLinks;
+    const SourceCodeLinks = require('./default-links').SourceCodeLinks;
     return [
       {
         source: '/github',
-        destination: 'https://www.github.com/redskull-127',
+        destination: SocialMediaLinks.github,
         permanent: true,
         basePath: false,
       },
       {
         source: '/linkedin',
-        destination: 'https://www.linkedin.com/in/meertarbani/',
+        destination: SocialMediaLinks.linkedin,
         permanent: true,
         basePath: false,
       },
       {
         source: '/twitter',
-        destination: 'https://www.twitter.com/meertarbani',
+        destination: SocialMediaLinks.twitter,
         permanent: true,
         basePath: false,
       },
       {
         source: '/spotify',
-        destination: 'https://open.spotify.com/user/to6rms2g0fzerpkwox1k4v33w',
+        destination: SocialMediaLinks.spotify.user,
         permanent: true,
         basePath: false,
       },
       {
         source: '/discord',
-        destination: 'https://discord.com/users/redskull127',
+        destination: SocialMediaLinks.discord,
         permanent: true,
         basePath: false,
       },
       {
         source: '/source-code',
-        destination: 'https://github.com/redskull-127/Portfolio-2024',
+        destination: SourceCodeLinks.frontend,
         permanent: true,
         basePath: false,
       },

@@ -6,6 +6,7 @@ import Link from 'next/link';
 import LyricsButton from './LyricsButton';
 import getLyrics from '@/lib/server/functions/lyrics';
 import MarqueeText from './MarqueeText';
+import { SocialMediaLinks } from '@/default-links';
 
 export default async function SpotifyComponent(props: SpotifyType) {
   const lyrics = await getLyrics(props.name, props.artist);
@@ -16,9 +17,7 @@ export default async function SpotifyComponent(props: SpotifyType) {
     >
       <div className="flex justify-between items-center">
         <Link
-          href={
-            'https://open.spotify.com/playlist/42h3IewUsTfRNHE5Puw9EK?si=dc5d84399b814878'
-          }
+          href={SocialMediaLinks.spotify.playlist}
           target="_blank"
           className="flex text-2xl font-semibold text-ternary select-none cursor-pointer transition-all duration-200 hover:text-foreground"
         >
