@@ -7,12 +7,13 @@ import GitHubJson from '@/public/static/lottie/github.json';
 import LinkedInJson from '@/public/static/lottie/linkedin.json';
 import XJson from '@/public/static/lottie/x.json';
 import DiscordJson from '@/public/static/lottie/discord.json';
+import { SocialMediaLinks } from '@/default-links';
 
 export function Gmail() {
   return (
     <Link
       aria-label="Send mail to me"
-      href={'mailto:redskull@duck.com'}
+      href={SocialMediaLinks.gmail}
       target="_blank"
       className="flex w-full justify-evenly"
     >
@@ -25,7 +26,7 @@ export function GitHub() {
   return (
     <Link
       aria-label="Meer Tarbani's Github"
-      href={'https://github.com/redskull-127'}
+      href={SocialMediaLinks.github}
       target="_blank"
       className="flex w-full justify-evenly"
     >
@@ -38,7 +39,7 @@ export function LinkedIn() {
   return (
     <Link
       aria-label="Meer Tarbani's LinkedIn"
-      href={'https://www.linkedin.com/in/meertarbani'}
+      href={SocialMediaLinks.linkedin}
       target="_blank"
       className="flex w-full justify-evenly"
     >
@@ -51,7 +52,7 @@ export function X() {
   return (
     <Link
       aria-label="Meer Tarbani's X (Twitter)"
-      href={'https://twitter.com/meertarbani'}
+      href={SocialMediaLinks.twitter}
       target="_blank"
       className="flex w-full justify-evenly"
     >
@@ -64,7 +65,7 @@ export function Discord() {
   return (
     <Link
       aria-label="Meer Tarbani's Discord"
-      href={'https://discord.com/users/redskull127'}
+      href={SocialMediaLinks.discord}
       target="_blank"
       className="flex w-full justify-evenly"
     >

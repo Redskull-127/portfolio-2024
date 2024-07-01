@@ -17,6 +17,7 @@ import {
 import { Button } from '../ui/button';
 import clsx from 'clsx';
 import { Features, GettingStarted, SourceCode, Technologies } from './crumbs';
+import { SourceCodeLinks } from '@/default-links';
 
 export default function IntroDialog() {
   const [mounted, setMounted] = useState<boolean>(false);
@@ -52,12 +53,7 @@ export default function IntroDialog() {
             <SourceCode />
             <Button
               variant="link"
-              onClick={() =>
-                window.open(
-                  'https://github.com/redskull-127/Portfolio-2024',
-                  '_blank',
-                )
-              }
+              onClick={() => window.open(SourceCodeLinks.frontend, '_blank')}
             >
               Check Out!
             </Button>
