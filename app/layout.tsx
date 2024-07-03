@@ -7,7 +7,6 @@ import { ThemeProvider } from '@/components/Theme/ThemeProvider';
 import RootComponent from '@/components/root';
 import { Toaster } from '@/components/ui/toaster';
 import { SpeedInsights } from '@vercel/speed-insights/next';
-import { SpotifyTip } from '@/lib/client/functions/initialfunctions';
 import NextAuthProvider from '@/lib/client/providers/NextAuthSessionProvider';
 import { Toaster as Sonner } from '@/components/ui/sonner';
 import { Children } from '@/lib/types/children';
@@ -21,6 +20,7 @@ import { DriverProvider } from '@/lib/client/providers/Driver';
 import DynamicIsland from '@/lib/client/functions/dynamic-island';
 import { TailwindIndicator } from '@/lib/taillwind-indicator';
 import { CSPostHogProvider } from '@/lib/client/providers/Posthog';
+import { IntroDialogProvider } from '@/lib/client/providers/intro-provider';
 
 const santoshiSans = localFont({
   src: './Satoshi-Variable.woff2',
@@ -85,27 +85,28 @@ export default function RootLayout({ children }: Children) {
             santoshiSans.className,
           )}
         >
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <SpeedInsights />
-            <NextAuthProvider>
-              <ConnectivityStatus>
-                <ChromeCastProvider>
-                  <DynamicIsland />
-                  <DriverProvider>
-                    <main className="flex flex-wrap gap-8 h-screen w-screen font-sans p-10 max-xl:gap-5 max-xl:px-5">
-                      <RootComponent />
-                      {children}
-                      <Analytics />
-                      <TailwindIndicator />
-                    </main>
-                  </DriverProvider>
-                  <Toaster />
-                  <Sonner />
-                  <SpotifyTip />
-                </ChromeCastProvider>
-              </ConnectivityStatus>
-            </NextAuthProvider>
-          </ThemeProvider>
+          <IntroDialogProvider>
+            <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+              <SpeedInsights />
+              <NextAuthProvider>
+                <ConnectivityStatus>
+                  <ChromeCastProvider>
+                    <DynamicIsland />
+                    <DriverProvider>
+                      <main className="flex flex-wrap gap-8 h-screen w-screen font-sans p-10 max-xl:gap-5 max-xl:px-5">
+                        <RootComponent />
+                        {children}
+                        <Analytics />
+                        <TailwindIndicator />
+                      </main>
+                    </DriverProvider>
+                    <Toaster />
+                    <Sonner />
+                  </ChromeCastProvider>
+                </ConnectivityStatus>
+              </NextAuthProvider>
+            </ThemeProvider>
+          </IntroDialogProvider>
         </body>
       </CSPostHogProvider>
     </html>

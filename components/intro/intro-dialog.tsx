@@ -18,15 +18,20 @@ import { Button } from '../ui/button';
 import clsx from 'clsx';
 import { Features, GettingStarted, SourceCode, Technologies } from './crumbs';
 import { SourceCodeLinks } from '@/default-links';
+import { useIntroContext } from '@/lib/client/providers/intro-provider';
 
 export default function IntroDialog() {
   const [mounted, setMounted] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(true);
   const [selectedCrumb, setSelectedCrumb] = useState<number>(0);
-
+  const { setIsIntroOpen } = useIntroContext();
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  useEffect(() => {
+    setIsIntroOpen(open);
+  }, [open, setIsIntroOpen]);
 
   if (!mounted) return null;
 
