@@ -16,6 +16,7 @@ import {
   TrendingUp,
   Radio,
   Disc,
+  Mic,
 } from 'lucide-react';
 
 export type LogoIcon = {
@@ -39,6 +40,7 @@ export const Icons = {
   TrendingUp: TrendingUp,
   Radio: Radio,
   Disc: Disc,
+  Mic: Mic,
   logo: (props: LogoIcon) => {
     return (
       <Image

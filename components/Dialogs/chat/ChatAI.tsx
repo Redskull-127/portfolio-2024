@@ -11,10 +11,14 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Icons } from '../../icons/icons';
 import { Textarea } from '../../ui/textarea';
 import { Button } from '../../ui/button';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { ChatAPIMaker } from '@/lib/server/functions/chatapi';
+import SpeechRecognition, {
+  useSpeechRecognition,
+} from 'react-speech-recognition';
+import { toast } from 'sonner';
 
-const TestData = [
+const initialMessageHistory = [
   {
     message:
       'Hey there! You can ask me anything about Meer Tarbani. For example: Who is Meer Tarbani?, Skills, Projects, LinkedIn, Mail, etc.',
@@ -22,34 +26,115 @@ const TestData = [
   },
 ];
 
-export default function ChatAI() {
+const useChatAI = () => {
   const submitRef = useRef<HTMLButtonElement>(null);
   const [pending, setPending] = useState(false);
-  const [messages, setMessages] = useState(TestData);
+  const [messages, setMessages] = useState(initialMessageHistory);
   const [input, setInput] = useState('');
   const bottomRef = useRef<HTMLDivElement>(null);
-  const [shouldScroll, setShouldScroll] = useState<boolean>(false);
+  const [shouldScroll, setShouldScroll] = useState(false);
+  const {
+    isMicrophoneAvailable,
+    listening,
+    resetTranscript,
+    browserSupportsSpeechRecognition,
+    transcript,
+    finalTranscript,
+  } = useSpeechRecognition();
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      bottomRef.current?.scrollIntoView();
-    }, 500);
     if (shouldScroll && bottomRef.current) {
-      timer;
+      const timer = setTimeout(() => bottomRef.current?.scrollIntoView(), 500);
+      return () => clearTimeout(timer);
     }
-    return () => clearTimeout(timer);
   }, [shouldScroll, messages]);
 
   useEffect(() => {
     const handleEnter = (e: KeyboardEvent) => {
       if (e.key === 'Enter') {
         e.preventDefault();
-        return submitRef.current?.click();
+        submitRef.current?.click();
       }
     };
     window.addEventListener('keydown', handleEnter);
     return () => window.removeEventListener('keydown', handleEnter);
   }, []);
+
+  useEffect(() => {
+    if (finalTranscript.length > 0) {
+      setInput(finalTranscript);
+    }
+    if (finalTranscript === input) resetTranscript();
+  }, [input, finalTranscript, resetTranscript]);
+
+  const handleSpeech = useMemo(
+    () => async () => {
+      if (!isMicrophoneAvailable) {
+        return toast.warning('Microphone is not available');
+      }
+      if (!browserSupportsSpeechRecognition) {
+        return toast.warning(
+          'Your browser does not support speech recognition',
+        );
+      }
+      try {
+        if (!listening) {
+          await SpeechRecognition.startListening();
+          toast.info('Listening...');
+        } else {
+          await SpeechRecognition.stopListening();
+          toast.info('Stopped listening');
+        }
+      } catch (err: any) {
+        toast.error(err);
+      }
+    },
+    [isMicrophoneAvailable, browserSupportsSpeechRecognition, listening],
+  );
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setPending(true);
+
+    const request = await ChatAPIMaker(input);
+    const newMessages = [
+      ...messages,
+      { message: input, sender: 'user' },
+      request.status === 'error'
+        ? { message: 'Something went wrong, Please try again.', sender: 'bot' }
+        : { message: request.data?.message || 'I am a bot', sender: 'bot' },
+    ];
+
+    setMessages(newMessages);
+    setInput('');
+    setPending(false);
+  };
+
+  return {
+    submitRef,
+    pending,
+    messages,
+    input,
+    setInput,
+    bottomRef,
+    setShouldScroll,
+    handleSpeech,
+    handleSubmit,
+  };
+};
+
+export default function ChatAI() {
+  const {
+    submitRef,
+    pending,
+    messages,
+    input,
+    setInput,
+    bottomRef,
+    setShouldScroll,
+    handleSpeech,
+    handleSubmit,
+  } = useChatAI();
 
   return (
     <Dialog>
@@ -74,79 +159,30 @@ export default function ChatAI() {
         </DialogHeader>
 
         <ScrollArea
-          onLoad={() => {
-            setShouldScroll(true);
-          }}
-          className="flex flex-col min-h-[30vh] max-h-[50vh] w-full "
+          onLoad={() => setShouldScroll(true)}
+          className="flex flex-col min-h-[30vh] max-h-[50vh] w-full"
         >
-          {messages.map((data, index) => {
-            return (
-              <div
-                key={index}
-                className={
-                  data.sender === 'bot'
-                    ? `flex h-fit w-full justify-start items-start gap-3`
-                    : `flex h-fit w-full float-end justify-end items-start gap-3 my-3`
-                }
-              >
-                {data.sender === 'bot' && (
-                  <Icons.Bot className="h-5 max-w-5 my-3" />
-                )}
-                <h1 className="text-md p-3 border rounded-md max-w-96">
-                  {data.message}
-                </h1>
-                {data.sender === 'user' && (
-                  <Icons.User className="h-5 w-5 my-3" />
-                )}
-              </div>
-            );
-          })}
-          <div
-            onLoad={(e) => {
-              e.currentTarget.scrollIntoView({ behavior: 'smooth' });
-            }}
-            ref={bottomRef}
-          ></div>
+          {messages.map((data, index) => (
+            <div
+              key={index}
+              className={`flex h-fit w-full justify-${data.sender === 'bot' ? 'start' : 'end'} items-start gap-3 my-3`}
+            >
+              {data.sender === 'bot' && (
+                <Icons.Bot className="h-5 max-w-5 my-3" />
+              )}
+              <h1 className="text-md p-3 border rounded-md max-w-96">
+                {data.message}
+              </h1>
+              {data.sender === 'user' && (
+                <Icons.User className="h-5 w-5 my-3" />
+              )}
+            </div>
+          ))}
+          <div ref={bottomRef}></div>
         </ScrollArea>
+
         <form
-          onSubmit={async (e) => {
-            e.preventDefault();
-            setPending(true);
-            const request = await ChatAPIMaker(input);
-
-            if (request.status === 'error') {
-              setMessages([
-                ...messages,
-                { message: input, sender: 'user' },
-                {
-                  message: 'Something went wrong, Please try again.',
-                  sender: 'bot',
-                },
-              ]);
-              setInput('');
-              setPending(false);
-              return;
-            }
-
-            if (request.status === 'success' && request.data?.message) {
-              setMessages([
-                ...messages,
-                { message: input, sender: 'user' },
-                { message: request.data?.message, sender: 'bot' },
-              ]);
-              setInput('');
-              setPending(false);
-              return;
-            }
-
-            setMessages([
-              ...messages,
-              { message: input, sender: 'user' },
-              { message: 'I am a bot', sender: 'bot' },
-            ]);
-            setInput('');
-            setPending(false);
-          }}
+          onSubmit={handleSubmit}
           className="w-full flex items-center gap-2"
         >
           <Textarea
@@ -160,6 +196,7 @@ export default function ChatAI() {
           />
           <Button
             ref={submitRef}
+            type="submit"
             disabled={pending}
             className="disabled:opacity-60"
           >
@@ -168,6 +205,15 @@ export default function ChatAI() {
             ) : (
               'Send'
             )}
+          </Button>
+          <Button
+            type="button"
+            size="icon"
+            variant="ghost"
+            className="p-2"
+            onClick={handleSpeech}
+          >
+            <Icons.Mic className="size-5" />
           </Button>
         </form>
       </DialogContent>

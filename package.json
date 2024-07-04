@@ -57,12 +57,13 @@
     "postgres": "^3.4.4",
     "posthog-js": "^1.142.1",
     "prettier": "^3.2.5",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-speech-recognition": "^3.10.0",
     "sharp": "^0.33.3",
     "signals-react-safe": "^1.1.2",
     "socket.io-client": "^4.7.5",
-    "sonner": "^1.4.41",
+    "sonner": "^1.5.0",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
     "vaul": "^0.9.0",
@@ -71,13 +72,14 @@
   "devDependencies": {
     "@types/bun": "^1.1.5",
     "@types/node": "^20.12.7",
-    "@types/react": "^18.2.79",
-    "@types/react-dom": "^18.2.25",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@types/react-speech-recognition": "^3.9.5",
     "autoprefixer": "^10.4.19",
     "drizzle-kit": "^0.20.16",
     "eslint": "^8.57.0",
-    "eslint-config-next": "14.2.2",
-    "husky": "^8.0.0",
+    "eslint-config-next": "^14.2.4",
+    "husky": "^8.0.3",
     "lint-staged": "^15.2.7",
     "postcss": "^8.4.38",
     "tailwindcss": "^3.4.3",
@@ -85,7 +87,9 @@
   },
   "trustedDependencies": [
     "@vercel/speed-insights",
-    "es5-ext"
+    "es5-ext",
+    "esbuild",
+    "sharp"
   ],
   "lint-staged": {
     "**/*.{ts,tsx,mdx,js,jsx,md,css,yaml,yml}": [
