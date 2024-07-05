@@ -1,8 +1,7 @@
 'use server';
-import { db } from '@/db';
+import db from '@/db';
 import { messagesSchema } from '@/db/schema';
 import { asc, eq } from 'drizzle-orm';
-import { revalidatePath } from 'next/cache';
 
 export type userDataType = {
   name: string;

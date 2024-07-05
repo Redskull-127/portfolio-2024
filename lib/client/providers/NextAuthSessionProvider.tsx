@@ -65,7 +65,6 @@ export function ShowAuthStatus({ children }: Children) {
   }, [session?.user?.name, status]);
 
   useEffect(() => {
-    console.log('isIntroOpen', isIntroOpen);
     if (!isIntroOpen) {
       showStatus();
     }
