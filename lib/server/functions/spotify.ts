@@ -91,11 +91,16 @@ export async function getNewSong() {
   return revalidateTag('spotifyAPI');
 }
 
+export const getDeepScrapedSong = async (song: string) => {
+  const data = await DeepScarpSong(song);
+  return data;
+};
+
 export const getNowPlaying = async () => {
   const data = await makeRequest(NOW_PLAYING_URL);
   if (data.item) {
     if (data.item.preview_url === null) {
-      const preview = await DeepScarpSong(
+      const preview = await getDeepScrapedSong(
         `${data.item.name} ${data.item.artists[0].name}`,
       );
       return {
@@ -125,7 +130,7 @@ export const getRecentlyPlayed = async () => {
   if (data.items) {
     const random = Math.floor(Math.random() * data.items.length);
     if (data.items[random].track.preview_url === null) {
-      const preview = await DeepScarpSong(
+      const preview = await getDeepScrapedSong(
         `${data.items[random].track.name} ${data.items[random].track.artists[0].name}`,
       );
       return {

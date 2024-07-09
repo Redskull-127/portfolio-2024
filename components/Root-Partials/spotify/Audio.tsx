@@ -2,7 +2,6 @@
 import { useRef, useState, useEffect, useCallback } from 'react';
 import { Icons } from '../../icons/icons';
 import { toast } from 'sonner';
-import Link from 'next/link';
 import { SkipForward, Volume } from 'lucide-react';
 import { Slider } from '@/components/ui/slider';
 import {
@@ -19,12 +18,14 @@ import {
   HoverCardTrigger,
 } from '@/components/ui/hover-card';
 import { useCastContext } from '@/lib/client/providers/CastProvider';
+import clsx from 'clsx';
 
 type AudioButtonType = {
   AudioSRC: string;
   name: string;
   uri: string;
   image: string;
+  disabled?: boolean;
 };
 
 type AudioButtonProps = 'playing' | 'paused' | 'stopped';
@@ -177,6 +178,7 @@ export default function AudioButton(props: AudioButtonType) {
       </DropdownMenu>
 
       <button
+        disabled={props.disabled}
         onClick={() => {
           if (props.AudioSRC === null) {
             toast('Ah snap :(', {
@@ -227,11 +229,18 @@ export default function AudioButton(props: AudioButtonType) {
       </button>
 
       <SkipForward
-        onClick={async () => {
-          setPlaying('paused');
-          return await getNewSong();
-        }}
-        className="cursor-pointer h-5 w-5 "
+        onClick={
+          props.disabled
+            ? () => {}
+            : async () => {
+                setPlaying('paused');
+                return await getNewSong();
+              }
+        }
+        className={clsx(
+          'h-5 w-5',
+          props.disabled ? 'cursor-not-allowed' : 'cursor-pointer',
+        )}
       />
       <audio id="spotifyAudio" ref={audioRef} className="hidden"></audio>
     </div>

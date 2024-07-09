@@ -22,6 +22,7 @@ const MakeRequest = async (song: string) => {
     return song;
   } catch (error) {
     console.error(error);
+    return new Error('Error: Could not find song');
   }
 };
 

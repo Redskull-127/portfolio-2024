@@ -1,22 +1,21 @@
 import Link from 'next/link';
-
 import { SpotifySelfApi, SpotifyType } from '@/lib/server/functions/spotify';
 import { Icons } from '../icons/icons';
 import { Discord, GitHub, Gmail, LinkedIn, X } from '../icons/AnimatedIcons';
-
 import SkillsJson from '@/lib/static/skills.json';
 import SkillModel from './skill/SkillModel';
-
 import { Settings as Controls } from '@/lib/client/functions/settings';
 import { GitHubAPI, GitHubType } from '@/lib/server/functions/github';
 import { ProjectLists } from './project/ProjectLists';
-import SpotifyComponent from './spotify/SpotifyComponent';
+import SpotifyComponent, {
+  SpotifyComponentError,
+} from './spotify/SpotifyComponent';
 import Avatar3D from './3D-avatar';
 import { getTotalVisits } from '@/lib/server/google/apis/search-analytics';
 
 export function HeroCard() {
   return (
-    <div className="max-xl:w-full xl:min-w-[25%] flex flex-col justify-end place-items-center h-80 shadow-lg shadow-[#248F68] rounded-2xl gap-5 bg-[#248F68] text-white">
+    <div className="max-xl:w-full xl:min-w-[25%] flex flex-col justify-end items-center h-80 shadow-lg shadow-[#248F68] rounded-2xl gap-5 bg-[#248F68] text-white">
       <Avatar3D />
       <div className="flex flex-col gap-2 justify-center items-center mb-14">
         <h1 className="max-xl:text-3xl text-4xl font-semibold font-sans">
@@ -32,7 +31,7 @@ export function Introduction() {
   return (
     <div
       id="introduction"
-      className=" flex flex-col w-full h-fit bg-muted text-muted-foreground rounded-2xl p-6 gap-2"
+      className="flex flex-col w-full h-fit bg-muted text-muted-foreground rounded-2xl p-6 gap-2"
     >
       <h1 className="text-2xl font-semibold">Introduction</h1>
       <p className="text-foreground font-medium">
@@ -73,21 +72,17 @@ export function QuickLinks() {
 
 export async function SpotifyCard() {
   const data: SpotifyType | Error | undefined = await SpotifySelfApi();
-  if (data instanceof Error) {
-    console.error(data);
-    return null;
+  if (data instanceof Error || data === undefined || data === null) {
+    return <SpotifyComponentError />;
   }
-
-  if (data) {
-    return <SpotifyComponent {...data} />;
-  }
+  return <SpotifyComponent {...data} />;
 }
 
 export function Skills() {
   return (
     <div
       id="skills"
-      className=" flex flex-col h-fit rounded-2xl bg-ternary-foreground p-6"
+      className="flex flex-col h-fit rounded-2xl bg-ternary-foreground p-6"
     >
       <h1 className="text-3xl font-semibold text-ternary">Skills</h1>
       <div className="inline-flex 2xl:flex-wrap py-[0.6rem] overflow-x-scroll">
@@ -119,48 +114,24 @@ export async function Projects() {
         Projects
       </h1>
       <div className="flex flex-col gap-3 overflow-hidden overflow-y-scroll">
-        {data.map((project, index) => {
-          return <ProjectLists key={index} {...project} />;
-        })}
+        {data.map((project, index) => (
+          <ProjectLists key={index} {...project} />
+        ))}
       </div>
     </div>
   );
 }
 
 export function AllPages() {
-  const Pages = [
-    {
-      name: 'Blogs',
-      href: '/blogs',
-      implemented: true,
-    },
-    {
-      name: 'Chat',
-      href: '/chat',
-      implemented: true,
-      id: 'chat',
-    },
-    {
-      name: 'Events',
-      href: '/events',
-      implemented: true,
-    },
-    {
-      name: 'Experience',
-      href: '/experience',
-      implemented: true,
-    },
-    {
-      name: 'Projects',
-      href: '/projects',
-      implemented: true,
-    },
-    {
-      name: 'Credits',
-      href: '/credits',
-      implemented: true,
-    },
+  const pages = [
+    { name: 'Blogs', href: '/blogs', implemented: true },
+    { name: 'Chat', href: '/chat', implemented: true, id: 'chat' },
+    { name: 'Events', href: '/events', implemented: true },
+    { name: 'Experience', href: '/experience', implemented: true },
+    { name: 'Projects', href: '/projects', implemented: true },
+    { name: 'Credits', href: '/credits', implemented: true },
   ];
+
   return (
     <div
       id="pages"
@@ -168,24 +139,18 @@ export function AllPages() {
     >
       <h1 className="text-3xl font-semibold text-ternary">Pages</h1>
       <div className="flex flex-col gap-1 overflow-hidden overflow-y-scroll">
-        {Pages.map((page, index) => {
-          return (
-            <div
-              id={page.id}
-              key={index}
-              className="w-full border-b-2 flex p-2"
+        {pages.map((page, index) => (
+          <div id={page.id} key={index} className="w-full border-b-2 flex p-2">
+            <Link
+              href={page.implemented ? page.href : '/'}
+              passHref
+              className="flex text-foreground font-medium hover:text-ternary transition-all duration-300"
             >
-              <Link
-                href={page.implemented === true ? page.href : '/'}
-                passHref={true}
-                className="flex text-foreground font-medium hover:text-ternary transition-all duration-300"
-              >
-                {page.name}
-                <Icons.ArrowUpRight className="h-4" />
-              </Link>
-            </div>
-          );
-        })}
+              {page.name}
+              <Icons.ArrowUpRight className="h-4" />
+            </Link>
+          </div>
+        ))}
       </div>
     </div>
   );
