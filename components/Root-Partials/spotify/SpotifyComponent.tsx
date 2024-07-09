@@ -33,6 +33,7 @@ export default async function SpotifyComponent(props: SpotifyType) {
       </div>
       <div className="w-full flex justify-center items-center">
         <AudioButton
+          status={props.status}
           uri={props.uri!}
           AudioSRC={props.preview_url}
           name={props.name}

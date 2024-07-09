@@ -26,9 +26,10 @@ type AudioButtonType = {
   uri: string;
   image: string;
   disabled?: boolean;
+  status?: 'now-playing' | 'shuffle';
 };
 
-type AudioButtonProps = 'playing' | 'paused' | 'stopped';
+type AudioButtonProps = 'playing' | 'paused' | 'stopped' | 'new-song';
 
 export default function AudioButton(props: AudioButtonType) {
   const { setCastDetails } = useCastContext();
@@ -75,6 +76,11 @@ export default function AudioButton(props: AudioButtonType) {
     ref!.pause();
   }, []);
 
+  const handleNewSong = useCallback(() => {
+    const ref = audioRef.current;
+    ref!.pause();
+  }, []);
+
   useEffect(() => {
     const ref = audioRef.current;
 
@@ -84,11 +90,14 @@ export default function AudioButton(props: AudioButtonType) {
     if (playing === 'paused') {
       handlePause();
     }
+    if (playing === 'new-song') {
+      handleNewSong();
+    }
     ref?.addEventListener('ended', handleStop);
     return () => {
       ref?.removeEventListener('ended', handleStop);
     };
-  }, [handlePause, handlePlay, handleStop, playing]);
+  }, [handlePause, handlePlay, handleStop, handleNewSong, playing]);
 
   useEffect(() => {
     const ref = audioRef.current;
@@ -196,7 +205,9 @@ export default function AudioButton(props: AudioButtonType) {
         }}
         className="disabled:opacity-75 bg-foreground text-primary-foreground p-3 rounded-full active:scale-90 transition-all duration-200"
       >
-        {playing === 'paused' || playing === 'stopped' ? (
+        {playing === 'paused' ||
+        playing === 'stopped' ||
+        playing === 'new-song' ? (
           <Icons.Play className="pl-1" />
         ) : (
           <HoverCard>
@@ -233,8 +244,22 @@ export default function AudioButton(props: AudioButtonType) {
           props.disabled
             ? () => {}
             : async () => {
-                setPlaying('paused');
-                return await getNewSong();
+                if (props.status === 'now-playing') {
+                  return toast.info(
+                    'Meer is currently listening to this song!',
+                    {
+                      description:
+                        'Implementing the mode switching in next update.',
+                    },
+                  );
+                } else {
+                  setPlaying('new-song');
+                  return toast.promise(getNewSong(), {
+                    loading: 'Loading next song...',
+                    success: 'Next song loaded!',
+                    error: 'Error loading next song!',
+                  });
+                }
               }
         }
         className={clsx(
