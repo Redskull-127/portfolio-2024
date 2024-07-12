@@ -17,7 +17,7 @@ import {
 } from '@/components/ui/accordion';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
-import CreditsJSON from '@/lib/static/credits.json';
+import { siteConfig } from '@/site-config';
 import { Button } from '../ui/button';
 
 export default function CreditsDialog() {
@@ -48,7 +48,7 @@ export default function CreditsDialog() {
         </DialogHeader>
         <ScrollArea className="max-h-80 w-full">
           <Accordion type="single" collapsible>
-            {CreditsJSON.map((event, index) => (
+            {siteConfig.components.credits.map((event, index) => (
               <AccordionItem key={index} value={event.title}>
                 <AccordionTrigger>{event.title}</AccordionTrigger>
                 <AccordionContent>

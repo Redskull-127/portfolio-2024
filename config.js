@@ -1,5 +1,5 @@
-const SocialMediaLinks = require('./default-links').SocialMediaLinks;
-const SourceCodeLinks = require('./default-links').SourceCodeLinks;
+const SocialMediaLinks = require('./site-config').SocialMediaLinks;
+const SourceCodeLinks = require('./site-config').SourceCodeLinks;
 
 const redirects = [
   {

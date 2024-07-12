@@ -17,7 +17,7 @@ import {
 } from '@/components/ui/accordion';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
-import ExperienceJSON from '@/lib/static/experience.json';
+import { siteConfig } from '@/site-config';
 
 export default function ExperienceDialog() {
   const router = useRouter();
@@ -47,7 +47,7 @@ export default function ExperienceDialog() {
         </DialogHeader>
         <ScrollArea className="max-h-80 w-full">
           <Accordion type="single" collapsible>
-            {ExperienceJSON.map((event, index) => (
+            {siteConfig.components.experience.map((event, index) => (
               <AccordionItem key={index} value={event.title}>
                 <AccordionTrigger>
                   <div className="flex w-full justify-between">

@@ -31,7 +31,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "default-links.js"
+    "site-config.js"
   ],
   "exclude": ["node_modules"]
 }

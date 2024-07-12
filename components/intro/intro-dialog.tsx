@@ -17,7 +17,7 @@ import {
 import { Button } from '../ui/button';
 import clsx from 'clsx';
 import { Features, GettingStarted, SourceCode, Technologies } from './crumbs';
-import { SourceCodeLinks } from '@/default-links';
+import { SourceCodeLinks } from '@/site-config';
 import { useIntroContext } from '@/lib/client/providers/intro-provider';
 
 export default function IntroDialog() {

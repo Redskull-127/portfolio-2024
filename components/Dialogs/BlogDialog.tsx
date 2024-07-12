@@ -17,7 +17,7 @@ import {
 } from '@/components/ui/accordion';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
-import BlogJSON from '@/lib/static/blogs.json';
+import { siteConfig } from '@/site-config';
 import { Button } from '../ui/button';
 
 export default function BlogDialog() {
@@ -47,7 +47,7 @@ export default function BlogDialog() {
         </DialogHeader>
         <ScrollArea className="h-80 w-full">
           <Accordion type="single" collapsible>
-            {BlogJSON.map((blog, index) => (
+            {siteConfig.components.blogs.map((blog, index) => (
               <AccordionItem key={index} value={blog.title}>
                 <AccordionTrigger>{blog.title}</AccordionTrigger>
                 <AccordionContent>

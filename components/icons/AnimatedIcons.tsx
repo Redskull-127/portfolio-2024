@@ -7,7 +7,7 @@ import GitHubJson from '@/public/static/lottie/github.json';
 import LinkedInJson from '@/public/static/lottie/linkedin.json';
 import XJson from '@/public/static/lottie/x.json';
 import DiscordJson from '@/public/static/lottie/discord.json';
-import { SocialMediaLinks } from '@/default-links';
+import { SocialMediaLinks } from '@/site-config';
 
 export function Gmail() {
   return (

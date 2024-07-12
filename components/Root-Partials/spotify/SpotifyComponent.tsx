@@ -6,7 +6,7 @@ import Link from 'next/link';
 import LyricsButton from './LyricsButton';
 import getLyrics from '@/lib/server/functions/lyrics';
 import MarqueeText from './MarqueeText';
-import { SocialMediaLinks } from '@/default-links';
+import { SocialMediaLinks } from '@/site-config';
 
 export default async function SpotifyComponent(props: SpotifyType) {
   const lyrics = await getLyrics(props.name, props.artist);

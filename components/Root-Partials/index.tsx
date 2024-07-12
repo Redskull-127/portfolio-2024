@@ -2,7 +2,6 @@ import Link from 'next/link';
 import { SpotifySelfApi, SpotifyType } from '@/lib/server/functions/spotify';
 import { Icons } from '../icons/icons';
 import { Discord, GitHub, Gmail, LinkedIn, X } from '../icons/AnimatedIcons';
-import SkillsJson from '@/lib/static/skills.json';
 import SkillModel from './skill/SkillModel';
 import { Settings as Controls } from '@/lib/client/functions/settings';
 import { GitHubAPI, GitHubType } from '@/lib/server/functions/github';
@@ -12,16 +11,16 @@ import SpotifyComponent, {
 } from './spotify/SpotifyComponent';
 import Avatar3D from './3D-avatar';
 import { getTotalVisits } from '@/lib/server/google/apis/search-analytics';
-
+import { siteConfig } from '@/site-config';
 export function HeroCard() {
   return (
     <div className="max-xl:w-full xl:min-w-[25%] flex flex-col justify-end items-center h-80 shadow-lg shadow-[#248F68] rounded-2xl gap-5 bg-[#248F68] text-white">
       <Avatar3D />
       <div className="flex flex-col gap-2 justify-center items-center mb-14">
         <h1 className="max-xl:text-3xl text-4xl font-semibold font-sans">
-          Meer Tarbani
+          {siteConfig.about.name}
         </h1>
-        <span className="text-sm font-medium">Full Stack Web Developer</span>
+        <span className="text-sm font-medium">{siteConfig.about.title}</span>
       </div>
     </div>
   );
@@ -35,8 +34,7 @@ export function Introduction() {
     >
       <h1 className="text-2xl font-semibold">Introduction</h1>
       <p className="text-foreground font-medium">
-        Hey, I&apos;m Meer. GDSC Lead &apos;22, Organizer of Hack For India &
-        GDSC WoW &apos;22, Ex Flipkart SCOA Intern & Gao Tech Support Intern!
+        {siteConfig.about.description}
       </p>
       <div className="w-full flex flex-row-reverse max-xl:justify-center">
         <a
@@ -86,7 +84,7 @@ export function Skills() {
     >
       <h1 className="text-3xl font-semibold text-ternary">Skills</h1>
       <div className="inline-flex 2xl:flex-wrap py-[0.6rem] overflow-x-scroll">
-        {SkillsJson.map((skill, index) => (
+        {siteConfig.components.skills.map((skill, index) => (
           <SkillModel key={index} skill={skill.skill} />
         ))}
       </div>

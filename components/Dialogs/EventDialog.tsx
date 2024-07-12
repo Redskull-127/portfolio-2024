@@ -17,7 +17,7 @@ import {
 } from '@/components/ui/accordion';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
-import EventsJSON from '@/lib/static/events.json';
+import { siteConfig } from '@/site-config';
 import { Button } from '../ui/button';
 
 export default function EventsDialog() {
@@ -47,7 +47,7 @@ export default function EventsDialog() {
         </DialogHeader>
         <ScrollArea className="max-h-80 w-full">
           <Accordion type="single" collapsible>
-            {EventsJSON.map((event, index) => (
+            {siteConfig.components.events.map((event, index) => (
               <AccordionItem key={index} value={event.title}>
                 <AccordionTrigger>{event.title}</AccordionTrigger>
                 <AccordionContent>
