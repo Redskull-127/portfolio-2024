@@ -92,9 +92,6 @@
     "sharp"
   ],
   "lint-staged": {
-    "**/*.{ts,tsx,mdx,js,jsx,md,css,yaml,yml}": [
-      "eslint"
-    ],
     "*": [
       "prettier --write --ignore-unknown --cache"
     ]
