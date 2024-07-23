@@ -25,7 +25,7 @@ const SPOTIFY_REFRESH_TOKEN = process.env['SPOTIFY_REFRESH_TOKEN'];
 const NOW_PLAYING_URL =
   'https://api.spotify.com/v1/me/player/currently-playing';
 const RECENTLY_PLAYING_URL = `https://api.spotify.com/v1/playlists/42h3IewUsTfRNHE5Puw9EK/tracks?limit=50&offset=${Math.floor(
-  Math.random() * 951,
+  Math.random() * 1900,
 )}`;
 const REFRESH_TOKEN_URL = 'https://accounts.spotify.com/api/token';
 
