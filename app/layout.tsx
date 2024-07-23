@@ -22,6 +22,7 @@ import { TailwindIndicator } from '@/lib/taillwind-indicator';
 import { CSPostHogProvider } from '@/lib/client/providers/Posthog';
 import { IntroDialogProvider } from '@/lib/client/providers/intro-provider';
 import { siteConfig } from '@/site-config';
+import TanstackProvider from '@/lib/client/providers/TanstackProvider';
 const santoshiSans = localFont({
   src: './Satoshi-Variable.woff2',
   display: 'swap',
@@ -84,28 +85,34 @@ export default function RootLayout({ children }: Children) {
             santoshiSans.className,
           )}
         >
-          <IntroDialogProvider>
-            <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-              <SpeedInsights />
-              <NextAuthProvider>
-                <ConnectivityStatus>
-                  <ChromeCastProvider>
-                    <DynamicIsland />
-                    <DriverProvider>
-                      <main className="flex flex-wrap gap-8 h-screen w-screen font-sans p-10 max-xl:gap-5 max-xl:px-5">
-                        <RootComponent />
-                        {children}
-                        <Analytics />
-                        <TailwindIndicator />
-                      </main>
-                    </DriverProvider>
-                    <Toaster />
-                    <Sonner />
-                  </ChromeCastProvider>
-                </ConnectivityStatus>
-              </NextAuthProvider>
-            </ThemeProvider>
-          </IntroDialogProvider>
+          <TanstackProvider>
+            <IntroDialogProvider>
+              <ThemeProvider
+                attribute="class"
+                defaultTheme="system"
+                enableSystem
+              >
+                <SpeedInsights />
+                <NextAuthProvider>
+                  <ConnectivityStatus>
+                    <ChromeCastProvider>
+                      <DynamicIsland />
+                      <DriverProvider>
+                        <main className="flex flex-wrap gap-8 h-screen w-screen font-sans p-10 max-xl:gap-5 max-xl:px-5">
+                          <RootComponent />
+                          {children}
+                          <Analytics />
+                          <TailwindIndicator />
+                        </main>
+                      </DriverProvider>
+                      <Toaster />
+                      <Sonner />
+                    </ChromeCastProvider>
+                  </ConnectivityStatus>
+                </NextAuthProvider>
+              </ThemeProvider>
+            </IntroDialogProvider>
+          </TanstackProvider>
         </body>
       </CSPostHogProvider>
     </html>

@@ -3,6 +3,9 @@
 import { revalidateTag } from 'next/cache';
 import { unstable_cache } from 'next/cache';
 import { DeepScarpSong } from './deep-song-scrap';
+// @ts-ignore
+import { getLyrics as GetLyric } from 'genius-lyrics-api';
+import { AxiosError } from 'axios';
 
 export type SpotifyType = {
   images: {
@@ -13,6 +16,7 @@ export type SpotifyType = {
   preview_url: string;
   uri?: string;
   status: 'now-playing' | 'shuffle';
+  lyrics: string;
 };
 
 const SPOTIFY_CLIENT_ID = process.env['SPOTIFY_CLIENT_ID'];
@@ -87,9 +91,21 @@ export const makeRequest = async (url: string, config = {}): Promise<any> => {
   }
 };
 
-export async function getNewSong() {
-  return revalidateTag('spotifyAPI');
-}
+export const getLyrics = async (song: string, artist: string) => {
+  const options = {
+    apiKey: process.env['GENIUS_ACCESS_TOKEN'] as string,
+    title: song,
+    artist: artist,
+    optimizeQuery: true,
+  };
+
+  try {
+    const data = await GetLyric(options);
+    return data;
+  } catch (error: AxiosError | any) {
+    return 'Error fetching lyrics';
+  }
+};
 
 export const getDeepScrapedSong = async (song: string) => {
   const data = await DeepScarpSong(song);
@@ -110,6 +126,7 @@ export const getNowPlaying = async () => {
         artist: data.item.artists[0].name,
         preview_url: preview,
         uri: data.item.uri,
+        lyrics: await getLyrics(data.item.name, data.item.artists[0].name),
       } as unknown as SpotifyType;
     }
     return {
@@ -119,9 +136,10 @@ export const getNowPlaying = async () => {
       artist: data.item.artists[0].name,
       preview_url: data.item.preview_url,
       uri: data.item.uri,
+      lyrics: await getLyrics(data.item.name, data.item.artists[0].name),
     } as unknown as SpotifyType;
   } else {
-    return Error('Not Playing');
+    return Error('Sorry, Meer is not playing currently :(');
   }
 };
 
@@ -140,6 +158,10 @@ export const getRecentlyPlayed = async () => {
         artist: data.items[random].track.artists[0].name,
         preview_url: preview,
         uri: data.items[random].track.uri,
+        lyrics: await getLyrics(
+          data.items[random].track.name,
+          data.items[random].track.artists[0].name,
+        ),
       } as unknown as SpotifyType;
     }
     return {
@@ -149,27 +171,59 @@ export const getRecentlyPlayed = async () => {
       artist: data.items[random].track.artists[0].name,
       preview_url: data.items[random].track.preview_url,
       uri: data.items[random].track.uri,
+      lyrics: await getLyrics(
+        data.items[random].track.name,
+        data.items[random].track.artists[0].name,
+      ),
     } as unknown as SpotifyType;
-  } else {
-    return Error('Not Playing');
   }
 };
 
-export const SpotifySelfApi = unstable_cache(
+export const SpotifySelfApi = async (status: 'shuffle' | 'now-playing') => {
+  if (status === 'shuffle') {
+    try {
+      return (await getRecentlyPlayed()) as SpotifyType;
+    } catch (error: any) {
+      console.log(error);
+      Error(error);
+    }
+  }
+  if (status === 'now-playing') {
+    try {
+      return (await getNowPlaying()) as SpotifyType;
+    } catch (error: any) {
+      console.log(error);
+      Error(error);
+    }
+  }
+}; // This can be used when you want to get the currently playing song or the recently played song from the user's Spotify account
+
+export const SpotifyNowPlaying = unstable_cache(
   async () => {
     try {
       return await getNowPlaying();
     } catch (error) {
-      try {
-        return await getRecentlyPlayed();
-      } catch (innerError) {
-        console.log(innerError);
-      }
+      console.log(error);
     }
   },
-  ['spotifyAPI'],
+  ['spotifyNowPlaying'],
   {
-    tags: ['spotifyAPI'],
+    tags: ['spotifyNowPlaying'],
+    revalidate: 1,
+  },
+);
+
+export const SpotifyRecentlyPlayed = unstable_cache(
+  async () => {
+    try {
+      return await getRecentlyPlayed();
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  ['spotifyRecentlyPlayed'],
+  {
+    tags: ['spotifyRecentlyPlayed'],
     revalidate: 1,
   },
 );

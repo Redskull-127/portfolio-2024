@@ -30,16 +30,12 @@ export default function LyricsButton({
           <DialogDescription>
             {song} - {name}
             <div className="pt-8">
-              {lyrics && lyrics !== '' ? (
-                <ScrollArea className="h-96">
-                  <p
-                    className="text-ternary text-lg whitespace-pre-line"
-                    dangerouslySetInnerHTML={{ __html: lyrics }}
-                  />
-                </ScrollArea>
-              ) : (
-                <p>No lyrics found. :(</p>
-              )}
+              <ScrollArea className="h-96">
+                <p
+                  className="text-ternary text-lg whitespace-pre-line"
+                  dangerouslySetInnerHTML={{ __html: lyrics }}
+                />
+              </ScrollArea>
             </div>
           </DialogDescription>
         </DialogHeader>

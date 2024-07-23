@@ -1,17 +1,21 @@
 import Link from 'next/link';
-import { SpotifySelfApi, SpotifyType } from '@/lib/server/functions/spotify';
 import { Icons } from '../icons/icons';
 import { Discord, GitHub, Gmail, LinkedIn, X } from '../icons/AnimatedIcons';
 import SkillModel from './skill/SkillModel';
 import { Settings as Controls } from '@/lib/client/functions/settings';
 import { GitHubAPI, GitHubType } from '@/lib/server/functions/github';
 import { ProjectLists } from './project/ProjectLists';
-import SpotifyComponent, {
-  SpotifyComponentError,
-} from './spotify/SpotifyComponent';
+import SpotifyComponent from './spotify/SpotifyComponent';
 import Avatar3D from './3D-avatar';
 import { getTotalVisits } from '@/lib/server/google/apis/search-analytics';
 import { siteConfig } from '@/site-config';
+import {
+  QueryClient,
+  HydrationBoundary,
+  dehydrate,
+} from '@tanstack/react-query';
+import { SpotifySelfApi } from '@/lib/server/functions/spotify';
+
 export function HeroCard() {
   return (
     <div className="max-xl:w-full xl:min-w-[25%] flex flex-col justify-end items-center h-80 shadow-lg shadow-[#248F68] rounded-2xl gap-5 bg-[#248F68] text-white">
@@ -69,11 +73,19 @@ export function QuickLinks() {
 }
 
 export async function SpotifyCard() {
-  const data: SpotifyType | Error | undefined = await SpotifySelfApi();
-  if (data instanceof Error || data === undefined || data === null) {
-    return <SpotifyComponentError />;
-  }
-  return <SpotifyComponent {...data} />;
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery({
+    queryKey: ['spotifyData'],
+    queryFn: () => SpotifySelfApi('shuffle'),
+  });
+  const dehydratedState = dehydrate(queryClient);
+
+  return (
+    <HydrationBoundary state={dehydratedState}>
+      {' '}
+      <SpotifyComponent />{' '}
+    </HydrationBoundary>
+  );
 }
 
 export function Skills() {

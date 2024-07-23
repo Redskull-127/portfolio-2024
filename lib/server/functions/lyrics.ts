@@ -13,7 +13,5 @@ export default async function getLyrics(song: string, artist: string) {
   try {
     const data = await GetLyric(options);
     return data as typeof data;
-  } catch (error: AxiosError | any) {
-    console.error(error.message);
-  }
+  } catch (error: AxiosError | any) {}
 }

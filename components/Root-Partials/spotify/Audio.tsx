@@ -2,7 +2,7 @@
 import { useRef, useState, useEffect, useCallback } from 'react';
 import { Icons } from '../../icons/icons';
 import { toast } from 'sonner';
-import { SkipForward, Volume } from 'lucide-react';
+import { SkipForward, VolumeX, Volume1, Volume2, Settings } from 'lucide-react';
 import { Slider } from '@/components/ui/slider';
 import {
   DropdownMenu,
@@ -11,7 +11,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { getNewSong } from '@/lib/server/functions/spotify';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   HoverCard,
   HoverCardContent,
@@ -19,6 +19,8 @@ import {
 } from '@/components/ui/hover-card';
 import { useCastContext } from '@/lib/client/providers/CastProvider';
 import clsx from 'clsx';
+import { SwitchModes } from '@/lib/server/functions/spotify-switch';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 type AudioButtonType = {
   AudioSRC: string;
@@ -27,6 +29,7 @@ type AudioButtonType = {
   image: string;
   disabled?: boolean;
   status?: 'now-playing' | 'shuffle';
+  setStatus?: React.Dispatch<React.SetStateAction<'shuffle' | 'now-playing'>>;
 };
 
 type AudioButtonProps = 'playing' | 'paused' | 'stopped' | 'new-song';
@@ -37,6 +40,13 @@ export default function AudioButton(props: AudioButtonType) {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [audioVolume, setAudioVolume] = useState<number>();
   const [audioCurrDuration, setAudioCurrDuration] = useState<number>();
+  const queryClient = useQueryClient();
+
+  const getNewSong = useCallback(async () => {
+    await queryClient.invalidateQueries({
+      queryKey: ['spotifyData'],
+    });
+  }, [queryClient]);
 
   const handleStop = useCallback(() => {
     setPlaying('stopped');
@@ -45,11 +55,22 @@ export default function AudioButton(props: AudioButtonType) {
       action: {
         label: 'Play Next',
         onClick: async () => {
-          await getNewSong();
+          if (props.status === 'now-playing') {
+            return toast.info('Meer is currently listening to this song!', {
+              description: 'Switch to shuffle mode to skip to the next song!',
+            });
+          } else {
+            setPlaying('new-song');
+            return toast.promise(getNewSong(), {
+              loading: 'Loading next song...',
+              success: 'Next song loaded!',
+              error: 'Error loading next song!',
+            });
+          }
         },
       },
     });
-  }, [props.name]);
+  }, [getNewSong, props.name, props.status]);
 
   const handlePlay = useCallback(() => {
     const ref = audioRef.current;
@@ -168,21 +189,50 @@ export default function AudioButton(props: AudioButtonType) {
     <div className="w-full gap-7 flex justify-center items-center">
       <DropdownMenu>
         <DropdownMenuTrigger>
-          <Volume className="cursor-pointer h-5 w-5 " />
+          <Settings className="cursor-pointer h-5 w-5 " />
         </DropdownMenuTrigger>
-        <DropdownMenuContent>
-          <DropdownMenuLabel>Audio controls</DropdownMenuLabel>
+        <DropdownMenuContent className="space-y-1">
+          <DropdownMenuLabel>Settings</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <Slider
-            className="p-2"
-            onValueChange={(e) => {
-              window.localStorage.setItem('audioVolume', e[0].toString());
-              setAudioVolume(e[0]);
+          <Tabs
+            onValueChange={async (e) => {
+              toast.promise(
+                SwitchModes(e as 'shuffle' | 'now-playing', props.setStatus!),
+                {
+                  loading: 'Switching modes...',
+                  success: `Switched to ${e} mode!`,
+                  error:
+                    e === 'shuffle'
+                      ? 'Error switching to shuffle mode!'
+                      : 'Ah snap! Meer is not playing currently :(',
+                },
+              );
             }}
-            defaultValue={[audioVolume!]}
-            max={100}
-            step={1}
-          />
+            defaultValue={props.status ?? 'shuffle'}
+          >
+            <TabsList>
+              <TabsTrigger value="shuffle">Shuffle</TabsTrigger>
+              <TabsTrigger value="now-playing">Now Playing</TabsTrigger>
+            </TabsList>
+          </Tabs>
+          <div className="flex p-2 gap-1">
+            {audioVolume === 0 ? (
+              <VolumeX className="size-5" />
+            ) : audioVolume! < 50 ? (
+              <Volume1 className="size-5" />
+            ) : (
+              <Volume2 className="size-5" />
+            )}
+            <Slider
+              onValueChange={(e) => {
+                window.localStorage.setItem('audioVolume', e[0].toString());
+                setAudioVolume(e[0]);
+              }}
+              defaultValue={[audioVolume!]}
+              max={100}
+              step={1}
+            />
+          </div>
         </DropdownMenuContent>
       </DropdownMenu>
 
@@ -249,7 +299,7 @@ export default function AudioButton(props: AudioButtonType) {
                     'Meer is currently listening to this song!',
                     {
                       description:
-                        'Implementing the mode switching in next update.',
+                        'Switch to shuffle mode to skip to the next song!',
                     },
                   );
                 } else {
