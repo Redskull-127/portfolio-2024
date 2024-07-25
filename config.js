@@ -39,8 +39,8 @@ const redirects = [
     basePath: false,
   },
   {
-    source: 'meet',
-    destination: 'https://calendly.com/meertarbani/meet-with-meer',
+    source: '/meet',
+    destination: SocialMediaLinks.calendly,
     permanent: true,
     basePath: false,
   },

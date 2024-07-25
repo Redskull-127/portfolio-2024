@@ -181,6 +181,7 @@ const SocialMediaLinks = {
   twitter: 'https://twitter.com/meertarbani',
   discord: 'https://discordapp.com/users/535768991667585024',
   gmail: 'mailto:admin@meertarbani.in',
+  calendly: 'https://calendly.com/meertarbani/meet-with-meer',
   spotify: {
     user: 'https://open.spotify.com/user/to6rms2g0fzerpkwox1k4v33w',
     playlist:
