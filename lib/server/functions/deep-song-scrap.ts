@@ -18,8 +18,10 @@ const MakeRequest = async (song: string) => {
   try {
     const response = await axios.request(options);
     const data = response.data;
-    const song = data.tracks.hits[0].track.hub.actions[1].uri;
-    return song;
+    if (data.tracks.hits) {
+      const song = data.tracks.hits[0].track.hub.actions[1].uri;
+      return song;
+    }
   } catch (error) {
     console.error(error);
     return new Error('Error: Could not find song');

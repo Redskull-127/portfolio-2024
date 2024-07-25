@@ -13,9 +13,9 @@ import { Textarea } from '../../ui/textarea';
 import { Button } from '../../ui/button';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { ChatAPIMaker } from '@/lib/server/functions/chatapi';
-import SpeechRecognition, {
-  useSpeechRecognition,
-} from 'react-speech-recognition';
+// import SpeechRecognition, {
+//   useSpeechRecognition,
+// } from 'react-speech-recognition';
 import { toast } from 'sonner';
 
 const initialMessageHistory = [
@@ -33,14 +33,14 @@ const useChatAI = () => {
   const [input, setInput] = useState('');
   const bottomRef = useRef<HTMLDivElement>(null);
   const [shouldScroll, setShouldScroll] = useState(false);
-  const {
-    isMicrophoneAvailable,
-    listening,
-    resetTranscript,
-    browserSupportsSpeechRecognition,
-    transcript,
-    finalTranscript,
-  } = useSpeechRecognition();
+  // const {
+  //   isMicrophoneAvailable,
+  //   listening,
+  //   resetTranscript,
+  //   browserSupportsSpeechRecognition,
+  //   transcript,
+  //   finalTranscript,
+  // } = useSpeechRecognition();
 
   useEffect(() => {
     if (shouldScroll && bottomRef.current) {
@@ -60,37 +60,37 @@ const useChatAI = () => {
     return () => window.removeEventListener('keydown', handleEnter);
   }, []);
 
-  useEffect(() => {
-    if (finalTranscript.length > 0) {
-      setInput(finalTranscript);
-    }
-    if (finalTranscript === input) resetTranscript();
-  }, [input, finalTranscript, resetTranscript]);
+  // useEffect(() => {
+  //   if (finalTranscript.length > 0) {
+  //     setInput(finalTranscript);
+  //   }
+  //   if (finalTranscript === input) resetTranscript();
+  // }, [input, finalTranscript, resetTranscript]);
 
-  const handleSpeech = useMemo(
-    () => async () => {
-      if (!isMicrophoneAvailable) {
-        return toast.warning('Microphone is not available');
-      }
-      if (!browserSupportsSpeechRecognition) {
-        return toast.warning(
-          'Your browser does not support speech recognition',
-        );
-      }
-      try {
-        if (!listening) {
-          await SpeechRecognition.startListening();
-          toast.info('Listening...');
-        } else {
-          await SpeechRecognition.stopListening();
-          toast.info('Stopped listening');
-        }
-      } catch (err: any) {
-        toast.error(err);
-      }
-    },
-    [isMicrophoneAvailable, browserSupportsSpeechRecognition, listening],
-  );
+  // const handleSpeech = useMemo(
+  //   () => async () => {
+  //     if (!isMicrophoneAvailable) {
+  //       return toast.warning('Microphone is not available');
+  //     }
+  //     if (!browserSupportsSpeechRecognition) {
+  //       return toast.warning(
+  //         'Your browser does not support speech recognition',
+  //       );
+  //     }
+  //     try {
+  //       if (!listening) {
+  //         await SpeechRecognition.startListening();
+  //         toast.info('Listening...');
+  //       } else {
+  //         await SpeechRecognition.stopListening();
+  //         toast.info('Stopped listening');
+  //       }
+  //     } catch (err: any) {
+  //       toast.error(err);
+  //     }
+  //   },
+  //   [isMicrophoneAvailable, browserSupportsSpeechRecognition, listening],
+  // );
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -118,7 +118,7 @@ const useChatAI = () => {
     setInput,
     bottomRef,
     setShouldScroll,
-    handleSpeech,
+    // handleSpeech,
     handleSubmit,
   };
 };
@@ -132,7 +132,7 @@ export default function ChatAI() {
     setInput,
     bottomRef,
     setShouldScroll,
-    handleSpeech,
+    // handleSpeech,
     handleSubmit,
   } = useChatAI();
 
@@ -208,10 +208,11 @@ export default function ChatAI() {
           </Button>
           <Button
             type="button"
+            disabled
             size="icon"
             variant="ghost"
             className="p-2"
-            onClick={handleSpeech}
+            // onClick={handleSpeech}
           >
             <Icons.Mic className="size-5" />
           </Button>

@@ -10,13 +10,15 @@ import { SocialMediaLinks } from '@/site-config';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 
-export default function SpotifyComponent() {
+export default function SpotifyComponent({ props }: { props: SpotifyType }) {
   const [status, setStatus] = useState<'shuffle' | 'now-playing'>('shuffle');
 
   const { data, error, isLoading } = useQuery({
     queryKey: ['spotifyData', status],
     queryFn: () => SpotifySelfApi(status),
     refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    initialData: props,
   });
 
   if (isLoading || error) return <SpotifyComponentError error={error} />;

@@ -5,7 +5,9 @@ import SkillModel from './skill/SkillModel';
 import { Settings as Controls } from '@/lib/client/functions/settings';
 import { GitHubAPI, GitHubType } from '@/lib/server/functions/github';
 import { ProjectLists } from './project/ProjectLists';
-import SpotifyComponent from './spotify/SpotifyComponent';
+import SpotifyComponent, {
+  SpotifyComponentError,
+} from './spotify/SpotifyComponent';
 import Avatar3D from './3D-avatar';
 import { getTotalVisits } from '@/lib/server/google/apis/search-analytics';
 import { siteConfig } from '@/site-config';
@@ -14,7 +16,7 @@ import {
   HydrationBoundary,
   dehydrate,
 } from '@tanstack/react-query';
-import { SpotifySelfApi } from '@/lib/server/functions/spotify';
+import { SpotifySelfApi, SpotifyType } from '@/lib/server/functions/spotify';
 
 export function HeroCard() {
   return (
@@ -73,19 +75,9 @@ export function QuickLinks() {
 }
 
 export async function SpotifyCard() {
-  const queryClient = new QueryClient();
-  await queryClient.prefetchQuery({
-    queryKey: ['spotifyData'],
-    queryFn: () => SpotifySelfApi('shuffle'),
-  });
-  const dehydratedState = dehydrate(queryClient);
-
-  return (
-    <HydrationBoundary state={dehydratedState}>
-      {' '}
-      <SpotifyComponent />{' '}
-    </HydrationBoundary>
-  );
+  const data: SpotifyType | undefined = await SpotifySelfApi('shuffle');
+  if (!data) return <SpotifyComponentError />;
+  return <SpotifyComponent props={data} />;
 }
 
 export function Skills() {
@@ -95,7 +87,7 @@ export function Skills() {
       className="flex flex-col h-fit rounded-2xl bg-ternary-foreground p-6"
     >
       <h1 className="text-3xl font-semibold text-ternary">Skills</h1>
-      <div className="inline-flex 2xl:flex-wrap py-[0.6rem] overflow-x-scroll">
+      <div className="inline-flex lg:flex-wrap py-[0.6rem] overflow-x-scroll">
         {siteConfig.components.skills.map((skill, index) => (
           <SkillModel key={index} skill={skill.skill} />
         ))}
