@@ -38,6 +38,12 @@ const redirects = [
     permanent: true,
     basePath: false,
   },
+  {
+    source: 'meet',
+    destination: 'https://calendly.com/meertarbani/meet-with-meer',
+    permanent: true,
+    basePath: false,
+  },
 ];
 
 const remotePatterns = [
