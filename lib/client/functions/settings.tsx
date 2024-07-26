@@ -29,7 +29,7 @@ import {
   Bell,
 } from 'lucide-react';
 import { signIn, signOut, useSession } from 'next-auth/react';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
 import { CommandDialogBox } from '@/lib/commandbar/commandnew';
 import ChromeCast from './chromecast';
@@ -43,8 +43,13 @@ export type SettingsProps = {
 };
 
 export function Settings(params: SettingsProps) {
+  const [isHydrated, setIsHydrated] = useState(false);
   const { status, data: session } = useSession();
   const notificationRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
 
   useEffect(() => {
     if (!window.localStorage.getItem('notificationSound')) {
@@ -96,52 +101,66 @@ export function Settings(params: SettingsProps) {
       <ScrollArea className="w-full whitespace-nowrap">
         <div className="flex w-max py-1 space-x-3">
           <CommandDialogBox />
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                aria-label="user action center"
-                variant={status === 'authenticated' ? 'ghost' : 'default'}
-                size={'icon'}
-              >
+
+          {isHydrated && (
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        aria-label="user action center"
+                        variant={
+                          status === 'authenticated' ? 'ghost' : 'default'
+                        }
+                        size={'icon'}
+                      >
+                        {status === 'authenticated' ? (
+                          <Image
+                            src={session.user?.image!}
+                            width={40}
+                            height={40}
+                            className="rounded-sm select-none"
+                            alt="user"
+                          />
+                        ) : (
+                          <CircleUser className="h-5 w-5" />
+                        )}
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <span>User Action Center!</span>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuLabel>
+                  {status === 'authenticated'
+                    ? session.user?.name
+                    : 'Action Required'}
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
                 {status === 'authenticated' ? (
-                  <Image
-                    src={session.user?.image!}
-                    width={40}
-                    height={40}
-                    className="rounded-sm"
-                    alt="user"
-                  />
+                  <DropdownMenuItem
+                    onClick={() => {
+                      signOut();
+                    }}
+                  >
+                    <LogOut className="h-5 w-5 mr-2" /> Sign Out
+                  </DropdownMenuItem>
                 ) : (
-                  <CircleUser className="h-5 w-5" />
+                  <DropdownMenuItem
+                    onClick={() => {
+                      signIn('google');
+                    }}
+                  >
+                    <LogIn className="h-5 w-5 mr-2" /> Log in
+                  </DropdownMenuItem>
                 )}
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuLabel>
-                {status === 'authenticated'
-                  ? session.user?.name
-                  : 'Action Required'}
-              </DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              {status === 'authenticated' ? (
-                <DropdownMenuItem
-                  onClick={() => {
-                    signOut();
-                  }}
-                >
-                  <LogOut className="h-5 w-5 mr-2" /> Sign Out
-                </DropdownMenuItem>
-              ) : (
-                <DropdownMenuItem
-                  onClick={() => {
-                    signIn('google');
-                  }}
-                >
-                  <LogIn className="h-5 w-5 mr-2" /> Log in
-                </DropdownMenuItem>
-              )}
-            </DropdownMenuContent>
-          </DropdownMenu>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
 
           <ThemeToggle />
 
@@ -189,29 +208,38 @@ export function Settings(params: SettingsProps) {
             </Tooltip>
           </TooltipProvider>
 
-          <Button
-            aria-label="notification center"
-            variant={'default'}
-            size={'icon'}
-            ref={notificationRef}
-            onClick={(e) => {
-              const ref = notificationRef.current;
-              const bell = ref?.firstChild as HTMLElement;
-              bell.classList.toggle('scale-125');
-              if (bell.classList.contains('scale-125')) {
-                window.localStorage.setItem('notificationSound', 'high');
-              } else {
-                window.localStorage.setItem('notificationSound', 'low');
-              }
-              toast('Notification Sound Changed:', {
-                description: bell.classList.contains('scale-125')
-                  ? 'High'
-                  : 'Low',
-              });
-            }}
-          >
-            <Bell className="h-5 w-5" />
-          </Button>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  aria-label="notification center"
+                  variant={'default'}
+                  size={'icon'}
+                  ref={notificationRef}
+                  onClick={(e) => {
+                    const ref = notificationRef.current;
+                    const bell = ref?.firstChild as HTMLElement;
+                    bell.classList.toggle('scale-125');
+                    if (bell.classList.contains('scale-125')) {
+                      window.localStorage.setItem('notificationSound', 'high');
+                    } else {
+                      window.localStorage.setItem('notificationSound', 'low');
+                    }
+                    toast('Notification Sound Changed:', {
+                      description: bell.classList.contains('scale-125')
+                        ? 'High'
+                        : 'Low',
+                    });
+                  }}
+                >
+                  <Bell className="h-5 w-5" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Change message notification sound!</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
 
           <ChromeCast />
         </div>

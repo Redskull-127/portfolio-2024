@@ -11,6 +11,12 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { useState, useRef } from 'react';
 import { toast } from 'sonner';
 
@@ -64,11 +70,26 @@ export default function ChromeCast() {
           );
 
         toast.promise(connectPromise, {
-          loading: 'Loading...',
+          loading: (
+            <div className="w-full flex justify-between items-center">
+              <p className="text-md font-semibold">Connecting to device...</p>
+              <Button
+                variant={'destructive'}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setConnected(false);
+                  showDPad(false);
+                  toast.dismiss();
+                }}
+              >
+                Cancel
+              </Button>
+            </div>
+          ),
           success: (data: any) => {
             return `${data.name} connected successfully!\n Now Playing ${castDetails.title}!`;
           },
-          error: 'Error',
+          error: 'Something went wrong!',
         });
 
         castRef.current.on('disconnect', () => {
@@ -82,19 +103,28 @@ export default function ChromeCast() {
 
   return (
     <>
-      <Button
-        onClick={async (e) => {
-          try {
-            handleClick();
-          } catch (error) {
-            console.error(error);
-          }
-        }}
-        variant={'default'}
-        size={'icon'}
-      >
-        <Cast className="h-5 w-5" />
-      </Button>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              onClick={async (e) => {
+                try {
+                  handleClick();
+                } catch (error) {
+                  console.error(error);
+                }
+              }}
+              variant={'default'}
+              size={'icon'}
+            >
+              <Cast className="h-5 w-5" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Cast to chromecast enabled devices!</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
       {dPad && <ShowControls />}
     </>
   );
@@ -126,8 +156,3 @@ export const ShowControls = () => {
     </Dialog>
   );
 };
-
-function test() {
-  const casttest = new Castjs();
-  casttest._isConnectedChanged();
-}
