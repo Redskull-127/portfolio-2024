@@ -102,7 +102,7 @@ const useChatAI = () => {
       { message: input, sender: 'user' },
       request.status === 'error'
         ? { message: 'Something went wrong, Please try again.', sender: 'bot' }
-        : { message: request.data?.message || 'I am a bot', sender: 'bot' },
+        : { message: request.data?.message || 'Please re-try', sender: 'bot' },
     ];
 
     setMessages(newMessages);
@@ -153,7 +153,7 @@ export default function ChatAI() {
         <DialogHeader>
           <DialogTitle>Chat with AI</DialogTitle>
           <DialogDescription>
-            This is a chatbot that uses Google&apos;s Gemini AI to chat with
+            This chatbot is trained on meta/llama-3-8b-instruct LLM to chat with
             you.
           </DialogDescription>
         </DialogHeader>
