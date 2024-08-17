@@ -98,7 +98,7 @@ export default function RootLayout({ children }: Children) {
                     <ChromeCastProvider>
                       <DynamicIsland />
                       <DriverProvider>
-                        <main className="flex flex-wrap gap-8 h-screen w-screen font-sans p-10 max-xl:gap-5 max-xl:px-5">
+                        <main className="flex flex-wrap gap-8 h-screen w-screen font-sans p-10 max-xl:gap-5 max-xl:px-5 min-[2000px]:container min-[2000px]:size-fit">
                           <RootComponent />
                           {children}
                           <Analytics />
