@@ -23,6 +23,7 @@ import { CSPostHogProvider } from '@/lib/client/providers/Posthog';
 import { IntroDialogProvider } from '@/lib/client/providers/intro-provider';
 import { siteConfig } from '@/site-config';
 import TanstackProvider from '@/lib/client/providers/TanstackProvider';
+
 const santoshiSans = localFont({
   src: './Satoshi-Variable.woff2',
   display: 'swap',

@@ -1,4 +1,5 @@
 'use client';
+import 'regenerator-runtime/runtime';
 import {
   Dialog,
   DialogContent,
@@ -11,12 +12,18 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Icons } from '../../icons/icons';
 import { Textarea } from '../../ui/textarea';
 import { Button } from '../../ui/button';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { ChatAPIMaker } from '@/lib/server/functions/chatapi';
-// import SpeechRecognition, {
-//   useSpeechRecognition,
-// } from 'react-speech-recognition';
+import SpeechRecognition, {
+  useSpeechRecognition,
+} from 'react-speech-recognition';
 import { toast } from 'sonner';
+import clsx from 'clsx';
+
+type SpeechSynthesisTypes = {
+  speechSynthesis: SpeechSynthesis;
+  SpeechSynthesisUtterance: SpeechSynthesisUtterance;
+};
 
 const initialMessageHistory = [
   {
@@ -27,20 +34,37 @@ const initialMessageHistory = [
 ];
 
 const useChatAI = () => {
-  const submitRef = useRef<HTMLButtonElement>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [pending, setPending] = useState(false);
   const [messages, setMessages] = useState(initialMessageHistory);
   const [input, setInput] = useState('');
+  const submitRef = useRef<HTMLButtonElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
   const [shouldScroll, setShouldScroll] = useState(false);
-  // const {
-  //   isMicrophoneAvailable,
-  //   listening,
-  //   resetTranscript,
-  //   browserSupportsSpeechRecognition,
-  //   transcript,
-  //   finalTranscript,
-  // } = useSpeechRecognition();
+  const [utterance, setUtterance] = useState<SpeechSynthesisTypes>();
+
+  const {
+    transcript,
+    listening,
+    resetTranscript,
+    browserSupportsSpeechRecognition,
+    isMicrophoneAvailable,
+  } = useSpeechRecognition();
+
+  const handleUtterance = useCallback(
+    async (message: string) => {
+      if (!window.speechSynthesis || !isDialogOpen) return;
+      const synth = window.speechSynthesis;
+      const utterThis = new SpeechSynthesisUtterance(message);
+      utterThis.voice = synth.getVoices()[6];
+      synth.speak(utterThis);
+      setUtterance({
+        speechSynthesis: synth,
+        SpeechSynthesisUtterance: utterThis,
+      });
+    },
+    [isDialogOpen],
+  );
 
   useEffect(() => {
     if (shouldScroll && bottomRef.current) {
@@ -60,37 +84,38 @@ const useChatAI = () => {
     return () => window.removeEventListener('keydown', handleEnter);
   }, []);
 
-  // useEffect(() => {
-  //   if (finalTranscript.length > 0) {
-  //     setInput(finalTranscript);
-  //   }
-  //   if (finalTranscript === input) resetTranscript();
-  // }, [input, finalTranscript, resetTranscript]);
+  useEffect(() => {
+    toast.info(listening ? 'Listening...' : 'Stopped listening!');
+  }, [listening]);
 
-  // const handleSpeech = useMemo(
-  //   () => async () => {
-  //     if (!isMicrophoneAvailable) {
-  //       return toast.warning('Microphone is not available');
-  //     }
-  //     if (!browserSupportsSpeechRecognition) {
-  //       return toast.warning(
-  //         'Your browser does not support speech recognition',
-  //       );
-  //     }
-  //     try {
-  //       if (!listening) {
-  //         await SpeechRecognition.startListening();
-  //         toast.info('Listening...');
-  //       } else {
-  //         await SpeechRecognition.stopListening();
-  //         toast.info('Stopped listening');
-  //       }
-  //     } catch (err: any) {
-  //       toast.error(err);
-  //     }
-  //   },
-  //   [isMicrophoneAvailable, browserSupportsSpeechRecognition, listening],
-  // );
+  useEffect(() => {
+    if (transcript && transcript.length > 0 && input !== transcript) {
+      setInput(transcript);
+    }
+  }, [input, transcript]);
+
+  const handleSpeech = () => {
+    if (!isDialogOpen) return;
+    if (!browserSupportsSpeechRecognition) {
+      toast.error('Your browser does not support speech recognition.');
+      return;
+    }
+
+    if (!isMicrophoneAvailable) {
+      toast.error('Microphone is not available.');
+      return;
+    }
+
+    try {
+      listening
+        ? SpeechRecognition.stopListening()
+        : SpeechRecognition.startListening();
+    } catch (error: any) {
+      toast.error('An error occurred while trying to listen.', {
+        description: error.message,
+      });
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -105,9 +130,14 @@ const useChatAI = () => {
         : { message: request.data?.message || 'Please re-try', sender: 'bot' },
     ];
 
+    if (request.status !== 'error' && request.data?.message) {
+      await handleUtterance(request.data?.message);
+    }
+
     setMessages(newMessages);
     setInput('');
     setPending(false);
+    resetTranscript();
   };
 
   return {
@@ -118,8 +148,12 @@ const useChatAI = () => {
     setInput,
     bottomRef,
     setShouldScroll,
-    // handleSpeech,
+    handleSpeech,
     handleSubmit,
+    listening,
+    utterance,
+    isDialogOpen,
+    setIsDialogOpen,
   };
 };
 
@@ -132,12 +166,21 @@ export default function ChatAI() {
     setInput,
     bottomRef,
     setShouldScroll,
-    // handleSpeech,
+    handleSpeech,
     handleSubmit,
+    listening,
+    utterance,
+    isDialogOpen,
+    setIsDialogOpen,
   } = useChatAI();
 
   return (
-    <Dialog>
+    <Dialog
+      onOpenChange={(isOpen) => {
+        setIsDialogOpen(isOpen);
+        if (!isOpen) utterance?.speechSynthesis.cancel();
+      }}
+    >
       <DialogTrigger asChild>
         <button
           id="chat-with-ai"
@@ -208,13 +251,16 @@ export default function ChatAI() {
           </Button>
           <Button
             type="button"
-            disabled
             size="icon"
             variant="ghost"
             className="p-2"
-            // onClick={handleSpeech}
+            onClick={handleSpeech}
           >
-            <Icons.Mic className="size-5" />
+            <Icons.Mic
+              className={clsx('size-5', {
+                'animate-pulse text-red-500': listening,
+              })}
+            />
           </Button>
         </form>
       </DialogContent>
