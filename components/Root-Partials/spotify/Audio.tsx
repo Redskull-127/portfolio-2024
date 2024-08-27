@@ -20,7 +20,7 @@ import {
 import { useCastContext } from '@/lib/client/providers/CastProvider';
 import clsx from 'clsx';
 import { SwitchModes } from '@/lib/server/functions/spotify-switch';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 
 type AudioButtonType = {
   AudioSRC: string;
@@ -34,19 +34,26 @@ type AudioButtonType = {
 
 type AudioButtonProps = 'playing' | 'paused' | 'stopped' | 'new-song';
 
+export const useGetNewSong = () => {
+  const queryClient = useQueryClient();
+  const getNewSong = async () =>
+    await queryClient.invalidateQueries({
+      queryKey: ['spotifyData'],
+    });
+  return { getNewSong };
+};
+
 export default function AudioButton(props: AudioButtonType) {
   const { setCastDetails } = useCastContext();
   const [playing, setPlaying] = useState<AudioButtonProps>('stopped');
   const audioRef = useRef<HTMLAudioElement>(null);
   const [audioVolume, setAudioVolume] = useState<number>();
   const [audioCurrDuration, setAudioCurrDuration] = useState<number>();
-  const queryClient = useQueryClient();
+  const { getNewSong: refetch } = useGetNewSong();
 
   const getNewSong = useCallback(async () => {
-    await queryClient.invalidateQueries({
-      queryKey: ['spotifyData'],
-    });
-  }, [queryClient]);
+    await refetch();
+  }, []);
 
   const handleStop = useCallback(() => {
     setPlaying('stopped');

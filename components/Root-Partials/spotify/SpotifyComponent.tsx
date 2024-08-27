@@ -8,12 +8,16 @@ import LyricsButton from './LyricsButton';
 import MarqueeText from './MarqueeText';
 import { SocialMediaLinks } from '@/site-config';
 import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
+import { Button, buttonVariants } from '@/components/ui/button';
+import { RefreshCcw } from 'lucide-react';
+import { toast } from 'sonner';
+import { useGetNewSong } from './Audio';
 
 export default function SpotifyComponent({ props }: { props: SpotifyType }) {
   const [status, setStatus] = useState<'shuffle' | 'now-playing'>('shuffle');
 
-  const { data, error, isLoading } = useQuery({
+  const { data, error, isLoading, isError } = useQuery({
     queryKey: ['spotifyData', status],
     queryFn: () => SpotifySelfApi(status),
     refetchOnWindowFocus: false,
@@ -21,7 +25,9 @@ export default function SpotifyComponent({ props }: { props: SpotifyType }) {
     initialData: props,
   });
 
-  if (isLoading || error) return <SpotifyComponentError error={error} />;
+  if (isLoading) return <SpotifyComponentStatus status="loading" />;
+  if (isError)
+    return <SpotifyComponentStatus status="error" error={error.message} />;
   if (data) {
     return (
       <div
@@ -63,7 +69,22 @@ export default function SpotifyComponent({ props }: { props: SpotifyType }) {
   }
 }
 
-export function SpotifyComponentError(error: any) {
+export function SpotifyComponentStatus({
+  status,
+  error,
+}: {
+  status: 'loading' | 'error';
+  error?: string;
+}) {
+  const { getNewSong } = useGetNewSong();
+  const refetch = useCallback(async () => {
+    await getNewSong();
+  }, []);
+  if (status === 'error') {
+    toast.error('Failed to fetch data!', {
+      description: error,
+    });
+  }
   return (
     <div
       id="spotify-card"
@@ -83,12 +104,29 @@ export function SpotifyComponentError(error: any) {
         <div className="overflow-x-auto whitespace-nowrap w-full overflow-hidden flex justify-center items-center">
           <MarqueeText
             text={
-              error != null ? 'Loading please wait...' : 'Something went wrong!'
+              status === 'loading'
+                ? 'Loading please wait...'
+                : 'Something went wrong!'
             }
           />
         </div>
       </div>
-      <div className="w-full flex justify-center items-center">
+      {status === 'error' ? (
+        <div className="w-full flex justify-center items-center">
+          <Button
+            className={buttonVariants({})}
+            onClick={async () => {
+              toast.promise(refetch!(), {
+                loading: 'Refetching...',
+                success: 'Successfully refetched!',
+                error: 'Failed to refetch!',
+              });
+            }}
+          >
+            <RefreshCcw className="size-5 mr-1" /> Refetch
+          </Button>
+        </div>
+      ) : (
         <AudioButton
           disabled={true}
           uri={''}
@@ -96,7 +134,7 @@ export function SpotifyComponentError(error: any) {
           name={'No Song Playing'}
           image="https://i2o.scdn.co/image/ab67706c0000cfa301def0302dc84acc2568170b"
         />
-      </div>
+      )}
     </div>
   );
 }

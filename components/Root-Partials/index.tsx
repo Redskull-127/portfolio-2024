@@ -6,16 +6,11 @@ import { Settings as Controls } from '@/lib/client/functions/settings';
 import { GitHubAPI, GitHubType } from '@/lib/server/functions/github';
 import { ProjectLists } from './project/ProjectLists';
 import SpotifyComponent, {
-  SpotifyComponentError,
+  SpotifyComponentStatus,
 } from './spotify/SpotifyComponent';
 import Avatar3D from './3D-avatar';
 import { getTotalVisits } from '@/lib/server/google/apis/search-analytics';
 import { siteConfig } from '@/site-config';
-import {
-  QueryClient,
-  HydrationBoundary,
-  dehydrate,
-} from '@tanstack/react-query';
 import { SpotifySelfApi, SpotifyType } from '@/lib/server/functions/spotify';
 
 export function HeroCard() {
@@ -76,18 +71,23 @@ export function QuickLinks() {
 
 export async function SpotifyCard() {
   const data: SpotifyType | undefined = await SpotifySelfApi('shuffle');
-  if (!data) return <SpotifyComponentError />;
-  return <SpotifyComponent props={data} />;
+  if (!data)
+    return (
+      <SpotifyComponentStatus status="error" error={'Something went wrong!'} />
+    );
+  if (data) {
+    return <SpotifyComponent props={data} />;
+  }
 }
 
 export function Skills() {
   return (
     <div
       id="skills"
-      className="flex flex-col h-fit rounded-2xl bg-ternary-foreground p-6"
+      className="flex flex-col max-h-44 rounded-2xl bg-ternary-foreground p-6"
     >
       <h1 className="text-3xl font-semibold text-ternary">Skills</h1>
-      <div className="inline-flex lg:flex-wrap py-[0.6rem] overflow-x-scroll">
+      <div className="inline-flex lg:flex-wrap py-[0.6rem] overflow-x-scroll xl:overflow-hidden">
         {siteConfig.components.skills.map((skill, index) => (
           <SkillModel key={index} skill={skill.skill} />
         ))}

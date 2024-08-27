@@ -17,8 +17,12 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator,
-  CommandShortcut,
 } from '@/components/ui/command';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
 import { Home, Book, MessageCircleHeart } from 'lucide-react';
 import { useEffect, useState } from 'react';
@@ -135,78 +139,68 @@ export function CommandDialogBox() {
   }, []);
 
   return (
-    <>
-      <Button
-        onClick={() => setOpen(true)}
-        aria-label="Home Launcher"
-        variant="default"
-        className="gap-2 max-xl:gap-0"
-      >
-        <Home className="h-5 w-5" />
-        <pre className="max-xl:hidden">
-          <code>
-            <ActionCharacter /> + K
-          </code>
-        </pre>
-      </Button>
-      <CommandDialog open={open} onOpenChange={setOpen}>
-        <CommandInput placeholder="Type a command or search..." />
-        <CommandList>
-          <CommandEmpty>No results found.</CommandEmpty>
-          {/* <CommandGroup heading="Suggestions">
-            <CommandItem>
-              <CalendarIcon className="mr-2 h-4 w-4" />
-              <span>Calendar</span>
-            </CommandItem>
-            <CommandItem>
-              <FaceIcon className="mr-2 h-4 w-4" />
-              <span>Search Emoji</span>
-            </CommandItem>
-            <CommandItem>
-              <RocketIcon className="mr-2 h-4 w-4" />
-              <span>Launch</span>
-            </CommandItem>
-          </CommandGroup> */}
-          <CommandSeparator />
-          <CommandGroup heading="Pages">
-            {Pages.map((page, index) => {
-              return (
-                <CommandItem key={index}>
-                  <div
-                    onClick={() => {
-                      page.perform();
-                      setOpen(false);
-                    }}
-                    className="flex w-full"
-                  >
-                    {page.icon}
-                    <span>{page.name}</span>
-                  </div>
-                </CommandItem>
-              );
-            })}
-          </CommandGroup>
-          <CommandSeparator />
-          <CommandGroup heading="Settings">
-            {Settings.map((setting, index) => {
-              return (
-                <CommandItem key={index}>
-                  <div
-                    onClick={() => {
-                      setting.perform();
-                      setOpen(false);
-                    }}
-                    className="flex w-full"
-                  >
-                    {setting.icon}
-                    <span>{setting.name}</span>
-                  </div>
-                </CommandItem>
-              );
-            })}
-          </CommandGroup>
-        </CommandList>
-      </CommandDialog>
-    </>
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <Button
+          onClick={() => setOpen(true)}
+          aria-label="Home Launcher"
+          variant="default"
+          className="gap-2 max-xl:gap-0"
+        >
+          <Home className="h-5 w-5" />
+          <pre className="max-xl:hidden">
+            <code>
+              <ActionCharacter /> + K
+            </code>
+          </pre>
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-[200px] p-0">
+        <CommandDialog open={open} onOpenChange={setOpen}>
+          <CommandInput placeholder="Type a command or search..." />
+          <CommandList>
+            <CommandEmpty>No results found.</CommandEmpty>
+            <CommandSeparator />
+            <CommandGroup heading="Pages">
+              {Pages.map((page, index) => {
+                return (
+                  <CommandItem key={index}>
+                    <div
+                      onClick={() => {
+                        page.perform();
+                        setOpen(false);
+                      }}
+                      className="flex w-full"
+                    >
+                      {page.icon}
+                      <span>{page.name}</span>
+                    </div>
+                  </CommandItem>
+                );
+              })}
+            </CommandGroup>
+            <CommandSeparator />
+            <CommandGroup heading="Settings">
+              {Settings.map((setting, index) => {
+                return (
+                  <CommandItem key={index}>
+                    <div
+                      onClick={() => {
+                        setting.perform();
+                        setOpen(false);
+                      }}
+                      className="flex w-full"
+                    >
+                      {setting.icon}
+                      <span>{setting.name}</span>
+                    </div>
+                  </CommandItem>
+                );
+              })}
+            </CommandGroup>
+          </CommandList>
+        </CommandDialog>
+      </PopoverContent>
+    </Popover>
   );
 }
