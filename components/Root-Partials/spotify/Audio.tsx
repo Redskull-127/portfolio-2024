@@ -53,7 +53,7 @@ export default function AudioButton(props: AudioButtonType) {
 
   const getNewSong = useCallback(async () => {
     await refetch();
-  }, []);
+  }, [refetch]);
 
   const handleStop = useCallback(() => {
     setPlaying('stopped');

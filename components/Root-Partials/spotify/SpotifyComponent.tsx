@@ -79,7 +79,7 @@ export function SpotifyComponentStatus({
   const { getNewSong } = useGetNewSong();
   const refetch = useCallback(async () => {
     await getNewSong();
-  }, []);
+  }, [getNewSong]);
   if (status === 'error') {
     toast.error('Failed to fetch data!', {
       description: error,
