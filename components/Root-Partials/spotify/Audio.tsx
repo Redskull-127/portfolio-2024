@@ -53,7 +53,8 @@ export default function AudioButton(props: AudioButtonType) {
 
   const getNewSong = useCallback(async () => {
     await refetch();
-  }, [refetch]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleStop = useCallback(() => {
     setPlaying('stopped');
