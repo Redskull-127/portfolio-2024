@@ -81,6 +81,14 @@ module.exports = {
           from: { transform: 'translateX(70%)' },
           to: { transform: 'translateX(-100%)' },
         },
+        marquee: {
+          from: { transform: 'translateX(0)' },
+          to: { transform: 'translateX(calc(-100% - var(--gap)))' },
+        },
+        'marquee-vertical': {
+          from: { transform: 'translateY(0)' },
+          to: { transform: 'translateY(calc(-100% - var(--gap)))' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -88,6 +96,8 @@ module.exports = {
         'swipe-in': 'swipe-in 0.7s',
         'fade-in': 'fade-in 0.7s ease-in-out',
         'marquee-text': 'marquee-text 10s linear infinite',
+        marquee: 'marquee var(--duration) linear infinite',
+        'marquee-vertical': 'marquee-vertical var(--duration) linear infinite',
       },
     },
   },

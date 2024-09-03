@@ -5,7 +5,7 @@ import SpotifyImage from './Spotify-image';
 import { Icons } from '../../icons/icons';
 import Link from 'next/link';
 import LyricsButton from './LyricsButton';
-import MarqueeText from './MarqueeText';
+import Marquee from '@/components/magicui/marquee';
 import { SocialMediaLinks } from '@/site-config';
 import { useQuery } from '@tanstack/react-query';
 import { useCallback, useState } from 'react';
@@ -51,7 +51,21 @@ export default function SpotifyComponent({ props }: { props: SpotifyType }) {
         <div className="w-full flex flex-col justify-center items-center gap-3">
           <SpotifyImage url={String(data.images[1].url)} />
           <div className="overflow-x-auto whitespace-nowrap w-full overflow-hidden flex justify-center items-center">
-            <MarqueeText text={data.name + ' - ' + data.artist} />
+            {(data.name + ' - ' + data.artist).length > 38 ? (
+              <Marquee
+                pauseOnHover
+                className="[--duration:20s] w-full flex items-end justify-center"
+                repeat={1}
+              >
+                <p className="text-lg font-semibold">
+                  {data.name + ' - ' + data.artist}
+                </p>
+              </Marquee>
+            ) : (
+              <p className="text-lg font-semibold">
+                {data.name + ' - ' + data.artist}
+              </p>
+            )}
           </div>
         </div>
         <div className="w-full flex justify-center items-center">
@@ -103,13 +117,11 @@ export function SpotifyComponentStatus({
       <div className="w-full flex flex-col justify-center items-center gap-3">
         <SpotifyImage url="https://i2o.scdn.co/image/ab67706c0000cfa301def0302dc84acc2568170b" />
         <div className="overflow-x-auto whitespace-nowrap w-full overflow-hidden flex justify-center items-center">
-          <MarqueeText
-            text={
-              status === 'loading'
-                ? 'Loading please wait...'
-                : 'Something went wrong!'
-            }
-          />
+          <p className="text-lg font-semibold">
+            {status === 'loading'
+              ? 'Loading please wait...'
+              : 'Something went wrong!'}
+          </p>
         </div>
       </div>
       {status === 'error' ? (
