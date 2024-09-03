@@ -2,6 +2,9 @@ import type { Metadata, Viewport } from 'next';
 import localFont from 'next/font/local';
 import Script from 'next/script';
 
+import { NextIntlClientProvider } from 'next-intl';
+import { getLocale, getMessages } from 'next-intl/server';
+
 import { cn } from '@/lib/utils';
 import './globals.css';
 import { ThemeProvider } from '@/components/Theme/ThemeProvider';
@@ -63,9 +66,12 @@ export const viewport: Viewport = {
   ],
 };
 
-export default function RootLayout({ children }: Children) {
+export default async function RootLayout({ children }: Children) {
+  const locale = await getLocale();
+  const dictionary = await getMessages();
+
   return (
-    <html lang="en">
+    <html lang={locale}>
       {/* External Scripts */}
       <Script
         src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"
@@ -86,32 +92,34 @@ export default function RootLayout({ children }: Children) {
           )}
         >
           <TanstackProvider>
-            <IntroDialogProvider>
-              <ThemeProvider
-                attribute="class"
-                defaultTheme="system"
-                enableSystem
-              >
-                <SpeedInsights />
-                <NextAuthProvider>
-                  <ConnectivityStatus>
-                    <ChromeCastProvider>
-                      <DynamicIsland />
-                      <DriverProvider>
-                        <main className="flex flex-wrap gap-8 h-screen w-screen font-sans p-10 max-xl:gap-5 max-xl:px-5 min-[2000px]:container min-[2000px]:size-fit">
-                          <RootComponent />
-                          {children}
-                          <Analytics />
-                          <TailwindIndicator />
-                        </main>
-                      </DriverProvider>
-                      <DefaultToaster />
-                      <SonnerToaster />
-                    </ChromeCastProvider>
-                  </ConnectivityStatus>
-                </NextAuthProvider>
-              </ThemeProvider>
-            </IntroDialogProvider>
+            <NextIntlClientProvider messages={dictionary}>
+              <IntroDialogProvider>
+                <ThemeProvider
+                  attribute="class"
+                  defaultTheme="system"
+                  enableSystem
+                >
+                  <SpeedInsights />
+                  <NextAuthProvider>
+                    <ConnectivityStatus>
+                      <ChromeCastProvider>
+                        <DynamicIsland />
+                        <DriverProvider>
+                          <main className="flex flex-wrap gap-8 h-screen w-screen font-sans p-10 max-xl:gap-5 max-xl:px-5 min-[2000px]:container min-[2000px]:size-fit">
+                            <RootComponent />
+                            {children}
+                            <Analytics />
+                            <TailwindIndicator />
+                          </main>
+                        </DriverProvider>
+                        <DefaultToaster />
+                        <SonnerToaster />
+                      </ChromeCastProvider>
+                    </ConnectivityStatus>
+                  </NextAuthProvider>
+                </ThemeProvider>
+              </IntroDialogProvider>
+            </NextIntlClientProvider>
           </TanstackProvider>
         </body>
       </CSPostHogProvider>

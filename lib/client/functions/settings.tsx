@@ -37,9 +37,16 @@ import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import LiveCount from '@/components/live-count';
 import { Icons } from '@/components/icons/icons';
 import NumFormate from '@/lib/number-formate';
+import ChangeLocal from './change-local';
 
 export type SettingsProps = {
   totalViews: number;
+  translation: {
+    control: string;
+    uniqueVisitors: string;
+    liveUser: string;
+    liveUsers: string;
+  };
 };
 
 export function Settings(params: SettingsProps) {
@@ -63,7 +70,7 @@ export function Settings(params: SettingsProps) {
       className="flex flex-col rounded-2xl bg-ternary-foreground p-6 gap-3 w-full"
     >
       <div className="font-semibold text-ternary flex items-center justify-between max-md:flex-col max-md:items-start">
-        <h1 className="text-3xl">Controls</h1>
+        <h1 className="text-3xl">{params.translation.control}</h1>
         <div className="flex items-center gap-3 max-md:items-between max-md:text-sm max-md:mt-3">
           {params.totalViews && (
             <TooltipProvider>
@@ -71,7 +78,8 @@ export function Settings(params: SettingsProps) {
                 <TooltipTrigger asChild>
                   <span className="inline-flex gap-1 hover:text-primary cursor-pointer transition-all">
                     <Icons.TrendingUp />
-                    {NumFormate(params.totalViews)} Unique Visitors
+                    {NumFormate(params.totalViews)}{' '}
+                    {params.translation.uniqueVisitors}
                   </span>
                 </TooltipTrigger>
                 <TooltipContent>
@@ -88,7 +96,12 @@ export function Settings(params: SettingsProps) {
               <TooltipTrigger asChild>
                 <span className="inline-flex gap-1 hover:text-primary cursor-pointer transition-all">
                   <Icons.Radio />
-                  <LiveCount />
+                  <LiveCount
+                    translation={{
+                      liveUser: params.translation.liveUser,
+                      liveUsers: params.translation.liveUsers,
+                    }}
+                  />
                 </span>
               </TooltipTrigger>
               <TooltipContent>
@@ -242,6 +255,7 @@ export function Settings(params: SettingsProps) {
           </TooltipProvider>
 
           <ChromeCast />
+          {isHydrated && <ChangeLocal />}
         </div>
         <ScrollBar orientation="horizontal" />
       </ScrollArea>

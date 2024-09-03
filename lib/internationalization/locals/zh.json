@@ -1,0 +1,18 @@
+{
+  "HomePage": {
+    "name": "米尔·塔尔巴尼",
+    "title": "全栈网页开发者",
+    "introduction": "介绍",
+    "about": "你好，我是米尔。Tempo Labs的前端开发者，GDSC领袖 '22，Hack For India 和 GDSC WoW '22 的组织者，前Flipkart 和 Gao Tek员工！",
+    "introduction-btn": "了解更多",
+    "quick-links": "快速链接",
+    "spotify": "Spotify",
+    "skills": "技能",
+    "projects": "项目",
+    "controls": "控制",
+    "pages": "页面",
+    "unique-visitors": "独立访客",
+    "live-user": "在线用户",
+    "live-users": "在线用户"
+  }
+}

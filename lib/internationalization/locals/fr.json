@@ -1,0 +1,18 @@
+{
+  "HomePage": {
+    "name": "Meer Tarbani",
+    "title": "Développeur Web Full Stack",
+    "introduction": "Introduction",
+    "about": "Bonjour, je suis Meer. Développeur Frontend chez Tempo Labs, Leader GDSC '22, Organisateur de Hack For India & GDSC WoW '22, Ancien chez Flipkart & Gao Tek!",
+    "introduction-btn": "En savoir plus",
+    "quick-links": "Liens Rapides",
+    "spotify": "Spotify",
+    "skills": "Compétences",
+    "projects": "Projets",
+    "controls": "Contrôles",
+    "pages": "Pages",
+    "unique-visitors": "Visiteurs Uniques",
+    "live-user": "Utilisateur en Ligne",
+    "live-users": "Utilisateurs en Ligne"
+  }
+}

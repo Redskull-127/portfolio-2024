@@ -9,22 +9,24 @@ import {
   SpotifyCard,
 } from './Root-Partials';
 import IntroProvider from './intro';
+import { getTranslations } from 'next-intl/server';
 
-export default function RootComponent() {
+export default async function RootComponent() {
+  const translations = await getTranslations('HomePage');
   return (
     <>
-      <HeroCard />
+      <HeroCard translation={translations} />
       <div className="flex flex-col gap-5 max-xl:w-full xl:w-[45%] h-fit">
-        <Introduction />
-        <QuickLinks />
+        <Introduction translation={translations} />
+        <QuickLinks translation={translations} />
       </div>
-      <SpotifyCard />
+      <SpotifyCard translation={translations} />
       <div className="flex flex-col gap-3 max-xl:w-full xl:w-[45%] h-fit">
-        <Skills />
-        <Settings />
+        <Skills translation={translations} />
+        <Settings translation={translations} />
       </div>
-      <Projects />
-      <AllPages />
+      <Projects translation={translations} />
+      <AllPages translation={translations} />
       <IntroProvider />
     </>
   );

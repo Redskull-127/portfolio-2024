@@ -14,7 +14,15 @@ import { RefreshCcw } from 'lucide-react';
 import { toast } from 'sonner';
 import { useGetNewSong } from './Audio';
 
-export default function SpotifyComponent({ props }: { props: SpotifyType }) {
+export default function SpotifyComponent({
+  props,
+  translation,
+}: {
+  props: SpotifyType;
+  translation: {
+    spotify: string;
+  };
+}) {
   const [status, setStatus] = useState<'shuffle' | 'now-playing'>('shuffle');
 
   const { data, error, isLoading, isError } = useQuery({
@@ -40,7 +48,7 @@ export default function SpotifyComponent({ props }: { props: SpotifyType }) {
             target="_blank"
             className="flex text-2xl font-semibold text-ternary select-none cursor-pointer transition-all duration-200 hover:text-foreground"
           >
-            Spotify <Icons.ArrowUpRight />
+            {translation.spotify} <Icons.ArrowUpRight />
           </Link>
           <LyricsButton
             song={data.name}
@@ -51,7 +59,7 @@ export default function SpotifyComponent({ props }: { props: SpotifyType }) {
         <div className="w-full flex flex-col justify-center items-center gap-3">
           <SpotifyImage url={String(data.images[1].url)} />
           <div className="overflow-x-auto whitespace-nowrap w-full overflow-hidden flex justify-center items-center">
-            {(data.name + ' - ' + data.artist).length > 38 ? (
+            {(data.name + ' - ' + data.artist).length > 33 ? (
               <Marquee
                 pauseOnHover
                 className="[--duration:20s] w-full flex items-end justify-center"

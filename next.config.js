@@ -1,7 +1,12 @@
+const createNextIntlPlugin = require('next-intl/plugin');
+const withNextIntl = createNextIntlPlugin(
+  './lib/internationalization/request.ts',
+);
+
 /** @type {import('next').NextConfig} */
 const config = require('./config');
 
-const nextConfig = {
+const nextConfig = withNextIntl({
   reactStrictMode: false,
   basePath: '',
   images: {
@@ -10,7 +15,7 @@ const nextConfig = {
   async redirects() {
     return config.redirects;
   },
-};
+});
 
 const withPWA = require('@ducanh2912/next-pwa').default({
   dest: 'public',

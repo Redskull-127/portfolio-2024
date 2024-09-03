@@ -3,7 +3,12 @@ import { useEffect, useState } from 'react';
 import WebSocket from 'isomorphic-ws';
 
 const SOCKET_URL = process.env['NEXT_PUBLIC_LIVEUSER']!;
-export default function LiveCount() {
+export default function LiveCount(params: {
+  translation: {
+    liveUser: string;
+    liveUsers: string;
+  };
+}) {
   const [activeUsers, setActiveUsers] = useState(0);
 
   useEffect(() => {
@@ -21,7 +26,10 @@ export default function LiveCount() {
   if (activeUsers === 0) return null;
   return (
     <span>
-      {activeUsers} Live {activeUsers === 1 ? 'User' : 'Users'}
+      {activeUsers}{' '}
+      {activeUsers === 1
+        ? params.translation.liveUser
+        : params.translation.liveUsers}
     </span>
   );
 }
