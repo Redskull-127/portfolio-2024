@@ -1,6 +1,6 @@
 'use server';
 import { GetAuth } from '../auth';
-import { google } from 'googleapis';
+import { google, webmasters_v3 } from 'googleapis';
 
 const getWebmaster = async () => {
   const auth = await GetAuth.getAuth(
@@ -31,15 +31,40 @@ const getSearchAnalytics = async () => {
   return query.data;
 };
 
-export const getTotalVisits = async () => {
-  const searchAnalytics = await getSearchAnalytics();
+const calculateTotalVisits = async (
+  params: webmasters_v3.Schema$SearchAnalyticsQueryResponse,
+) => {
   let totalClicks = 0;
   let totalImpressions = 0;
-  searchAnalytics.rows?.forEach((row) => {
+  params.rows?.forEach((row) => {
     totalClicks += row.clicks ?? 0;
     totalImpressions += row.impressions ?? 0;
   });
-  return searchAnalytics.rows?.reduce((acc, curr) => {
+  return params.rows?.reduce((acc, curr) => {
     return acc + (curr.clicks ?? 0) + (curr.impressions ?? 0);
   }, 0);
+};
+
+const getSearchAnalyticsLastMonths = async (
+  data: webmasters_v3.Schema$SearchAnalyticsQueryResponse,
+) => {
+  const dataRows = data.rows;
+  const lastMonthsData = dataRows?.slice(0, 3);
+  const calculatedLastMonthsData = lastMonthsData?.map((row, index) => {
+    return {
+      month: new Date(
+        new Date().setMonth(new Date().getMonth() - index),
+      ).toLocaleString('default', { month: 'long' }),
+      visits: (row.clicks ?? 0) + (row.impressions ?? 0),
+    };
+  });
+
+  return calculatedLastMonthsData?.toReversed();
+};
+
+export const getTotalVisits = async () => {
+  const searchAnalytics = await getSearchAnalytics();
+  const TotalVisits = await calculateTotalVisits(searchAnalytics);
+  const LastMonthsVisits = await getSearchAnalyticsLastMonths(searchAnalytics);
+  return { TotalVisits, LastMonthsVisits };
 };

@@ -36,11 +36,15 @@ import ChromeCast from './chromecast';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import LiveCount from '@/components/live-count';
 import { Icons } from '@/components/icons/icons';
-import NumFormate from '@/lib/number-formate';
 import ChangeLocal from './change-local';
+import { UniqueVisitors } from './settings-controls/visitors';
 
 export type SettingsProps = {
   totalViews: number;
+  lastMonthsVisits: {
+    month: string;
+    visits: number;
+  }[];
   translation: {
     control: string;
     uniqueVisitors: string;
@@ -73,23 +77,11 @@ export function Settings(params: SettingsProps) {
         <h1 className="text-3xl">{params.translation.control}</h1>
         <div className="flex items-center gap-3 max-md:items-between max-md:text-sm max-md:mt-3">
           {params.totalViews && (
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <span className="inline-flex gap-1 hover:text-primary cursor-pointer transition-all">
-                    <Icons.TrendingUp />
-                    {NumFormate(params.totalViews)}{' '}
-                    {params.translation.uniqueVisitors}
-                  </span>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>
-                    {NumFormate(params.totalViews)} Unique Visitors in past 30
-                    Days!
-                  </p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            <UniqueVisitors
+              totalViews={params.totalViews}
+              lastMonthsVisits={params.lastMonthsVisits}
+              translation={params.translation}
+            />
           )}{' '}
           <TooltipProvider>
             <Tooltip>

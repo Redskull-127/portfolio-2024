@@ -127,7 +127,7 @@ export async function Settings({
 }: {
   translation: TranslationPropType;
 }) {
-  const totalViews = (await getTotalVisits()) ?? 0;
+  const { LastMonthsVisits, TotalVisits } = await getTotalVisits();
   return (
     <Controls
       translation={{
@@ -136,7 +136,8 @@ export async function Settings({
         liveUsers: translation('live-users'),
         uniqueVisitors: translation('unique-visitors'),
       }}
-      totalViews={totalViews}
+      totalViews={TotalVisits ?? 0}
+      lastMonthsVisits={LastMonthsVisits ?? []}
     />
   );
 }
