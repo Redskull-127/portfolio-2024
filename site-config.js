@@ -173,6 +173,15 @@ const siteConfig = {
       },
     ],
   },
+  pages: {
+    JobBoard: {
+      title: 'Job Board',
+      description: 'Personalized Job Board by Meer Tarbani',
+      link: 'https://www.meertarbani.in/job-board',
+      keywords:
+        'Job Board, Meer Tarbani, Meer Tarbani Job Board, Meer Tarbani Jobs, Meer Tarbani Career, Meer Tarbani Internships, Meer Tarbani Openings, Meer Tarbani Opportunities',
+    },
+  },
 };
 
 const SocialMediaLinks = {

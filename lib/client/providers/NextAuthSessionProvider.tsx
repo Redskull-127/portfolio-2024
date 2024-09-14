@@ -8,6 +8,7 @@ import { toast } from 'sonner';
 import { useIntroContext } from './intro-provider';
 
 const IntroTips = () => {
+  if (window.location.pathname !== '/') return;
   toast(
     <div>
       {' '}
