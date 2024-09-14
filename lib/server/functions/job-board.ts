@@ -5,3 +5,7 @@ import JobAPI from '@/test/job-board.json';
 export const getJobs = async () => {
   return JobAPI as Task[];
 };
+
+export const addJob = async () => {
+  console.log('Job added');
+};

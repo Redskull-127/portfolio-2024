@@ -1,5 +1,5 @@
-import { KanbanBoard } from '@/components/job-board/kanban-board';
+import JobBoard from '@/components/job-board';
 
 export default function Home() {
-  return <KanbanBoard />;
+  return <JobBoard />;
 }

@@ -15,6 +15,15 @@ const nextConfig = withNextIntl({
   async redirects() {
     return config.redirects;
   },
+  webpack: (config, { webpack }) => {
+    config.plugins.push(
+      new webpack.IgnorePlugin({
+        resourceRegExp: /^pg-native$|^cloudflare:sockets$/,
+      }),
+    );
+
+    return config;
+  },
 });
 
 const withPWA = require('@ducanh2912/next-pwa').default({

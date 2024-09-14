@@ -16,7 +16,6 @@ import {
   UniqueIdentifier,
   TouchSensor,
   MouseSensor,
-  DragMoveEvent,
 } from '@dnd-kit/core';
 import { SortableContext, arrayMove } from '@dnd-kit/sortable';
 import { type Task, TaskCard } from './task-card';
@@ -24,6 +23,7 @@ import type { Column } from './board-column';
 import { hasDraggableData } from './utils';
 import { coordinateGetter } from './keyboard-presets';
 import { useJobs } from './hooks/useJobs';
+import AddCard from './add-card';
 
 const defaultCols = [
   {
@@ -58,7 +58,16 @@ export type ColumnId = (typeof defaultCols)[number]['id'];
 export function KanbanBoard() {
   const { data, isPending, isLoading } = useJobs();
   if (isLoading || isPending) return <div>Loading...</div>;
-  if (data) return <KanbanBoardComponent initialTasks={data} />;
+  if (data) {
+    return (
+      <main className="size-full flex flex-col gap-5 items-stretch">
+        <h1 className="inline-flex items-center gap-2 text-2xl font-bold">
+          Kanban Board <AddCard />{' '}
+        </h1>
+        <KanbanBoardComponent initialTasks={data} />
+      </main>
+    );
+  }
   return <div>Something went wrong!</div>;
 }
 

@@ -1,4 +1,4 @@
-import { pgTable, serial, text, timestamp } from 'drizzle-orm/pg-core';
+import { integer, pgTable, serial, text, varchar } from 'drizzle-orm/pg-core';
 import { sql } from 'drizzle-orm';
 
 export const messagesSchema = pgTable('messages', {
@@ -11,5 +11,32 @@ export const messagesSchema = pgTable('messages', {
   senderMail: text('senderMail').notNull(),
   senderImage: text('senderImage').notNull(),
 });
-
 export type Messages = typeof messagesSchema.$inferSelect;
+
+export const usersSchema = pgTable('users', {
+  id: serial('id').primaryKey(),
+  name: text('name').notNull(),
+  email: text('email').notNull(),
+  image: text('image').notNull(),
+});
+export type Users = typeof usersSchema.$inferSelect;
+
+export const jobSchema = pgTable('jobs', {
+  id: serial('id').primaryKey(),
+  userId: integer('user_id').references(() => usersSchema.id),
+  title: varchar('title', {
+    length: 255,
+  }).notNull(),
+  company: text('company').notNull(),
+  companyURL: text('companyURL'),
+  jobType: text('jobType').notNull(),
+  description: text('description').notNull(),
+  location: text('location').notNull(),
+  salary: text('salary'),
+  applyLink: text('applyLink').notNull(),
+  date: text('date').notNull(),
+  contactEmail: text('contactEmail'),
+  contactName: text('contactName'),
+  contactLink: text('contactLink'),
+});
+export type Job = typeof jobSchema.$inferSelect;
