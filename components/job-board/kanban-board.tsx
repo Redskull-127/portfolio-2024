@@ -24,6 +24,7 @@ import { coordinateGetter } from './keyboard-presets';
 import { useJobs } from './hooks/useJobs';
 import AddCard from './add-card';
 import { AllJobs, Job } from './types';
+import { useDraggable } from 'react-use-draggable-scroll';
 
 const defaultCols = [
   {
@@ -62,12 +63,15 @@ export function KanbanBoard() {
     if (data.status !== 'success') {
       return <div>Something went wrong!</div>;
     }
+
     return (
-      <main className="size-full flex flex-col gap-5 items-stretch">
+      <main className="size-full flex flex-col gap-5">
         <h1 className="inline-flex items-center gap-2 text-2xl font-bold">
           Kanban Board <AddCard />{' '}
         </h1>
-        <KanbanBoardComponent initialTasks={data.data} />
+        {typeof window !== 'undefined' && (
+          <KanbanBoardComponent initialTasks={data.data} />
+        )}
       </main>
     );
   }
@@ -92,6 +96,13 @@ function KanbanBoardComponent({ initialTasks }: { initialTasks: AllJobs }) {
       coordinateGetter: coordinateGetter,
     }),
   );
+
+  const kanbanBoardRef =
+    useRef<HTMLDivElement>() as React.MutableRefObject<HTMLInputElement>;
+  const { events: kanbanBoardScrollEvents } = useDraggable(kanbanBoardRef, {
+    isMounted: activeTask || activeColumn ? false : true,
+    applyRubberBandEffect: true,
+  });
   useEffect(() => {
     setTasks(initialTasks);
   }, [initialTasks]);
@@ -212,35 +223,42 @@ function KanbanBoardComponent({ initialTasks }: { initialTasks: AllJobs }) {
       onDragStart={onDragStart}
       onDragEnd={onDragEnd}
       onDragOver={onDragOver}
+      autoScroll={true}
     >
-      <BoardContainer>
-        <SortableContext items={columnsId}>
-          {columns.map((col) => (
-            <BoardColumn
-              key={col.id}
-              column={col}
-              tasks={tasks.filter((task) => task.columnId === col.id)}
-            />
-          ))}
-        </SortableContext>
-      </BoardContainer>
-
-      {'document' in window &&
-        createPortal(
-          <DragOverlay>
-            {activeColumn && (
+      <div
+        {...kanbanBoardScrollEvents}
+        className="max-w-full space-x-3 overflow-x-scroll scrollbar-hide"
+        ref={kanbanBoardRef}
+      >
+        <BoardContainer>
+          <SortableContext items={columnsId}>
+            {columns.map((col) => (
               <BoardColumn
-                isOverlay
-                column={activeColumn}
-                tasks={tasks.filter(
-                  (task) => task.columnId === activeColumn.id,
-                )}
+                key={col.id}
+                column={col}
+                tasks={tasks.filter((task) => task.columnId === col.id)}
               />
-            )}
-            {activeTask && <TaskCard task={activeTask} isOverlay />}
-          </DragOverlay>,
-          document.body,
-        )}
+            ))}
+          </SortableContext>
+        </BoardContainer>
+
+        {'document' in window &&
+          createPortal(
+            <DragOverlay>
+              {activeColumn && (
+                <BoardColumn
+                  isOverlay
+                  column={activeColumn}
+                  tasks={tasks.filter(
+                    (task) => task.columnId === activeColumn.id,
+                  )}
+                />
+              )}
+              {activeTask && <TaskCard task={activeTask} isOverlay />}
+            </DragOverlay>,
+            document.body,
+          )}
+      </div>
     </DndContext>
   );
 

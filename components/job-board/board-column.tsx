@@ -2,7 +2,7 @@ import { SortableContext, useSortable } from '@dnd-kit/sortable';
 import { useDndContext, type UniqueIdentifier } from '@dnd-kit/core';
 import { CSS } from '@dnd-kit/utilities';
 import { useMemo } from 'react';
-import { TaskCard } from './task-card';
+import { TaskCard, TaskDialog } from './task-card';
 import { cva } from 'class-variance-authority';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -10,6 +10,8 @@ import { GripVertical } from 'lucide-react';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
 import { AllJobs } from './types';
+import { Dialog, DialogTrigger } from '../ui/dialog';
+import formattedDate from './lib/date-formatter';
 
 export interface Column {
   id: UniqueIdentifier;
@@ -97,8 +99,22 @@ export function BoardColumn({ column, tasks, isOverlay }: BoardColumnProps) {
       <ScrollArea>
         <CardContent className="flex flex-grow flex-col gap-2 p-2">
           <SortableContext items={tasksIds}>
-            {tasks.map((task) => (
-              <TaskCard key={task.id} task={task} />
+            {tasks.map((task, key) => (
+              <Dialog key={key}>
+                <DialogTrigger>
+                  <TaskCard
+                    key={task.id}
+                    task={task}
+                    ringColor={column.color}
+                  />
+                </DialogTrigger>
+                <TaskDialog
+                  job={task}
+                  formattedDate={formattedDate(task.date)}
+                  status={task.columnId}
+                  ringColor={column.color || 'gray'}
+                />
+              </Dialog>
             ))}
           </SortableContext>
         </CardContent>
@@ -125,7 +141,7 @@ export function BoardContainer({ children }: { children: React.ReactNode }) {
         dragging: dndContext.active ? 'active' : 'default',
       })}
     >
-      <div className="flex gap-4 items-center flex-row justify-center">
+      <div className="flex gap-4 items-center flex-row justify-center select-none">
         {children}
       </div>
       <ScrollBar orientation="horizontal" />
