@@ -2,13 +2,14 @@ import { SortableContext, useSortable } from '@dnd-kit/sortable';
 import { useDndContext, type UniqueIdentifier } from '@dnd-kit/core';
 import { CSS } from '@dnd-kit/utilities';
 import { useMemo } from 'react';
-import { Task, TaskCard } from './task-card';
+import { TaskCard } from './task-card';
 import { cva } from 'class-variance-authority';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { GripVertical } from 'lucide-react';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
+import { AllJobs } from './types';
 
 export interface Column {
   id: UniqueIdentifier;
@@ -25,7 +26,7 @@ export interface ColumnDragData {
 
 interface BoardColumnProps {
   column: Column;
-  tasks: Task[];
+  tasks: AllJobs;
   isOverlay?: boolean;
 }
 

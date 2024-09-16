@@ -1,4 +1,4 @@
-import { integer, pgTable, serial, text, varchar } from 'drizzle-orm/pg-core';
+import { pgTable, serial, text, varchar } from 'drizzle-orm/pg-core';
 import { sql } from 'drizzle-orm';
 
 export const messagesSchema = pgTable('messages', {
@@ -16,14 +16,15 @@ export type Messages = typeof messagesSchema.$inferSelect;
 export const usersSchema = pgTable('users', {
   id: serial('id').primaryKey(),
   name: text('name').notNull(),
-  email: text('email').notNull(),
+  email: text('email').notNull().unique(),
   image: text('image').notNull(),
 });
 export type Users = typeof usersSchema.$inferSelect;
 
 export const jobSchema = pgTable('jobs', {
   id: serial('id').primaryKey(),
-  userId: integer('user_id').references(() => usersSchema.id),
+  columnId: text('columnId').default('open'),
+  userEmail: text('user_email').references(() => usersSchema.email),
   title: varchar('title', {
     length: 255,
   }).notNull(),

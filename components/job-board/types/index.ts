@@ -1,8 +1,12 @@
+import { ColumnId } from '../kanban-board';
+
 export type Job = {
   id: number;
-  userId: number;
+  userEmail: string;
+  columnId: ColumnId;
   title: string;
   company: string;
+  companyURL?: string;
   jobType:
     | 'Internship'
     | 'Full-time'

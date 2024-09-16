@@ -22,7 +22,6 @@ interface SessionUser {
 export default async function addUser(
   user: SessionUser,
 ): Promise<AddUserResponse> {
-  console.log('Adding user...');
   try {
     const session = user;
 
@@ -56,7 +55,6 @@ export default async function addUser(
       name,
       image,
     });
-    console.log('User added:', newUser);
     return {
       status: 'success',
       message: 'User added successfully.',

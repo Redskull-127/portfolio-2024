@@ -11,27 +11,14 @@ export const {
   callbacks: {
     signIn: async ({ user }) => {
       if (user) {
-        console.log(
-          await addUser({
-            email: user.email!,
-            name: user.name!,
-            image: user.image!,
-          }),
-        );
+        await addUser({
+          email: user.email!,
+          name: user.name!,
+          image: user.image!,
+        });
       }
       return true;
     },
-    // session: async ({ session, user }) => {
-    //   if (user) {
-    //     await addUser({
-    //       email: user.email!,
-    //       name: user.name!,
-    //       image: user.image!,
-    //     });
-    //     console.log('User added');
-    //   }
-    //   return session;
-    // },
   },
   providers: [
     Google({

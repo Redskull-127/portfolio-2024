@@ -22,14 +22,12 @@ export async function GitHubAPI() {
       }));
       return repos;
     } catch (err) {
-      console.log(err);
       return new Error('Something went wrong');
     }
   } else {
     try {
       return TestData;
     } catch (err) {
-      console.log(err);
       return new Error('Something went wrong');
     }
   }
