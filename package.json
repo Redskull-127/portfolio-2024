@@ -110,8 +110,13 @@
     "sharp"
   ],
   "lint-staged": {
-    "*": [
-      "bunx biome format --write"
+    "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx}": [
+      "biome format --write --no-errors-on-unmatched",
+      "biome check --organize-imports-enabled=false --files-ignore-unknown=true",
+      "biome check --write --organize-imports-enabled=false --no-errors-on-unmatched",
+      "biome check --write --organize-imports-enabled=false --no-errors-on-unmatched",
+      "biome check --write --unsafe --no-errors-on-unmatched",
+      "biome lint --write --no-errors-on-unmatched"
     ]
   }
 }
