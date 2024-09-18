@@ -82,18 +82,9 @@ export function KanbanBoard() {
 function KanbanBoardComponent({ initialTasks }: { initialTasks: AllJobs }) {
   const [columns, setColumns] = useState<Column[]>(defaultCols);
   const pickedUpTaskColumn = useRef<ColumnId | null>(null);
-  const [shiftCard, setShiftCard] = useState<{
-    jobId: string;
-    columnId: string;
-  }>({
-    jobId: '',
-    columnId: '',
-  });
-  const {
-    data: updateJobColData,
-    refetch: fetchUpdateJobCol,
-    isRefetching: isJobColChanging,
-  } = useUpdateJobCol(shiftCard);
+
+  const { mutate: fetchUpdateJobCol, isPending: isJobColChanging } =
+    useUpdateJobCol();
   const columnsId = useMemo(() => columns.map((col) => col.id), [columns]);
 
   const [tasks, setTasks] = useState<AllJobs>(initialTasks);
@@ -214,18 +205,10 @@ function KanbanBoardComponent({ initialTasks }: { initialTasks: AllJobs }) {
         );
         if (over.data.current.task.columnId !== pickedUpTaskColumn.current) {
           const handleJobColChange = async () => {
-            setShiftCard({
+            return fetchUpdateJobCol({
               jobId: active.data.current?.task.uuid,
-              columnId: column?.id as ColumnId,
+              columnId: column?.title.toLowerCase() as ColumnId,
             });
-            if (shiftCard.jobId !== '' && shiftCard.columnId !== '') {
-              return await fetchUpdateJobCol().then(() => {
-                setShiftCard({
-                  jobId: '',
-                  columnId: '',
-                });
-              });
-            }
           };
 
           toast.promise(handleJobColChange(), {

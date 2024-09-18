@@ -59,7 +59,16 @@ export default function AddCard() {
   };
 
   return (
-    <Dialog open={isDialogOpen}>
+    <Dialog
+      open={isDialogOpen}
+      onOpenChange={(open) => {
+        if (!open) {
+          form.reset();
+          setIsSubmitting(false);
+        }
+        setIsDialogOpen(open);
+      }}
+    >
       <DialogTrigger>
         <Button
           onClick={() => setIsDialogOpen(true)}

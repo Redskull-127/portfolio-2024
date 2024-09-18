@@ -22,18 +22,18 @@ export const useMutationJobs = () => {
   return mutation;
 };
 
-export const useUpdateJobCol = ({
-  jobId,
-  columnId,
-}: {
-  jobId: string;
-  columnId: string;
-}) => {
-  return useQuery({
-    queryKey: ['updateJobCol'],
-    queryFn: async () => await updateJobCol(jobId, columnId),
-    refetchOnWindowFocus: false,
-    refetchOnMount: false,
-    enabled: false,
+export const useUpdateJobCol = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async ({
+      jobId,
+      columnId,
+    }: { jobId: string; columnId: string }) =>
+      await updateJobCol(jobId, columnId),
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: ['jobs'],
+      });
+    },
   });
 };
