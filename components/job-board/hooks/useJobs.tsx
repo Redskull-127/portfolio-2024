@@ -1,6 +1,7 @@
 'use client';
+import { UUID } from 'crypto';
+import { getJobs, updateJobCol } from '@/lib/server/functions/job-board';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { getJobs } from '@/lib/server/functions/job-board';
 
 export const useJobs = () => {
   return useQuery({
@@ -20,4 +21,20 @@ export const useMutationJobs = () => {
     },
   });
   return mutation;
+};
+
+export const useUpdateJobCol = ({
+  jobId,
+  columnId,
+}: {
+  jobId: string;
+  columnId: string;
+}) => {
+  return useQuery({
+    queryKey: ['updateJobCol'],
+    queryFn: async () => await updateJobCol(jobId, columnId),
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    enabled: false,
+  });
 };

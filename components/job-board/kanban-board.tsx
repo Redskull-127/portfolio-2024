@@ -2,29 +2,30 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
-import { BoardColumn, BoardContainer } from './board-column';
 import {
+  type Announcements,
   DndContext,
   type DragEndEvent,
   type DragOverEvent,
   DragOverlay,
   type DragStartEvent,
+  KeyboardSensor,
+  MouseSensor,
+  TouchSensor,
   useSensor,
   useSensors,
-  KeyboardSensor,
-  Announcements,
-  TouchSensor,
-  MouseSensor,
 } from '@dnd-kit/core';
 import { SortableContext, arrayMove } from '@dnd-kit/sortable';
-import { TaskCard } from './task-card';
-import type { Column } from './board-column';
-import { hasDraggableData } from './utils';
-import { coordinateGetter } from './keyboard-presets';
-import { useJobs } from './hooks/useJobs';
-import AddCard from './add-card';
-import { AllJobs, Job } from './types';
 import { useDraggable } from 'react-use-draggable-scroll';
+import { toast } from 'sonner';
+import AddCard from './add-card';
+import { BoardColumn, BoardContainer } from './board-column';
+import type { Column } from './board-column';
+import { useJobs, useUpdateJobCol } from './hooks/useJobs';
+import { coordinateGetter } from './keyboard-presets';
+import { TaskCard } from './task-card';
+import type { AllJobs, Job } from './types';
+import { hasDraggableData } from './utils';
 
 const defaultCols = [
   {
@@ -59,7 +60,7 @@ export type ColumnId = (typeof defaultCols)[number]['id'];
 export function KanbanBoard() {
   const { data, isPending, isLoading } = useJobs();
   if (isLoading || isPending) return <div>Loading...</div>;
-  if (data && data?.data) {
+  if (data?.data) {
     if (data.status !== 'success') {
       return <div>Something went wrong!</div>;
     }
@@ -81,6 +82,18 @@ export function KanbanBoard() {
 function KanbanBoardComponent({ initialTasks }: { initialTasks: AllJobs }) {
   const [columns, setColumns] = useState<Column[]>(defaultCols);
   const pickedUpTaskColumn = useRef<ColumnId | null>(null);
+  const [shiftCard, setShiftCard] = useState<{
+    jobId: string;
+    columnId: string;
+  }>({
+    jobId: '',
+    columnId: '',
+  });
+  const {
+    data: updateJobColData,
+    refetch: fetchUpdateJobCol,
+    isRefetching: isJobColChanging,
+  } = useUpdateJobCol(shiftCard);
   const columnsId = useMemo(() => columns.map((col) => col.id), [columns]);
 
   const [tasks, setTasks] = useState<AllJobs>(initialTasks);
@@ -100,7 +113,7 @@ function KanbanBoardComponent({ initialTasks }: { initialTasks: AllJobs }) {
   const kanbanBoardRef =
     useRef<HTMLDivElement>() as React.MutableRefObject<HTMLInputElement>;
   const { events: kanbanBoardScrollEvents } = useDraggable(kanbanBoardRef, {
-    isMounted: activeTask || activeColumn ? false : true,
+    isMounted: !(activeTask || activeColumn),
     applyRubberBandEffect: true,
   });
   useEffect(() => {
@@ -127,7 +140,8 @@ function KanbanBoardComponent({ initialTasks }: { initialTasks: AllJobs }) {
         return `Picked up Column ${startColumn?.title} at position: ${
           startColumnIdx + 1
         } of ${columnsId.length}`;
-      } else if (active.data.current?.type === 'Task') {
+      }
+      if (active.data.current?.type === 'Task') {
         pickedUpTaskColumn.current = active.data.current.task
           .columnId as ColumnId;
         const { tasksInColumn, taskPosition, column } = getDraggingTaskData(
@@ -152,7 +166,8 @@ function KanbanBoardComponent({ initialTasks }: { initialTasks: AllJobs }) {
         return `Column ${active.data.current.column.title} was moved over ${
           over.data.current.column.title
         } at position ${overColumnIdx + 1} of ${columnsId.length}`;
-      } else if (
+      }
+      if (
         active.data.current?.type === 'Task' &&
         over.data.current?.type === 'Task'
       ) {
@@ -188,7 +203,8 @@ function KanbanBoardComponent({ initialTasks }: { initialTasks: AllJobs }) {
         } was dropped into position ${overColumnPosition + 1} of ${
           columnsId.length
         }`;
-      } else if (
+      }
+      if (
         active.data.current?.type === 'Task' &&
         over.data.current?.type === 'Task'
       ) {
@@ -197,6 +213,32 @@ function KanbanBoardComponent({ initialTasks }: { initialTasks: AllJobs }) {
           over.data.current.task.columnId as ColumnId,
         );
         if (over.data.current.task.columnId !== pickedUpTaskColumn.current) {
+          const handleJobColChange = async () => {
+            setShiftCard({
+              jobId: active.data.current?.task.uuid,
+              columnId: column?.id as ColumnId,
+            });
+            if (shiftCard.jobId !== '' && shiftCard.columnId !== '') {
+              return await fetchUpdateJobCol().then(() => {
+                setShiftCard({
+                  jobId: '',
+                  columnId: '',
+                });
+              });
+            }
+          };
+
+          toast.promise(handleJobColChange(), {
+            loading: 'Moving task...',
+            success: 'Task moved successfully',
+            error: 'Error moving task',
+          });
+
+          console.log(
+            `Task was dropped into column ${column?.title} in position ${
+              taskPosition + 1
+            } of ${tasksInColumn.length}`,
+          );
           return `Task was dropped into column ${column?.title} in position ${
             taskPosition + 1
           } of ${tasksInColumn.length}`;
@@ -235,6 +277,7 @@ function KanbanBoardComponent({ initialTasks }: { initialTasks: AllJobs }) {
             {columns.map((col) => (
               <BoardColumn
                 key={col.id}
+                isJobColChanging={isJobColChanging}
                 column={col}
                 tasks={tasks.filter((task) => task.columnId === col.id)}
               />

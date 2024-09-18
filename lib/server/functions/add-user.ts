@@ -16,6 +16,7 @@ interface SessionUser {
   email: string;
   name: string;
   image: string;
+  uuid: string;
 }
 
 // Main function to add a user
@@ -54,6 +55,7 @@ export default async function addUser(
       email,
       name,
       image,
+      uuid: session.uuid,
     });
     return {
       status: 'success',

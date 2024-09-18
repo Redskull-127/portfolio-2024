@@ -1,10 +1,10 @@
 'use server';
 
-import { unstable_cache } from 'next/cache';
-import { DeepScarpSong } from './deep-song-scrap';
+import { AxiosError } from 'axios';
 // @ts-ignore
 import { getLyrics as GetLyric } from 'genius-lyrics-api';
-import { AxiosError } from 'axios';
+import { unstable_cache } from 'next/cache';
+import { DeepScarpSong } from './deep-song-scrap';
 
 export type SpotifyType = {
   images: { url: string }[];
@@ -99,7 +99,7 @@ export const getLyrics = async (
 
   try {
     return await GetLyric(options);
-  } catch (error: AxiosError | any) {
+  } catch (error: unknown) {
     console.error('Error fetching lyrics:', error);
     return 'Error fetching lyrics';
   }

@@ -15,6 +15,7 @@ export const {
           email: user.email!,
           name: user.name!,
           image: user.image!,
+          uuid: crypto.randomUUID(),
         });
       }
       return true;

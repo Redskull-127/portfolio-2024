@@ -1,17 +1,17 @@
-import { SortableContext, useSortable } from '@dnd-kit/sortable';
-import { useDndContext, type UniqueIdentifier } from '@dnd-kit/core';
-import { CSS } from '@dnd-kit/utilities';
-import { useMemo } from 'react';
-import { TaskCard, TaskDialog } from './task-card';
-import { cva } from 'class-variance-authority';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { GripVertical } from 'lucide-react';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
-import { AllJobs } from './types';
+import { type UniqueIdentifier, useDndContext } from '@dnd-kit/core';
+import { SortableContext, useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+import { cva } from 'class-variance-authority';
+import { GripVertical } from 'lucide-react';
+import { useMemo } from 'react';
 import { Dialog, DialogTrigger } from '../ui/dialog';
 import formattedDate from './lib/date-formatter';
+import { TaskCard, TaskDialog } from './task-card';
+import { AllJobs } from './types';
 
 export interface Column {
   id: UniqueIdentifier;
@@ -30,9 +30,15 @@ interface BoardColumnProps {
   column: Column;
   tasks: AllJobs;
   isOverlay?: boolean;
+  isJobColChanging?: boolean;
 }
 
-export function BoardColumn({ column, tasks, isOverlay }: BoardColumnProps) {
+export function BoardColumn({
+  column,
+  tasks,
+  isOverlay,
+  isJobColChanging,
+}: BoardColumnProps) {
   const tasksIds = useMemo(() => {
     return tasks.map((task) => task.id);
   }, [tasks]);
@@ -86,6 +92,7 @@ export function BoardColumn({ column, tasks, isOverlay }: BoardColumnProps) {
     >
       <CardHeader className="p-4 font-semibold border-b-2 text-left flex flex-row space-between items-center">
         <Button
+          disabled={isJobColChanging}
           variant={'ghost'}
           {...attributes}
           {...listeners}
@@ -99,8 +106,8 @@ export function BoardColumn({ column, tasks, isOverlay }: BoardColumnProps) {
       <ScrollArea>
         <CardContent className="flex flex-grow flex-col gap-2 p-2">
           <SortableContext items={tasksIds}>
-            {tasks.map((task, key) => (
-              <Dialog key={key}>
+            {tasks.map((task) => (
+              <Dialog key={task.uuid}>
                 <DialogTrigger>
                   <TaskCard
                     key={task.id}

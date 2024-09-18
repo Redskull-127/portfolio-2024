@@ -22,6 +22,7 @@ export type Job = {
   contactEmail?: string;
   contactName?: string;
   contactLink?: string;
+  uuid: string;
 };
 
 export type AllJobs = Job[];

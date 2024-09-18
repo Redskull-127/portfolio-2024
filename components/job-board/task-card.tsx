@@ -1,23 +1,20 @@
-import { useSortable } from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { cva } from 'class-variance-authority';
-import { GripVertical } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
-import { Job } from './types';
-import { cn } from '@/lib/utils';
-import { useMemo } from 'react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import {
-  Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/components/ui/dialog';
+import { cn } from '@/lib/utils';
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+import { cva } from 'class-variance-authority';
+import { GripVertical } from 'lucide-react';
 import Link from 'next/link';
 import formattedDate from './lib/date-formatter';
+import { Job } from './types';
 
 export type Task = Job;
 
