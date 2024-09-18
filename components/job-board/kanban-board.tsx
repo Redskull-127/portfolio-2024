@@ -19,7 +19,7 @@ import { SortableContext, arrayMove } from '@dnd-kit/sortable';
 import { useDraggable } from 'react-use-draggable-scroll';
 import { toast } from 'sonner';
 import AddCard from './add-card';
-import { BoardColumn, BoardContainer } from './board-column';
+import { BoardColumn, BoardContainer, EditDialog } from './board-column';
 import type { Column } from './board-column';
 import { useJobs, useUpdateJobCol } from './hooks/useJobs';
 import { coordinateGetter } from './keyboard-presets';
@@ -238,7 +238,8 @@ function KanbanBoardComponent({ initialTasks }: { initialTasks: AllJobs }) {
       return `Dragging ${active.data.current?.type} cancelled.`;
     },
   };
-
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [editTask, setEditTask] = useState<Job>();
   return (
     <DndContext
       accessibility={{
@@ -255,6 +256,12 @@ function KanbanBoardComponent({ initialTasks }: { initialTasks: AllJobs }) {
         className="max-w-full space-x-3 overflow-x-scroll scrollbar-hide"
         ref={kanbanBoardRef}
       >
+        <EditDialog
+          isEditDialogOpen={isEditDialogOpen}
+          setIsEditDialogOpen={setIsEditDialogOpen}
+          editTask={editTask}
+          setStateEditTask={setEditTask}
+        />
         <BoardContainer>
           <SortableContext items={columnsId}>
             {columns.map((col) => (
@@ -263,6 +270,10 @@ function KanbanBoardComponent({ initialTasks }: { initialTasks: AllJobs }) {
                 isJobColChanging={isJobColChanging}
                 column={col}
                 tasks={tasks.filter((task) => task.columnId === col.id)}
+                isEditDialogOpen={isEditDialogOpen}
+                setIsEditDialogOpen={setIsEditDialogOpen}
+                editTask={editTask}
+                setStateEditTask={setEditTask}
               />
             ))}
           </SortableContext>
@@ -275,6 +286,10 @@ function KanbanBoardComponent({ initialTasks }: { initialTasks: AllJobs }) {
                 <BoardColumn
                   isOverlay
                   column={activeColumn}
+                  isEditDialogOpen={isEditDialogOpen}
+                  setIsEditDialogOpen={setIsEditDialogOpen}
+                  editTask={editTask}
+                  setStateEditTask={setEditTask}
                   tasks={tasks.filter(
                     (task) => task.columnId === activeColumn.id,
                   )}

@@ -1,18 +1,11 @@
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import {
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
 import { cn } from '@/lib/utils';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { cva } from 'class-variance-authority';
 import { GripVertical } from 'lucide-react';
-import Link from 'next/link';
 import formattedDate from './lib/date-formatter';
 import { Job } from './types';
 
@@ -103,64 +96,3 @@ export function TaskCard({ task, isOverlay, ringColor }: TaskCardProps) {
     </Card>
   );
 }
-
-export const TaskDialog = ({
-  job,
-  formattedDate,
-  status,
-  ringColor,
-}: {
-  job: Task;
-  formattedDate: string;
-  status: string;
-  ringColor: string;
-}) => {
-  return (
-    <DialogContent>
-      <DialogHeader>
-        <DialogTitle>
-          {job.title} -
-          <Badge
-            style={{ backgroundColor: ringColor }}
-            className={cn(
-              'ml-2 h-fit text-primary py-2 uppercase font-semibold',
-            )}
-          >
-            {status}
-          </Badge>
-        </DialogTitle>
-        <DialogDescription>
-          {job.companyURL ? (
-            <>
-              {' '}
-              <Link className="text-ternary underline" href={job.companyURL}>
-                {job.company}
-              </Link>{' '}
-            </>
-          ) : (
-            job.company
-          )}{' '}
-          | {job.location} | {job.jobType} | {formattedDate} - {job.salary}
-        </DialogDescription>
-      </DialogHeader>
-      <div className="py-3 space-y-3">
-        <p className="max-h-[300px] w-full text-wrap overflow-y-auto">
-          {job.description}
-        </p>
-        <ul className="text-sm">
-          {job.contactName && <li>Contact Name: {job.contactName}</li>}
-          {job.contactEmail && <li>Contact Email: {job.contactEmail}</li>}
-          {job.contactLink && (
-            <li>
-              Contact Profile:{' '}
-              <Link className="text-ternary underline" href={job.contactLink}>
-                {' '}
-                link{' '}
-              </Link>
-            </li>
-          )}
-        </ul>
-      </div>
-    </DialogContent>
-  );
-};

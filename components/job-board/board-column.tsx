@@ -6,12 +6,34 @@ import { type UniqueIdentifier, useDndContext } from '@dnd-kit/core';
 import { SortableContext, useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { cva } from 'class-variance-authority';
-import { GripVertical } from 'lucide-react';
-import { useMemo } from 'react';
-import { Dialog, DialogTrigger } from '../ui/dialog';
+import { GripVertical, Settings2 } from 'lucide-react';
+import { useMemo, useState } from 'react';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
+
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+
 import formattedDate from './lib/date-formatter';
-import { TaskCard, TaskDialog } from './task-card';
-import { AllJobs } from './types';
+import { TaskCard } from './task-card';
+import { AllJobs, Job } from './types';
+import { Badge } from '../ui/badge';
+import Link from 'next/link';
+import { JobFormDialog } from './add-card';
 
 export interface Column {
   id: UniqueIdentifier;
@@ -31,6 +53,10 @@ interface BoardColumnProps {
   tasks: AllJobs;
   isOverlay?: boolean;
   isJobColChanging?: boolean;
+  isEditDialogOpen: boolean;
+  setIsEditDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  editTask?: Job;
+  setStateEditTask?: React.Dispatch<React.SetStateAction<Job | undefined>>;
 }
 
 export function BoardColumn({
@@ -38,6 +64,8 @@ export function BoardColumn({
   tasks,
   isOverlay,
   isJobColChanging,
+  setIsEditDialogOpen,
+  setStateEditTask,
 }: BoardColumnProps) {
   const tasksIds = useMemo(() => {
     return tasks.map((task) => task.id);
@@ -106,22 +134,87 @@ export function BoardColumn({
       <ScrollArea>
         <CardContent className="flex flex-grow flex-col gap-2 p-2">
           <SortableContext items={tasksIds}>
-            {tasks.map((task) => (
-              <Dialog key={task.uuid}>
-                <DialogTrigger>
-                  <TaskCard
-                    key={task.id}
-                    task={task}
-                    ringColor={column.color}
-                  />
-                </DialogTrigger>
-                <TaskDialog
-                  job={task}
-                  formattedDate={formattedDate(task.date)}
-                  status={task.columnId}
-                  ringColor={column.color || 'gray'}
-                />
-              </Dialog>
+            {tasks.map((job) => (
+              <>
+                <AlertDialog key={job.uuid}>
+                  <AlertDialogTrigger>
+                    <TaskCard
+                      key={job.id}
+                      task={job}
+                      ringColor={column.color}
+                    />
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>
+                        {job.title} -
+                        <Badge
+                          style={{ backgroundColor: column.color }}
+                          className={cn(
+                            'ml-2 h-fit text-primary py-2 uppercase font-semibold',
+                          )}
+                        >
+                          {column.title}
+                        </Badge>
+                      </AlertDialogTitle>
+                      <AlertDialogDescription>
+                        {job.companyURL ? (
+                          <>
+                            {' '}
+                            <Link
+                              className="text-ternary underline"
+                              href={job.companyURL}
+                            >
+                              {job.company}
+                            </Link>{' '}
+                          </>
+                        ) : (
+                          job.company
+                        )}{' '}
+                        | {job.location} | {job.jobType} |{' '}
+                        {formattedDate(job.date)} - {job.salary}
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <div className="py-3 space-y-3">
+                      <p className="max-h-[300px] w-full text-wrap overflow-y-auto">
+                        {job.description}
+                      </p>
+                      <ul className="text-sm">
+                        {job.contactName && (
+                          <li>Contact Name: {job.contactName}</li>
+                        )}
+                        {job.contactEmail && (
+                          <li>Contact Email: {job.contactEmail}</li>
+                        )}
+                        {job.contactLink && (
+                          <li>
+                            Contact Profile:{' '}
+                            <Link
+                              className="text-ternary underline"
+                              href={job.contactLink}
+                            >
+                              {' '}
+                              link{' '}
+                            </Link>
+                          </li>
+                        )}
+                      </ul>
+                    </div>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Close</AlertDialogCancel>
+                      <AlertDialogAction
+                        onClick={() => {
+                          setStateEditTask && setStateEditTask(job);
+                          setIsEditDialogOpen(true);
+                        }}
+                        className="flex gap-[0.3rem]"
+                      >
+                        <Settings2 className="size-5" /> Settings
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              </>
             ))}
           </SortableContext>
         </CardContent>
@@ -132,7 +225,6 @@ export function BoardColumn({
 
 export function BoardContainer({ children }: { children: React.ReactNode }) {
   const dndContext = useDndContext();
-
   const variations = cva('px-2 md:px-0 flex lg:justify-center pb-4 size-fit', {
     variants: {
       dragging: {
@@ -155,3 +247,35 @@ export function BoardContainer({ children }: { children: React.ReactNode }) {
     </ScrollArea>
   );
 }
+
+export const EditDialog = (props: {
+  isEditDialogOpen: boolean;
+  setIsEditDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  editTask?: Job;
+  setStateEditTask?: React.Dispatch<React.SetStateAction<Job | undefined>>;
+}) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  if (!props.editTask) return null;
+  return (
+    <Dialog
+      open={props.isEditDialogOpen}
+      onOpenChange={(open) => {
+        if (!open && props.setStateEditTask) {
+          props.setIsEditDialogOpen(false);
+          props.setStateEditTask(undefined);
+        }
+      }}
+    >
+      <JobFormDialog
+        initialData={props.editTask}
+        isDialogOpen={props.isEditDialogOpen}
+        setIsDialogOpen={props.setIsEditDialogOpen}
+        isSubmitting={isSubmitting}
+        setIsSubmitting={setIsSubmitting}
+        mutate={() => {
+          return console.log('mutate');
+        }}
+      />
+    </Dialog>
+  );
+};

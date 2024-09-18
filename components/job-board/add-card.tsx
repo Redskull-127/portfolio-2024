@@ -34,36 +34,18 @@ import { DatePicker } from '../date-picker';
 import { useState } from 'react';
 import { useMutationJobs } from './hooks/useJobs';
 import { toast } from 'sonner';
+import { Job } from './types';
 
-export default function AddCard() {
+export default function AddCard(props: { initialData?: Job }) {
   const { mutate } = useMutationJobs();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const form = useForm<z.infer<typeof jobFormSchema>>({
-    resolver: zodResolver(jobFormSchema),
-  });
-
-  const onSubmit = async (values: z.infer<typeof jobFormSchema>) => {
-    setIsSubmitting(true);
-    const response = await addJob(values);
-    if (response.status === 'success') {
-      setIsSubmitting(false);
-      setIsDialogOpen(false);
-      form.reset();
-      toast.promise(Promise.all([mutate()]), {
-        loading: 'Adding job...',
-        success: 'Job added successfully',
-        error: 'Failed to add job',
-      });
-    }
-  };
 
   return (
     <Dialog
       open={isDialogOpen}
       onOpenChange={(open) => {
         if (!open) {
-          form.reset();
           setIsSubmitting(false);
         }
         setIsDialogOpen(open);
@@ -91,162 +73,99 @@ export default function AddCard() {
           </svg>
         </Button>
       </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Add Job</DialogTitle>
-          <DialogDescription>
-            Fill out the form below to add a new job to the board.
-          </DialogDescription>
-        </DialogHeader>
-        {isSubmitting && (
-          <div className="absolute py-24 z-50 size-full flex flex-col items-center justify-center bg-primary-foreground bg-opacity-10">
-            <div className="animate-spin rounded-full size-10 border-t-2 border-b-2 border-primary"></div>
-            <p className="mt-5 text-primary">Submitting...</p>
-          </div>
-        )}
-        <div className="max-h-[450px] p-2 overflow-y-auto mt-5">
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-              <div className="flex w-full justify-between items-stretch gap-4">
-                <FormField
-                  control={form.control}
-                  name="title"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel>Job Title</FormLabel>
-                      <FormControl>
-                        <Input placeholder="frontend developer" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="company"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel>Company</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Google" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
 
-              <div className="flex w-full justify-between items-stretch gap-4">
-                <FormField
-                  control={form.control}
-                  name="companyURL"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel>Company URL</FormLabel>
-                      <FormControl>
-                        <Input placeholder="https://google.com" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+      <JobFormDialog
+        isDialogOpen={isDialogOpen}
+        setIsDialogOpen={setIsDialogOpen}
+        isSubmitting={isSubmitting}
+        setIsSubmitting={setIsSubmitting}
+        mutate={mutate}
+        initialData={props.initialData}
+      />
+    </Dialog>
+  );
+}
 
-                <FormField
-                  control={form.control}
-                  name="jobType"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel>Job Type</FormLabel>
-                      <FormControl>
-                        <Select
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                        >
-                          <SelectTrigger className="w-full">
-                            <SelectValue placeholder="Select Job Type" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectGroup>
-                              <SelectLabel>Job Types</SelectLabel>
-                              <SelectItem value="internship">
-                                Internship
-                              </SelectItem>
-                              <SelectItem value="full-time">
-                                Full Time
-                              </SelectItem>
-                              <SelectItem value="part-time">
-                                Part Time
-                              </SelectItem>
-                              <SelectItem value="contract">Contract</SelectItem>
-                              <SelectItem value="temporary">
-                                Temporary
-                              </SelectItem>
-                              <SelectItem value="freelancer">
-                                Freelance
-                              </SelectItem>
-                            </SelectGroup>
-                          </SelectContent>
-                        </Select>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
+export const JobFormDialog = (props: {
+  isDialogOpen: boolean;
+  setIsDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  isSubmitting: boolean;
+  setIsSubmitting: React.Dispatch<React.SetStateAction<boolean>>;
+  mutate: () => void;
+  initialData?: Job;
+}) => {
+  const form = useForm<z.infer<typeof jobFormSchema>>({
+    resolver: zodResolver(jobFormSchema),
+    defaultValues: props.initialData,
+  });
 
+  const onSubmit = async (values: z.infer<typeof jobFormSchema>) => {
+    props.setIsSubmitting(true);
+    const response = await addJob(values);
+    if (response.status === 'success') {
+      props.setIsSubmitting(false);
+      props.setIsDialogOpen(false);
+      form.reset();
+      toast.promise(Promise.all([props.mutate()]), {
+        loading: 'Adding job...',
+        success: 'Job added successfully',
+        error: 'Failed to add job',
+      });
+    }
+  };
+  return (
+    <DialogContent>
+      <DialogHeader>
+        <DialogTitle>Add Job</DialogTitle>
+        <DialogDescription>
+          Fill out the form below to add a new job to the board.
+        </DialogDescription>
+      </DialogHeader>
+      {props.isSubmitting && (
+        <div className="absolute py-24 z-50 size-full flex flex-col items-center justify-center bg-primary-foreground bg-opacity-10">
+          <div className="animate-spin rounded-full size-10 border-t-2 border-b-2 border-primary"></div>
+          <p className="mt-5 text-primary">Submitting...</p>
+        </div>
+      )}
+      <div className="max-h-[450px] p-2 overflow-y-auto mt-5">
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <div className="flex w-full justify-between items-stretch gap-4">
               <FormField
                 control={form.control}
-                name="description"
+                name="title"
                 render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Description</FormLabel>
+                  <FormItem className="w-full">
+                    <FormLabel>Job Title</FormLabel>
                     <FormControl>
-                      <Textarea placeholder="Job description" {...field} />
+                      <Input placeholder="frontend developer" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-
-              <div className="flex w-full justify-between items-stretch gap-4">
-                <FormField
-                  control={form.control}
-                  name="location"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel>Location</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="Remote or San Francisco, CA"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="salary"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel>Salary</FormLabel>
-                      <FormControl>
-                        <Input placeholder="100k" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-
               <FormField
                 control={form.control}
-                name="applyLink"
+                name="company"
                 render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Job Link</FormLabel>
+                  <FormItem className="w-full">
+                    <FormLabel>Company</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Google" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <div className="flex w-full justify-between items-stretch gap-4">
+              <FormField
+                control={form.control}
+                name="companyURL"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel>Company URL</FormLabel>
                     <FormControl>
                       <Input placeholder="https://google.com" {...field} />
                     </FormControl>
@@ -257,61 +176,65 @@ export default function AddCard() {
 
               <FormField
                 control={form.control}
-                name="date"
+                name="jobType"
                 render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Applied On</FormLabel>
+                  <FormItem className="w-full">
+                    <FormLabel>Job Type</FormLabel>
                     <FormControl>
-                      <DatePicker
-                        className="w-full"
-                        asFormField={true}
-                        field={field}
-                      />
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Select Job Type" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectGroup>
+                            <SelectLabel>Job Types</SelectLabel>
+                            <SelectItem value="internship">
+                              Internship
+                            </SelectItem>
+                            <SelectItem value="full-time">Full Time</SelectItem>
+                            <SelectItem value="part-time">Part Time</SelectItem>
+                            <SelectItem value="contract">Contract</SelectItem>
+                            <SelectItem value="temporary">Temporary</SelectItem>
+                            <SelectItem value="freelancer">
+                              Freelance
+                            </SelectItem>
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
+            </div>
 
-              <div className="flex w-full justify-between items-stretch gap-4">
-                <FormField
-                  control={form.control}
-                  name="contactName"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel>Contact Name</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Meer Tarbani" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Description</FormLabel>
+                  <FormControl>
+                    <Textarea placeholder="Job description" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-                <FormField
-                  control={form.control}
-                  name="contactEmail"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel>Contact Email</FormLabel>
-                      <FormControl>
-                        <Input placeholder="admin@meertarbani.in" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-
+            <div className="flex w-full justify-between items-stretch gap-4">
               <FormField
                 control={form.control}
-                name="contactLink"
+                name="location"
                 render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Contact Social Link</FormLabel>
+                  <FormItem className="w-full">
+                    <FormLabel>Location</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="https://www.linkedin.com/in/meertarbani"
+                        placeholder="Remote or San Francisco, CA"
                         {...field}
                       />
                     </FormControl>
@@ -320,16 +243,109 @@ export default function AddCard() {
                 )}
               />
 
-              <Button disabled={isSubmitting} type="submit">
-                Submit
-              </Button>
-            </form>
-          </Form>
-        </div>
-      </DialogContent>
-    </Dialog>
+              <FormField
+                control={form.control}
+                name="salary"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel>Salary</FormLabel>
+                    <FormControl>
+                      <Input placeholder="100k" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <FormField
+              control={form.control}
+              name="applyLink"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Job Link</FormLabel>
+                  <FormControl>
+                    <Input placeholder="https://google.com" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="date"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Applied On</FormLabel>
+                  <FormControl>
+                    <DatePicker
+                      className="w-full"
+                      asFormField={true}
+                      field={field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <div className="flex w-full justify-between items-stretch gap-4">
+              <FormField
+                control={form.control}
+                name="contactName"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel>Contact Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Meer Tarbani" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="contactEmail"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel>Contact Email</FormLabel>
+                    <FormControl>
+                      <Input placeholder="admin@meertarbani.in" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <FormField
+              control={form.control}
+              name="contactLink"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Contact Social Link</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="https://www.linkedin.com/in/meertarbani"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <Button disabled={props.isSubmitting} type="submit">
+              Submit
+            </Button>
+          </form>
+        </Form>
+      </div>
+    </DialogContent>
   );
-}
+};
 
 export const jobFormSchema = z.object({
   title: z.string(),
