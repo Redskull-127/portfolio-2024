@@ -84,3 +84,55 @@ export const updateJobCol = async (jobId: string, columnId: string) => {
     };
   }
 };
+
+export const updateJob = async (
+  jobId: string,
+  jobFormData: z.infer<typeof jobFormSchema>,
+) => {
+  const user = await auth();
+  if (!user) {
+    return {
+      status: 'error',
+      message: 'You must be logged in to update a job',
+    };
+  }
+  try {
+    await db
+      .update(jobSchema)
+      .set({
+        ...jobFormData,
+      })
+      .where(eq(jobSchema.uuid, jobId));
+    return {
+      status: 'success',
+      message: 'Job updated successfully',
+    };
+  } catch (error) {
+    return {
+      status: 'error',
+      message: (error as Error).message,
+    };
+  }
+};
+
+export const deleteJob = async (jobId: string) => {
+  const user = await auth();
+  if (!user) {
+    return {
+      status: 'error',
+      message: 'You must be logged in to delete a job',
+    };
+  }
+  try {
+    await db.delete(jobSchema).where(eq(jobSchema.uuid, jobId));
+    return {
+      status: 'success',
+      message: 'Job deleted successfully',
+    };
+  } catch (error) {
+    return {
+      status: 'error',
+      message: (error as Error).message,
+    };
+  }
+};

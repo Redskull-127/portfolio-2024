@@ -6,7 +6,7 @@ import { type UniqueIdentifier, useDndContext } from '@dnd-kit/core';
 import { SortableContext, useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { cva } from 'class-variance-authority';
-import { GripVertical, Settings2 } from 'lucide-react';
+import { FilePenLine, GripVertical, Settings2, Trash2 } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import {
   AlertDialog,
@@ -20,13 +20,14 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 
+import { Dialog } from '@/components/ui/dialog';
+
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 import formattedDate from './lib/date-formatter';
 import { TaskCard } from './task-card';
@@ -34,6 +35,8 @@ import { AllJobs, Job } from './types';
 import { Badge } from '../ui/badge';
 import Link from 'next/link';
 import { JobFormDialog } from './add-card';
+import { useDeleteJob, useMutationJobs, useUpdateJob } from './hooks/useJobs';
+import { toast } from 'sonner';
 
 export interface Column {
   id: UniqueIdentifier;
@@ -67,6 +70,8 @@ export function BoardColumn({
   setIsEditDialogOpen,
   setStateEditTask,
 }: BoardColumnProps) {
+  const { mutate: mutateDeleteJob } = useDeleteJob();
+  const [isDeleteAlertOpen, setDeleteIsAlertOpen] = useState(false);
   const tasksIds = useMemo(() => {
     return tasks.map((task) => task.id);
   }, [tasks]);
@@ -202,14 +207,66 @@ export function BoardColumn({
                     </div>
                     <AlertDialogFooter>
                       <AlertDialogCancel>Close</AlertDialogCancel>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <AlertDialogAction className="flex gap-[0.3rem]">
+                            <Settings2 className="size-5" /> Settings
+                          </AlertDialogAction>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                          <DropdownMenuItem
+                            onClick={() => {
+                              setStateEditTask && setStateEditTask(job);
+                              setIsEditDialogOpen(true);
+                            }}
+                            className="cursor-pointer"
+                          >
+                            <FilePenLine className="size-4 mr-2" /> Edit
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                            onClick={() => setDeleteIsAlertOpen(true)}
+                            className="cursor-pointer focus:bg-red-500 focus:text-white"
+                          >
+                            <Trash2 className="size-4 mr-2" /> Delete
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+                <AlertDialog
+                  open={isDeleteAlertOpen}
+                  onOpenChange={(open) => {
+                    setDeleteIsAlertOpen(open);
+                  }}
+                >
+                  <AlertDialogTrigger asChild></AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>
+                        Are you absolutely sure?
+                      </AlertDialogTitle>
+                      <AlertDialogDescription>
+                        This action cannot be undone. This will permanently
+                        delete your account and remove your data from our
+                        servers.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
                       <AlertDialogAction
                         onClick={() => {
-                          setStateEditTask && setStateEditTask(job);
-                          setIsEditDialogOpen(true);
+                          toast.promise(
+                            Promise.all([mutateDeleteJob(job.uuid)]),
+                            {
+                              loading: 'Deleting...',
+                              success: 'Job deleted successfully',
+                              error: 'An error occurred',
+                            },
+                          );
                         }}
-                        className="flex gap-[0.3rem]"
                       >
-                        <Settings2 className="size-5" /> Settings
+                        Continue
                       </AlertDialogAction>
                     </AlertDialogFooter>
                   </AlertDialogContent>
@@ -255,6 +312,20 @@ export const EditDialog = (props: {
   setStateEditTask?: React.Dispatch<React.SetStateAction<Job | undefined>>;
 }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { mutate: mutateUpdateJob } = useMutationJobs();
+  const { mutate: updateJob } = useUpdateJob();
+  const mutateUpdatedJobWithProps = async (jobData: any) => {
+    if (!props.editTask) return;
+    try {
+      updateJob({
+        jobId: props.editTask.uuid,
+        jobData,
+      });
+      return { status: 'success' };
+    } catch (error) {
+      console.error(error);
+    }
+  };
   if (!props.editTask) return null;
   return (
     <Dialog
@@ -272,9 +343,8 @@ export const EditDialog = (props: {
         setIsDialogOpen={props.setIsEditDialogOpen}
         isSubmitting={isSubmitting}
         setIsSubmitting={setIsSubmitting}
-        mutate={() => {
-          return console.log('mutate');
-        }}
+        mutate={mutateUpdatedJobWithProps}
+        title="Edit Job"
       />
     </Dialog>
   );

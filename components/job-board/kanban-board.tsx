@@ -21,7 +21,7 @@ import { toast } from 'sonner';
 import AddCard from './add-card';
 import { BoardColumn, BoardContainer, EditDialog } from './board-column';
 import type { Column } from './board-column';
-import { useJobs, useUpdateJobCol } from './hooks/useJobs';
+import { useJobs, useMutationJobs, useUpdateJobCol } from './hooks/useJobs';
 import { coordinateGetter } from './keyboard-presets';
 import { TaskCard } from './task-card';
 import type { AllJobs, Job } from './types';
@@ -59,6 +59,7 @@ export type ColumnId = (typeof defaultCols)[number]['id'];
 
 export function KanbanBoard() {
   const { data, isPending, isLoading } = useJobs();
+  const { mutate: mutateAddJobs } = useMutationJobs();
   if (isLoading || isPending) return <div>Loading...</div>;
   if (data?.data) {
     if (data.status !== 'success') {
@@ -68,7 +69,7 @@ export function KanbanBoard() {
     return (
       <main className="size-full flex flex-col gap-5">
         <h1 className="inline-flex items-center gap-2 text-2xl font-bold">
-          Kanban Board <AddCard />{' '}
+          Kanban Board <AddCard mutate={mutateAddJobs} title="Add Job" />{' '}
         </h1>
         {typeof window !== 'undefined' && (
           <KanbanBoardComponent initialTasks={data.data} />

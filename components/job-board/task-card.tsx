@@ -84,7 +84,7 @@ export function TaskCard({ task, isOverlay, ringColor }: TaskCardProps) {
           style={{ borderColor: ringColor }}
           className={cn('ml-auto h-7 font-semibold')}
         >
-          Task
+          {task.jobType}
         </Badge>
       </CardHeader>
       <CardContent className="px-3 pt-3 pb-6 text-sm text-left whitespace-pre-wrap">

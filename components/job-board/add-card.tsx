@@ -32,12 +32,16 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '../ui/textarea';
 import { DatePicker } from '../date-picker';
 import { useState } from 'react';
-import { useMutationJobs } from './hooks/useJobs';
 import { toast } from 'sonner';
 import { Job } from './types';
 
-export default function AddCard(props: { initialData?: Job }) {
-  const { mutate } = useMutationJobs();
+export type AddCardProps = {
+  initialData?: Job;
+  title: 'Add Job' | 'Edit Job';
+  mutate: any;
+};
+
+export default function AddCard(props: AddCardProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -79,8 +83,9 @@ export default function AddCard(props: { initialData?: Job }) {
         setIsDialogOpen={setIsDialogOpen}
         isSubmitting={isSubmitting}
         setIsSubmitting={setIsSubmitting}
-        mutate={mutate}
+        mutate={props.mutate}
         initialData={props.initialData}
+        title={props.title}
       />
     </Dialog>
   );
@@ -91,8 +96,9 @@ export const JobFormDialog = (props: {
   setIsDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
   isSubmitting: boolean;
   setIsSubmitting: React.Dispatch<React.SetStateAction<boolean>>;
-  mutate: () => void;
+  mutate: any;
   initialData?: Job;
+  title: 'Add Job' | 'Edit Job';
 }) => {
   const form = useForm<z.infer<typeof jobFormSchema>>({
     resolver: zodResolver(jobFormSchema),
@@ -101,24 +107,36 @@ export const JobFormDialog = (props: {
 
   const onSubmit = async (values: z.infer<typeof jobFormSchema>) => {
     props.setIsSubmitting(true);
-    const response = await addJob(values);
+    const response =
+      props.title === 'Add Job'
+        ? await addJob(values)
+        : await props.mutate(values);
     if (response.status === 'success') {
       props.setIsSubmitting(false);
       props.setIsDialogOpen(false);
       form.reset();
       toast.promise(Promise.all([props.mutate()]), {
-        loading: 'Adding job...',
-        success: 'Job added successfully',
-        error: 'Failed to add job',
+        loading:
+          props.title === 'Add Job' ? 'Adding job...' : 'Updating job...',
+        success:
+          props.title === 'Add Job'
+            ? 'Job added successfully'
+            : 'Job updated successfully',
+        error:
+          props.title === 'Add Job'
+            ? 'Failed to add job'
+            : 'Failed to update job',
       });
     }
   };
   return (
     <DialogContent>
       <DialogHeader>
-        <DialogTitle>Add Job</DialogTitle>
+        <DialogTitle>{props.title}</DialogTitle>
         <DialogDescription>
-          Fill out the form below to add a new job to the board.
+          {props.title === 'Add Job'
+            ? 'Fill out the form below to add a new job to the board.'
+            : 'Edit the job details below.'}
         </DialogDescription>
       </DialogHeader>
       {props.isSubmitting && (
