@@ -312,7 +312,6 @@ export const EditDialog = (props: {
   setStateEditTask?: React.Dispatch<React.SetStateAction<Job | undefined>>;
 }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { mutate: mutateUpdateJob } = useMutationJobs();
   const { mutate: updateJob } = useUpdateJob();
   const mutateUpdatedJobWithProps = async (jobData: any) => {
     if (!props.editTask) return;

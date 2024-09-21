@@ -275,20 +275,59 @@ export const JobFormDialog = (props: {
                 )}
               />
             </div>
+            <div className="flex w-full justify-between items-stretch gap-4">
+              <FormField
+                control={form.control}
+                name="applyLink"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel>Job Link</FormLabel>
+                    <FormControl>
+                      <Input placeholder="https://google.com" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            <FormField
-              control={form.control}
-              name="applyLink"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Job Link</FormLabel>
-                  <FormControl>
-                    <Input placeholder="https://google.com" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+              <FormField
+                control={form.control}
+                name="columnId"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel>Status</FormLabel>
+                    <FormControl>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value || 'open'}
+                      >
+                        <SelectTrigger className="w-full">
+                          <SelectValue
+                            defaultValue={'open'}
+                            placeholder="Select Job Status"
+                          />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectGroup>
+                            <SelectLabel>Status</SelectLabel>
+                            <SelectItem defaultChecked={true} value="open">
+                              Open
+                            </SelectItem>
+                            <SelectItem value="applied">Applied</SelectItem>
+                            <SelectItem value="interviewing">
+                              Interviewing
+                            </SelectItem>
+                            <SelectItem value="offer">Offer</SelectItem>
+                            <SelectItem value="rejected">Rejected</SelectItem>
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
 
             <FormField
               control={form.control}
@@ -374,6 +413,7 @@ export const jobFormSchema = z.object({
   location: z.string(),
   salary: z.string().optional(),
   applyLink: z.string().url(),
+  columnId: z.string(),
   date: z.date().transform((val) => val.toISOString()),
   contactEmail: z.string().email().optional(),
   contactName: z.string().optional(),

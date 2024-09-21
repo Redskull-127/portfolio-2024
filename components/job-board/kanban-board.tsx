@@ -26,6 +26,10 @@ import { coordinateGetter } from './keyboard-presets';
 import { TaskCard } from './task-card';
 import type { AllJobs, Job } from './types';
 import { hasDraggableData } from './utils';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { AlertTriangle } from 'lucide-react';
+import Link from 'next/link';
+import { SourceCodeLinks } from '@/site-config';
 
 const defaultCols = [
   {
@@ -74,6 +78,23 @@ export function KanbanBoard() {
         {typeof window !== 'undefined' && (
           <KanbanBoardComponent initialTasks={data.data} />
         )}
+        <Alert>
+          <AlertTriangle className="h-4 w-4" />
+          <AlertDescription>
+            This is a alpha version of the Kanban board. Please report any bugs.
+            Thank you!
+            <br />
+            To contribute to this project, please visit{' '}
+            <Link
+              href={SourceCodeLinks.frontend}
+              target="_blank"
+              className="underline text-ternary"
+            >
+              here
+            </Link>
+            .
+          </AlertDescription>
+        </Alert>
       </main>
     );
   }
@@ -254,7 +275,7 @@ function KanbanBoardComponent({ initialTasks }: { initialTasks: AllJobs }) {
     >
       <div
         {...kanbanBoardScrollEvents}
-        className="max-w-full space-x-3 overflow-x-scroll scrollbar-hide"
+        className="max-w-full space-x-3 overflow-x-scroll overflow-y-hidden h-fit scrollbar-hide"
         ref={kanbanBoardRef}
       >
         <EditDialog

@@ -39,7 +39,7 @@ export const useUpdateJobCol = () => {
       jobId: string;
       columnId: string;
     }) => await updateJobCol(jobId, columnId),
-    onSuccess: (data) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['jobs'],
       });
@@ -57,8 +57,10 @@ export const useUpdateJob = () => {
       jobId: string;
       jobData: z.infer<typeof jobFormSchema>;
     }) => await updateJob(jobId, jobData),
-    onSuccess: (data) => {
-      queryClient.setQueryData(['jobs'], data);
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['jobs'],
+      });
     },
   });
 };
@@ -67,7 +69,7 @@ export const useDeleteJob = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (jobId: string) => await deleteJob(jobId),
-    onSuccess: (data) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['jobs'],
       });
