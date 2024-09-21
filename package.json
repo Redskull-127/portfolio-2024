@@ -1,6 +1,6 @@
 {
   "name": "portfolio-2024",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -115,5 +115,9 @@
       "biome check --write --unsafe --no-errors-on-unmatched",
       "biome lint --write --no-errors-on-unmatched"
     ]
+  },
+  "packageManager": "^bun@1.1.27",
+  "engines": {
+    "node": ">=18.16.0"
   }
 }
