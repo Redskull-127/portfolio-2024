@@ -1,9 +1,4 @@
 'use client';
-import { useRef, useState, useEffect, useCallback } from 'react';
-import { Icons } from '../../icons/icons';
-import { toast } from 'sonner';
-import { SkipForward, VolumeX, Volume1, Volume2, Settings } from 'lucide-react';
-import { Slider } from '@/components/ui/slider';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,16 +6,21 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
 } from '@/components/ui/hover-card';
+import { Slider } from '@/components/ui/slider';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useCastContext } from '@/lib/client/providers/CastProvider';
-import clsx from 'clsx';
 import { SwitchModes } from '@/lib/server/functions/spotify-switch';
 import { useQueryClient } from '@tanstack/react-query';
+import clsx from 'clsx';
+import { Settings, SkipForward, Volume1, Volume2, VolumeX } from 'lucide-react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { toast } from 'sonner';
+import { Icons } from '../../icons/icons';
 
 type AudioButtonType = {
   AudioSRC: string;
@@ -281,11 +281,9 @@ export default function AudioButton(props: AudioButtonType) {
                 className="appearance-none w-full h-1 bg-foreground rounded-full outline-none"
                 style={{
                   background: `linear-gradient(to right, #1DB954 0%, #1DB954 ${(
-                    (audioCurrDuration! / audioRef.current?.duration!) *
-                    100
+                    (audioCurrDuration! / audioRef.current?.duration!) * 100
                   ).toString()}%, #535353 ${(
-                    (audioCurrDuration! / audioRef.current?.duration!) *
-                    100
+                    (audioCurrDuration! / audioRef.current?.duration!) * 100
                   ).toString()}%, #535353 100%)`,
                 }}
                 onChange={(e) => {

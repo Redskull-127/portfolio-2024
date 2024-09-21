@@ -4,7 +4,7 @@ import * as schema from './schema';
 
 const db = drizzle(
   postgres(process.env['DATABASE_URL']!, {
-    ssl: 'require',
+    ssl: 'allow',
   }),
   {
     schema,

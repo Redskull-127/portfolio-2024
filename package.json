@@ -7,14 +7,15 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "format:write": "prettier --write \"**/*.{ts,tsx,mdx,js,jsx,md,css,yaml,yml}\" --cache",
-    "format:check": "prettier --check \"**/*.{ts,tsx,mdx,js,jsx,md,css,yaml,yml}\" --cache",
     "db:push": "bun drizzle-kit push",
     "db:studio": "bun drizzle-kit studio",
     "prepare": "husky install"
   },
   "dependencies": {
+    "@dnd-kit/core": "^6.1.0",
+    "@dnd-kit/sortable": "^8.0.0",
     "@ducanh2912/next-pwa": "^10.2.8",
+    "@hookform/resolvers": "^3.9.0",
     "@radix-ui/react-accordion": "^1.2.0",
     "@radix-ui/react-alert-dialog": "^1.1.1",
     "@radix-ui/react-dialog": "^1.1.1",
@@ -34,9 +35,9 @@
     "@radix-ui/react-toast": "^1.2.1",
     "@radix-ui/react-tooltip": "^1.1.2",
     "@splinetool/react-spline": "^4.0.0",
-    "@splinetool/runtime": "^1.9.25",
-    "@tanstack/react-query": "^5.56.0",
-    "@tanstack/react-query-devtools": "^5.56.0",
+    "@splinetool/runtime": "^1.9.27",
+    "@tanstack/react-query": "^5.56.2",
+    "@tanstack/react-query-devtools": "^5.56.2",
     "@types/chromecast-caf-sender": "^1.0.10",
     "@types/dompurify": "^3.0.5",
     "@vercel/analytics": "^1.3.1",
@@ -45,6 +46,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "cmdk": "1.0.0",
+    "date-fns": "^4.1.0",
     "dompurify": "^3.1.6",
     "driver.js": "^1.3.1",
     "drizzle-orm": "^0.33.0",
@@ -54,17 +56,19 @@
     "isomorphic-ws": "^5.0.0",
     "lottie-react": "^2.4.0",
     "lucide-react": "^0.441.0",
-    "next": "^14.2.10",
+    "next": "^14.2.12",
     "next-auth": "^5.0.0-beta.20",
-    "next-intl": "^3.19.1",
+    "next-intl": "^3.19.3",
     "next-themes": "^0.3.0",
-    "pg": "^8.12.0",
+    "pg": "^8.13.0",
     "postgres": "^3.4.4",
     "posthog-js": "^1.161.3",
-    "prettier": "^3.3.3",
     "react": "^18.3.1",
+    "react-day-picker": "8.10.1",
     "react-dom": "^18.3.1",
+    "react-hook-form": "^7.53.0",
     "react-speech-recognition": "^3.10.0",
+    "react-use-draggable-scroll": "^0.4.7",
     "recharts": "^2.12.7",
     "regenerator-runtime": "^0.14.1",
     "sharp": "^0.33.5",
@@ -74,24 +78,25 @@
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",
     "vaul": "^0.9.2",
-    "ws": "^8.18.0"
+    "ws": "^8.18.0",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@biomejs/biome": "1.9.1",
     "@types/bun": "^1.1.9",
     "@types/chrome": "^0.0.270",
     "@types/node": "^22.5.4",
-    "@types/react": "^18.3.5",
+    "@types/react": "^18.3.7",
     "@types/react-dom": "^18.3.0",
     "@types/react-speech-recognition": "^3.9.5",
     "@types/regenerator-runtime": "^0.13.7",
     "autoprefixer": "^10.4.20",
     "drizzle-kit": "^0.24.2",
-    "eslint": "8.57.0",
-    "eslint-config-next": "^14.2.7",
+    "eslint-config-next": "^14.2.12",
     "husky": "^9.1.6",
     "lint-staged": "^15.2.10",
-    "postcss": "^8.4.45",
-    "tailwindcss": "^3.4.11",
+    "postcss": "^8.4.47",
+    "tailwindcss": "^3.4.12",
     "typescript": "^5.6.2"
   },
   "trustedDependencies": [
@@ -101,8 +106,13 @@
     "sharp"
   ],
   "lint-staged": {
-    "*": [
-      "prettier --write --ignore-unknown --cache"
+    "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx}": [
+      "biome format --write --no-errors-on-unmatched",
+      "biome check --organize-imports-enabled=false --files-ignore-unknown=true",
+      "biome check --write --organize-imports-enabled=false --no-errors-on-unmatched",
+      "biome check --write --organize-imports-enabled=false --no-errors-on-unmatched",
+      "biome check --write --unsafe --no-errors-on-unmatched",
+      "biome lint --write --no-errors-on-unmatched"
     ]
   }
 }
