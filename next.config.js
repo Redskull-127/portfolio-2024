@@ -1,14 +1,14 @@
-const createNextIntlPlugin = require('next-intl/plugin');
+const createNextIntlPlugin = require("next-intl/plugin");
 const withNextIntl = createNextIntlPlugin(
-  './lib/internationalization/request.ts',
+  "./lib/internationalization/request.ts",
 );
 
 /** @type {import('next').NextConfig} */
-const config = require('./config');
+const config = require("./config");
 
 const nextConfig = withNextIntl({
   reactStrictMode: false,
-  basePath: '',
+  basePath: "",
   images: {
     remotePatterns: config.remotePatterns,
   },
@@ -26,16 +26,16 @@ const nextConfig = withNextIntl({
   },
 });
 
-const withPWA = require('@ducanh2912/next-pwa').default({
-  dest: 'public',
+const withPWA = require("@ducanh2912/next-pwa").default({
+  dest: "public",
   cacheOnFrontEndNav: true,
   aggressiveFrontEndNavCaching: true,
   reloadOnOnline: true,
-  disable: process.env.NODE_ENV === 'development',
+  disable: process.env.NODE_ENV === "development",
   workboxOptions: {
-    disableDevLogs: process.env.NODE_ENV === 'development' ? false : true,
+    disableDevLogs: process.env.NODE_ENV === "development" ? false : true,
   },
 });
 
 module.exports =
-  process.env.NODE_ENV === 'development' ? nextConfig : withPWA(nextConfig);
+  process.env.NODE_ENV === "development" ? nextConfig : withPWA(nextConfig);
