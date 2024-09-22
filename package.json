@@ -9,7 +9,8 @@
     "lint": "next lint",
     "db:push": "bun drizzle-kit push",
     "db:studio": "bun drizzle-kit studio",
-    "prepare": "husky install"
+    "clean": "rm -rf .next node_modules",
+    "prepare": "husky"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.1.0",
@@ -118,6 +119,6 @@
   },
   "packageManager": "^bun@1.1.27",
   "engines": {
-    "node": ">=18.16.0"
+    "node": ">=20.17.0"
   }
 }
