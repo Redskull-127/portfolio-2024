@@ -43,8 +43,13 @@ export const addJob = async (
   try {
     await db.insert(jobSchema).values({
       ...jobFormData,
-      userEmail: user.user?.email,
+      userEmail: user.user?.email ?? '',
       uuid: crypto.randomUUID(),
+      contactInfo: jobFormData.contactInfo.map((info) => ({
+        email: info.email ?? '',
+        name: info.name ?? '',
+        link: info.link ?? '',
+      })),
     });
 
     return {
@@ -101,6 +106,11 @@ export const updateJob = async (
       .update(jobSchema)
       .set({
         ...jobFormData,
+        contactInfo: jobFormData.contactInfo.map((info) => ({
+          email: info.email ?? '',
+          name: info.name ?? '',
+          link: info.link ?? '',
+        })),
       })
       .where(eq(jobSchema.uuid, jobId));
     return {

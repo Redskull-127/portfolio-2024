@@ -19,10 +19,12 @@ export type Job = {
   salary?: string;
   applyLink: string;
   date: string;
-  contactEmail?: string;
-  contactName?: string;
-  contactLink?: string;
   uuid: string;
+  contactInfo?: {
+    email: string;
+    name: string;
+    link: string;
+  }[];
 };
 
 export type AllJobs = Job[];

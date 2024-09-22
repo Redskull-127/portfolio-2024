@@ -34,6 +34,7 @@ import { DatePicker } from '../date-picker';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { Job } from './types';
+import { useFieldArray } from 'react-hook-form';
 
 export type AddCardProps = {
   initialData?: Job;
@@ -102,7 +103,14 @@ export const JobFormDialog = (props: {
 }) => {
   const form = useForm<z.infer<typeof jobFormSchema>>({
     resolver: zodResolver(jobFormSchema),
-    defaultValues: props.initialData,
+    defaultValues: props.initialData || {
+      contactInfo: [{ email: '', name: '', link: '' }],
+    },
+  });
+
+  const { fields, append, remove } = useFieldArray({
+    control: form.control,
+    name: 'contactInfo', // This matches the name in your schema
   });
 
   const onSubmit = async (values: z.infer<typeof jobFormSchema>) => {
@@ -347,54 +355,83 @@ export const JobFormDialog = (props: {
               )}
             />
 
-            <div className="flex w-full justify-between items-stretch gap-4">
-              <FormField
-                control={form.control}
-                name="contactName"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel>Contact Name</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Meer Tarbani" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+            <Dialog>
+              <DialogTrigger asChild>
+                <div>Add Referene (optional)</div>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Add Reference</DialogTitle>
+                </DialogHeader>
+                <div>
+                  {fields.map((field, index) => (
+                    <div
+                      key={field.id}
+                      className="flex w-full justify-between items-stretch gap-4"
+                    >
+                      <FormField
+                        control={form.control}
+                        name={`contactInfo.${index}.email`}
+                        render={({ field }) => (
+                          <FormItem className="w-full">
+                            <FormLabel>Contact Email</FormLabel>
+                            <FormControl>
+                              <Input
+                                placeholder="contact@example.com"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name={`contactInfo.${index}.name`}
+                        render={({ field }) => (
+                          <FormItem className="w-full">
+                            <FormLabel>Contact Name</FormLabel>
+                            <FormControl>
+                              <Input placeholder="Contact Name" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name={`contactInfo.${index}.link`}
+                        render={({ field }) => (
+                          <FormItem className="w-full">
+                            <FormLabel>Contact Link</FormLabel>
+                            <FormControl>
+                              <Input
+                                placeholder="https://contact-link.com"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <div onClick={() => remove(index)}>Remove</div>
+                    </div>
+                  ))}
+                  <Button
+                    type="button"
+                    onClick={() => append({ email: '', name: '', link: '' })}
+                  >
+                    Add Contact
+                  </Button>
+                </div>
+              </DialogContent>
+            </Dialog>
 
-              <FormField
-                control={form.control}
-                name="contactEmail"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel>Contact Email</FormLabel>
-                    <FormControl>
-                      <Input placeholder="admin@meertarbani.in" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            <FormField
-              control={form.control}
-              name="contactLink"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Contact Social Link</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="https://www.linkedin.com/in/meertarbani"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <Button disabled={props.isSubmitting} type="submit">
+            <Button
+              className="w-full"
+              disabled={props.isSubmitting}
+              type="submit"
+            >
               Submit
             </Button>
           </form>
@@ -403,6 +440,14 @@ export const JobFormDialog = (props: {
     </DialogContent>
   );
 };
+
+export const contactInfoSchema = z.array(
+  z.object({
+    email: z.string().email().optional(),
+    name: z.string().optional(),
+    link: z.string().url().optional(),
+  }),
+);
 
 export const jobFormSchema = z.object({
   title: z.string(),
@@ -415,7 +460,5 @@ export const jobFormSchema = z.object({
   applyLink: z.string().url(),
   columnId: z.string(),
   date: z.date().transform((val) => val.toISOString()),
-  contactEmail: z.string().email().optional(),
-  contactName: z.string().optional(),
-  contactLink: z.string().url().optional(),
+  contactInfo: contactInfoSchema,
 });

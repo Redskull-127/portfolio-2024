@@ -35,8 +35,17 @@ import { AllJobs, Job } from './types';
 import { Badge } from '../ui/badge';
 import Link from 'next/link';
 import { JobFormDialog } from './add-card';
-import { useDeleteJob, useMutationJobs, useUpdateJob } from './hooks/useJobs';
+import { useDeleteJob, useUpdateJob } from './hooks/useJobs';
 import { toast } from 'sonner';
+
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 
 export interface Column {
   id: UniqueIdentifier;
@@ -92,6 +101,7 @@ export function BoardColumn({
     attributes: {
       roleDescription: `Column: ${column.title}`,
     },
+    disabled: isJobColChanging,
   });
 
   const style = {
@@ -139,15 +149,11 @@ export function BoardColumn({
       <ScrollArea>
         <CardContent className="flex flex-grow flex-col gap-2 p-2">
           <SortableContext items={tasksIds}>
-            {tasks.map((job) => (
+            {tasks.map((job, index) => (
               <>
-                <AlertDialog key={job.uuid}>
+                <AlertDialog key={index}>
                   <AlertDialogTrigger>
-                    <TaskCard
-                      key={job.id}
-                      task={job}
-                      ringColor={column.color}
-                    />
+                    <TaskCard key={index} task={job} ringColor={column.color} />
                   </AlertDialogTrigger>
                   <AlertDialogContent>
                     <AlertDialogHeader>
@@ -184,26 +190,12 @@ export function BoardColumn({
                       <p className="max-h-[300px] w-full text-wrap overflow-y-auto">
                         {job.description}
                       </p>
-                      <ul className="text-sm">
-                        {job.contactName && (
-                          <li>Contact Name: {job.contactName}</li>
-                        )}
-                        {job.contactEmail && (
-                          <li>Contact Email: {job.contactEmail}</li>
-                        )}
-                        {job.contactLink && (
-                          <li>
-                            Contact Profile:{' '}
-                            <Link
-                              className="text-ternary underline"
-                              href={job.contactLink}
-                            >
-                              {' '}
-                              link{' '}
-                            </Link>
-                          </li>
-                        )}
-                      </ul>
+                      {job.contactInfo && job.contactInfo?.length > 0 && (
+                        <div className="flex flex-col gap-2">
+                          <h3 className="font-semibold">Contact Info</h3>
+                          <ContactTable contactInfo={job.contactInfo} />
+                        </div>
+                      )}
                     </div>
                     <AlertDialogFooter>
                       <AlertDialogCancel>Close</AlertDialogCancel>
@@ -346,5 +338,45 @@ export const EditDialog = (props: {
         title="Edit Job"
       />
     </Dialog>
+  );
+};
+
+const ContactTable = ({ contactInfo }: { contactInfo: Job['contactInfo'] }) => {
+  return (
+    <Table>
+      <TableHeader>
+        <TableRow>
+          <TableHead className="w-1/3">Name</TableHead>
+          <TableHead>Email</TableHead>
+          <TableHead>Link</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {contactInfo &&
+          contactInfo.map((contact, index) => (
+            <TableRow key={index}>
+              <TableCell className="font-medium">{contact.name}</TableCell>
+              <TableCell>
+                <Link
+                  href={`mailto:${contact.email}`}
+                  className="undeline text-ternary hover:text-white transition-colors"
+                  target="_blank"
+                >
+                  {contact.email}
+                </Link>
+              </TableCell>
+              <TableCell>
+                <Link
+                  href={contact.link}
+                  className="undeline text-ternary hover:text-white transition-colors"
+                  target="_blank"
+                >
+                  Link
+                </Link>
+              </TableCell>
+            </TableRow>
+          ))}
+      </TableBody>
+    </Table>
   );
 };

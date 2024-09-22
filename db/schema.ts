@@ -1,5 +1,5 @@
 import { sql } from 'drizzle-orm';
-import { pgTable, serial, text, varchar } from 'drizzle-orm/pg-core';
+import { pgTable, serial, text, varchar, jsonb } from 'drizzle-orm/pg-core';
 
 export const messagesSchema = pgTable('messages', {
   id: serial('id').primaryKey(),
@@ -36,8 +36,16 @@ export const jobSchema = pgTable('jobs', {
   salary: text('salary'),
   applyLink: text('applyLink').notNull(),
   date: text('date').notNull(),
-  contactEmail: text('contactEmail'),
-  contactName: text('contactName'),
-  contactLink: text('contactLink'),
+  contactInfo: jsonb('contactInfo')
+    .$type<
+      | {
+          email: string;
+          name: string;
+          link: string;
+        }[]
+      | null
+      | undefined
+    >()
+    .unique(),
 });
 export type Job = typeof jobSchema.$inferSelect;
