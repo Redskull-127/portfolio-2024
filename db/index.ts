@@ -8,7 +8,7 @@ const db = drizzle(
   }),
   {
     schema,
-    logger: process.env['NODE_ENV'] === 'development' ? true : false,
+    logger: process.env['NODE_ENV'] === 'development',
   },
 );
 export default db;
