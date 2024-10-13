@@ -1,3 +1,4 @@
+'use client';
 import { Button } from '../ui/button';
 import { addJob } from '@/lib/server/functions/job-board';
 import {
@@ -35,6 +36,7 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 import { Job } from './types';
 import { useFieldArray } from 'react-hook-form';
+import { Plus } from 'lucide-react';
 
 export type AddCardProps = {
   initialData?: Job;
@@ -57,26 +59,7 @@ export default function AddCard(props: AddCardProps) {
       }}
     >
       <DialogTrigger>
-        <Button
-          onClick={() => setIsDialogOpen(true)}
-          type="submit"
-          className="flex items-center justify-center h-fit bg-white border border-gray-300 rounded-md cursor-pointer"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="w-6 h-6 text-gray-400"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-            />
-          </svg>
-        </Button>
+        <Plus onClick={() => setIsDialogOpen(true)} className="size-10" />
       </DialogTrigger>
 
       <JobFormDialog

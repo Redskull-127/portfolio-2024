@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 import {
@@ -22,6 +22,12 @@ import { siteConfig } from '@/site-config';
 export default function ExperienceDialog() {
   const router = useRouter();
   const [mounted, setMounted] = useState<boolean>(false);
+
+  const memoizedExperience = useMemo(
+    () => siteConfig.components.experience.reverse(),
+    [],
+  );
+
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -47,7 +53,7 @@ export default function ExperienceDialog() {
         </DialogHeader>
         <ScrollArea className="max-h-80 w-full">
           <Accordion type="single" collapsible>
-            {siteConfig.components.experience.map((event, index) => (
+            {memoizedExperience.map((event, index) => (
               <AccordionItem key={index} value={event.title}>
                 <AccordionTrigger>
                   <div className="flex w-full justify-between">

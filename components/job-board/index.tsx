@@ -2,10 +2,10 @@
 
 import { useSession } from 'next-auth/react';
 import { KanbanBoard } from './kanban-board';
-
+import JobKanbanStats from './statistics';
 export default function JobBoard() {
   const { status } = useSession();
-  if (status === 'loading') return <div>Loading...</div>;
   if (status === 'unauthenticated') return <div>Unauthenticated</div>;
-  return <KanbanBoard />;
+  if (status === 'loading') return <div>Loading...</div>;
+  return <JobKanbanStats />;
 }

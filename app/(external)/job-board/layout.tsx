@@ -20,6 +20,8 @@ import OG_IMG from '@/public/static/opengraph/image.png';
 import Favicon from '@/public/favicon.ico';
 import { siteConfig } from '@/site-config';
 import { Children } from '@/lib/types/children';
+import { DockDemo } from '@/components/job-board/components/navbar';
+import JobBoardFlag from '@/lib/feature-flags/job-board';
 
 const santoshiSans = localFont({
   src: '../../Satoshi-Variable.woff2',
@@ -80,22 +82,29 @@ export default async function RootLayout({ children }: Children) {
             santoshiSans.className,
           )}
         >
-          <TanstackProvider>
-            <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-              <SpeedInsights />
-              <NextAuthProvider>
-                <ConnectivityStatus>
-                  <main className="flex flex-wrap gap-8 h-screen w-screen font-sans p-10 max-xl:gap-5 max-xl:px-5 min-[2000px]:container min-[2000px]:size-fit">
-                    {children}
-                    <Analytics />
-                    <TailwindIndicator />
-                  </main>
-                  <DefaultToaster />
-                  <SonnerToaster />
-                </ConnectivityStatus>
-              </NextAuthProvider>
-            </ThemeProvider>
-          </TanstackProvider>
+          <JobBoardFlag>
+            <TanstackProvider>
+              <ThemeProvider
+                attribute="class"
+                defaultTheme="system"
+                enableSystem
+              >
+                <SpeedInsights />
+                <NextAuthProvider>
+                  <ConnectivityStatus>
+                    <main className="flex flex-wrap gap-8 h-screen w-screen font-sans p-10 max-xl:gap-5 max-xl:px-5 min-[2000px]:container min-[2000px]:size-fit">
+                      <DockDemo />
+                      {children}
+                      <Analytics />
+                      <TailwindIndicator />
+                    </main>
+                    <DefaultToaster />
+                    <SonnerToaster />
+                  </ConnectivityStatus>
+                </NextAuthProvider>
+              </ThemeProvider>
+            </TanstackProvider>
+          </JobBoardFlag>
         </body>
       </CSPostHogProvider>
     </html>

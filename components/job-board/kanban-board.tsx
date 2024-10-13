@@ -18,7 +18,6 @@ import {
 import { SortableContext, arrayMove } from '@dnd-kit/sortable';
 import { useDraggable } from 'react-use-draggable-scroll';
 import { toast } from 'sonner';
-import AddCard from './add-card';
 import { BoardColumn, BoardContainer, EditDialog } from './board-column';
 import type { Column } from './board-column';
 import { useJobs, useMutationJobs, useUpdateJobCol } from './hooks/useJobs';
@@ -26,7 +25,7 @@ import { coordinateGetter } from './keyboard-presets';
 import { TaskCard } from './task-card';
 import type { AllJobs, Job } from './types';
 import { hasDraggableData } from './utils';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import { AlertTriangle } from 'lucide-react';
 import Link from 'next/link';
 import { SourceCodeLinks } from '@/site-config';
@@ -63,7 +62,7 @@ export type ColumnId = (typeof defaultCols)[number]['id'];
 
 export function KanbanBoard() {
   const { data, isPending, isLoading } = useJobs();
-  const { mutate: mutateAddJobs } = useMutationJobs();
+
   if (isLoading || isPending) return <div>Loading...</div>;
   if (data?.data) {
     if (data.status !== 'success') {
@@ -71,14 +70,11 @@ export function KanbanBoard() {
     }
 
     return (
-      <main className="size-full flex flex-col gap-5">
-        <h1 className="inline-flex items-center gap-2 text-2xl font-bold">
-          Kanban Board <AddCard mutate={mutateAddJobs} title="Add Job" />{' '}
-        </h1>
+      <main className="relative size-full flex flex-col items-center justify-center gap-5">
         {typeof window !== 'undefined' && (
           <KanbanBoardComponent initialTasks={data.data} />
         )}
-        <Alert>
+        <Alert className="absolute bottom-0">
           <AlertTriangle className="h-4 w-4" />
           <AlertDescription>
             This is a alpha version of the Kanban board. Please report any bugs.
