@@ -82,7 +82,7 @@ const makeRequest = async (url: string): Promise<any> => {
       console.error('Spotify API error:', response.statusText);
     }
   } catch (error) {
-    console.error('Error making request:', error);
+    console.log('Error making request:', error);
   }
 };
 
