@@ -125,7 +125,8 @@ const extractSongData = async (
     artist,
     preview_url: previewUrl,
     uri: item.uri,
-    lyrics: await getLyrics(name, artist),
+    // lyrics: await getLyrics(name, artist),
+    lyrics: ""
   };
 };
 

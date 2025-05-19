@@ -50,11 +50,11 @@ export default function SpotifyComponent({
           >
             {translation.spotify} <Icons.ArrowUpRight />
           </Link>
-          <LyricsButton
+          {/* <LyricsButton
             song={data.name}
             name={data.artist}
             lyrics={data.lyrics}
-          />
+          /> */}
         </div>
         <div className="w-full flex flex-col justify-center items-center gap-3">
           <SpotifyImage url={String(data.images[1].url)} />
