@@ -115,8 +115,8 @@ const extractSongData = async (
 ): Promise<SpotifyType> => {
   const name = item.name;
   const artist = item.artists[0].name;
-  const previewUrl =
-    item.preview_url || (await getDeepScrapedSong(`${name} ${artist}`));
+  // const previewUrl = item.preview_url || (await getDeepScrapedSong(`${name} ${artist}`));
+  const preview_url = item.preview_url
 
   return {
     status,
