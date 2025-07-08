@@ -29,6 +29,8 @@ import Favicon from '@/public/favicon.ico';
 import { siteConfig } from '@/site-config';
 import { Children } from '@/lib/types/children';
 
+import { GoogleTagManager } from '@next/third-parties/google';
+
 const santoshiSans = localFont({
   src: '../Satoshi-Variable.woff2',
   display: 'swap',
@@ -83,7 +85,7 @@ export default async function RootLayout({ children }: Children) {
         defer
         data-cf-beacon={process.env['CF_WEB_TOKEN'] as string}
       />
-
+      <GoogleTagManager gtmId="GTM-5PGZ6PKK" />
       <CSPostHogProvider>
         <body
           className={cn(

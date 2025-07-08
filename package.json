@@ -17,6 +17,7 @@
     "@dnd-kit/sortable": "^8.0.0",
     "@ducanh2912/next-pwa": "^10.2.9",
     "@hookform/resolvers": "^3.9.0",
+    "@next/third-parties": "^15.3.5",
     "@radix-ui/react-accordion": "^1.2.1",
     "@radix-ui/react-alert-dialog": "^1.1.2",
     "@radix-ui/react-dialog": "^1.1.2",
