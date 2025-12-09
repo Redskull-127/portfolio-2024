@@ -85,7 +85,7 @@ export default async function RootLayout({ children }: Children) {
         defer
         data-cf-beacon={process.env['CF_WEB_TOKEN'] as string}
       />
-      <GoogleTagManager gtmId="G-S2LBW4VZTS" />
+      <GoogleTagManager gtmId="GTM-PRZBRVWT" />
       <CSPostHogProvider>
         <body
           className={cn(
