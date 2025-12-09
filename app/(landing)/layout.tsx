@@ -30,6 +30,7 @@ import { siteConfig } from '@/site-config';
 import { Children } from '@/lib/types/children';
 
 import { GoogleTagManager } from '@next/third-parties/google';
+import SurfaceFormScript from './SurfaceConstructor';
 
 const santoshiSans = localFont({
   src: '../Satoshi-Variable.woff2',
@@ -74,6 +75,12 @@ export default async function RootLayout({ children }: Children) {
 
   return (
     <html lang={locale}>
+      <head>
+        <Script
+          src="https://cdn.jsdelivr.net/gh/trysurface/scripts@latest/surface_tag.min.js"
+          strategy="beforeInteractive"
+         />
+      </head>
       {/* External Scripts */}
       <Script
         src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"
@@ -123,6 +130,12 @@ export default async function RootLayout({ children }: Children) {
               </IntroDialogProvider>
             </NextIntlClientProvider>
           </TanstackProvider>
+          <SurfaceFormScript
+           formUrl="https://forms.withsurface.com/s/cmim9xinr0001jx0bnrvkbjk5" // Replace this with a Surface Form URL
+           embedType="popup"
+           popupSize="medium" // "small", "medium", "large"
+           buttonClassName="surface-form-button"
+         />
         </body>
       </CSPostHogProvider>
     </html>
